@@ -21,6 +21,7 @@ import PEPortfolio from "./pages/PEPortfolio";
 import Segments from "./pages/Segments";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import StrategicDiagnostic from "./pages/StrategicDiagnostic";
 import NotFound from "./pages/NotFound";
 
 /*
@@ -129,6 +130,8 @@ function Router() {
               <Route path="/segments" component={Segments} />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
+              {/* Hidden page - not linked from navigation, shareable directly */}
+              <Route path="/strategic-diagnostic" component={StrategicDiagnostic} />
               <Route path="/404" component={NotFound} />
               <Route component={NotFound} />
             </Switch>
