@@ -1,0 +1,155 @@
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Route, Switch, useLocation } from "wouter";
+import { AnimatePresence, motion } from "framer-motion";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import Layout from "./components/Layout";
+import { useEffect, useState } from "react";
+
+// Pages
+import Home from "./pages/Home";
+import Maguire from "./pages/Maguire";
+import HowWeHelp from "./pages/HowWeHelp";
+import Edge from "./pages/Edge";
+import FractionalAI from "./pages/FractionalAI";
+import ForwardDeployed from "./pages/ForwardDeployed";
+import ProfessionalServices from "./pages/ProfessionalServices";
+import FounderLed from "./pages/FounderLed";
+import FundManagers from "./pages/FundManagers";
+import PEPortfolio from "./pages/PEPortfolio";
+import Segments from "./pages/Segments";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
+
+/*
+ * PAGE TRANSITION ANIMATIONS
+ * Premium fade + slide transitions between routes
+ * Gold loading bar at top during navigation
+ */
+
+// Page transition variants
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -10,
+    transition: {
+      duration: 0.25,
+      ease: [0.4, 0, 1, 1] as [number, number, number, number],
+    },
+  },
+};
+
+// Loading bar component
+function LoadingBar({ isLoading }: { isLoading: boolean }) {
+  return (
+    <AnimatePresence>
+      {isLoading && (
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-[3px] z-[9999]"
+          style={{ backgroundColor: '#C9A962' }}
+          initial={{ scaleX: 0, originX: 0 }}
+          animate={{ scaleX: 1 }}
+          exit={{ scaleX: 0, originX: 1 }}
+          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
+        />
+      )}
+    </AnimatePresence>
+  );
+}
+
+// Animated page wrapper
+function AnimatedPage({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      variants={pageVariants}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function Router() {
+  const [location] = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState(location);
+
+  useEffect(() => {
+    if (location !== currentLocation) {
+      // Start loading animation
+      setIsLoading(true);
+      
+      // Scroll to top on route change
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      
+      // Brief delay for premium feel, then update location
+      const timer = setTimeout(() => {
+        setCurrentLocation(location);
+        setIsLoading(false);
+      }, 250);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location, currentLocation]);
+
+  return (
+    <>
+      <LoadingBar isLoading={isLoading} />
+      <Layout>
+        <AnimatePresence mode="wait">
+          <AnimatedPage key={currentLocation}>
+            <Switch location={currentLocation}>
+              <Route path="/" component={Home} />
+              <Route path="/maguire" component={Maguire} />
+              <Route path="/how-we-help" component={HowWeHelp} />
+              <Route path="/edge" component={Edge} />
+              <Route path="/fractional-ai-officer" component={FractionalAI} />
+              <Route path="/fractional-ai" component={FractionalAI} />
+              <Route path="/forward-deployed" component={ForwardDeployed} />
+              <Route path="/professional-services" component={ProfessionalServices} />
+              <Route path="/founder-led" component={FounderLed} />
+              <Route path="/fund-managers" component={FundManagers} />
+              <Route path="/pe-portfolio" component={PEPortfolio} />
+              <Route path="/segments" component={Segments} />
+              <Route path="/about" component={About} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/404" component={NotFound} />
+              <Route component={NotFound} />
+            </Switch>
+          </AnimatedPage>
+        </AnimatePresence>
+      </Layout>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <ThemeProvider defaultTheme="light">
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
+  );
+}
+
+export default App;

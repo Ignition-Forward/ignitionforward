@@ -1,0 +1,49 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build output
+dist
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Documentation
+*.md
+!README.md
+HANDOFF_DOCS
+docs
+
+# Test files
+*.test.*
+*.spec.*
+__tests__
+coverage
+
+# Original package folder
+ignition-forward-package
+
+# Misc
+.prettierrc
+.eslintrc*

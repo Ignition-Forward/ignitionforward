@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ignition-forward
+    restart: unless-stopped
+    ports:
+      - "${PORT:-80}:80"
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ignition-forward.rule=Host(`${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.ignition-forward.entrypoints=websecure"
+      - "traefik.http.routers.ignition-forward.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ignition-forward.loadbalancer.server.port=80"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

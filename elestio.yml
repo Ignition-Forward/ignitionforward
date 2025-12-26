@@ -1,0 +1,33 @@
+# Elestio deployment configuration
+# https://docs.elest.io/
+
+config:
+  runtime: docker-compose
+  version: "1.0"
+
+ports:
+  - protocol: HTTPS
+    targetProtocol: HTTP
+    listeningPort: 443
+    targetPort: 80
+    public: true
+
+env:
+  - key: PORT
+    value: "80"
+  - key: DOMAIN
+    value: "{{domain}}"
+
+resources:
+  cpu: 1
+  memory: 512
+
+healthCheck:
+  protocol: HTTP
+  path: /health
+  port: 80
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
