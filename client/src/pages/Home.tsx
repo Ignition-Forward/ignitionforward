@@ -99,7 +99,8 @@ export default function Home() {
 
             {/* Subheadline */}
             <motion.p
-              className="font-body text-xl md:text-2xl text-off-white/80 mt-8 max-w-2xl leading-relaxed"
+              className="font-body text-xl md:text-2xl mt-8 max-w-2xl leading-relaxed"
+              style={{ color: 'rgba(248, 247, 244, 0.8)' }}
               initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.36, delay: 0.26, ease: [0.2, 0, 0, 1] }}
