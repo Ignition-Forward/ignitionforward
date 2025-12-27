@@ -248,9 +248,7 @@
     color: #C9A962;
   }
   
-  .text-teal {
-    color: #7dd3c0;
-  }
+  /* .text-teal removed - use text-gold or text-off-white-muted instead */
   
   .text-grey-body {
     color: #5A6270;
@@ -420,7 +418,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #7dd3c0;
+    color: #C9A962;
   }
   
   /* Portfolio card style */

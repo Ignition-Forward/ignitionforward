@@ -361,8 +361,8 @@ export default function Home() {
 
           {/* Data Security Note */}
           <ScrollReveal delay={0.4}>
-            <div className="mt-16 flex items-center gap-4 p-6 rounded-xl border border-[#a8e4d7]/40 bg-[#a8e4d7]/5 max-w-2xl">
-              <Shield className="w-6 h-6 text-[#a8e4d7] shrink-0" />
+            <div className="mt-16 flex items-center gap-4 p-6 rounded-xl border border-gold/30 bg-gold/5 max-w-2xl">
+              <Shield className="w-6 h-6 text-gold shrink-0" />
               <p className="font-body text-off-white">
                 <span className="font-semibold">Your data stays yours.</span>{' '}
                 <span className="text-grey-body">Systems run in your environment—no client information leaves your control.</span>
