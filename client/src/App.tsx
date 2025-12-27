@@ -128,7 +128,7 @@ function Router() {
               <Route path="/founder-led" component={FounderLed} />
               <Route path="/fund-managers" component={FundManagers} />
               <Route path="/pe-portfolio" component={PEPortfolio} />
-              <Route path="/boutique-experts" component={FounderLed} /> {/* Redirect to Founder-Led */}
+              <Route path="/boutique-experts" component={BoutiqueExperts} />
               <Route path="/segments" component={Segments} />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
