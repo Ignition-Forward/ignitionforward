@@ -5,10 +5,15 @@ import { createClient } from '@supabase/supabase-js';
 const app = express();
 app.use(express.json());
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const TO_EMAIL = process.env.CONTACT_TO_EMAIL || 'hello@ignitionforward.com';
+// Lazy-initialized clients
+let _resend = null;
+const getResend = () => {
+  if (!_resend) {
+    _resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return _resend;
+};
 
-// Lazy-initialized Supabase client
 let _supabase = null;
 const getSupabase = () => {
   if (!_supabase) {
@@ -19,6 +24,8 @@ const getSupabase = () => {
   }
   return _supabase;
 };
+
+const getToEmail = () => process.env.CONTACT_TO_EMAIL || 'hello@ignitionforward.com';
 
 app.post('/api/contact', async (req, res) => {
   try {
@@ -33,9 +40,9 @@ app.post('/api/contact', async (req, res) => {
       // Save to Supabase for tracking
       getSupabase().from('contacts').insert({ name, email, company, role, segment, message }),
       // Send email notification
-      resend.emails.send({
+      getResend().emails.send({
         from: 'Ignition Forward <contact@ignitionforward.com>',
-        to: [TO_EMAIL],
+        to: [getToEmail()],
         replyTo: email,
         subject: `New Contact: ${name} from ${company}`,
         html: `
