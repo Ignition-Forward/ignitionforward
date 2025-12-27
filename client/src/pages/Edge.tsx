@@ -230,7 +230,7 @@ export default function Edge() {
         {/* Animated background - Ambient Intelligence style */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-gold/10 via-gold/5 to-transparent" />
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-teal/5 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-gold/5 to-transparent" />
         </div>
         
         {/* Smooth random twinkle field */}

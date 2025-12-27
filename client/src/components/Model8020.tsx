@@ -23,13 +23,13 @@ export default function Model8020() {
         <div className="h-16 md:h-20 rounded-lg bg-navy-light/50 border border-white/5 overflow-hidden">
           {/* 80% Proven Core */}
           <motion.div
-            className="absolute inset-y-0 left-0 bg-gradient-to-r from-teal/20 to-teal/40 flex items-center"
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-gold/20 to-gold/40 flex items-center"
             initial={{ width: 0 }}
             animate={isInView ? { width: '80%' } : {}}
             transition={{ duration: duration.slow, ease: easing.settle, delay: 0.1 }}
           >
             <motion.span
-              className="ml-6 text-teal font-medium text-sm md:text-base"
+              className="ml-6 text-off-white-muted font-medium text-sm md:text-base"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.3, duration: duration.base }}

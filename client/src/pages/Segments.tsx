@@ -101,7 +101,7 @@ export default function Segments() {
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-semibold text-off-white mt-6 leading-[1.1]">
               Expert-Led <em className="text-gold">Businesses</em>
             </h1>
-            <p className="font-body text-xl text-teal mt-6 max-w-2xl">
+            <p className="font-body text-xl text-off-white-muted mt-6 max-w-2xl">
               We partner with leaders who've built their success on deep expertise. 
               Our AI systems amplify what makes you exceptional.
             </p>
@@ -214,7 +214,7 @@ export default function Segments() {
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-off-white mt-6">
               Your expertise is your moat.
             </h2>
-            <p className="font-body text-xl text-teal mt-6">
+            <p className="font-body text-xl text-off-white-muted mt-6">
               Every segment we serve shares one thing: deep expertise that can't be commoditized. 
               Our job is to build AI systems that multiply that expertise — not replace it.
             </p>
@@ -231,7 +231,7 @@ export default function Segments() {
               <h2 className="font-display text-4xl md:text-5xl font-semibold text-off-white mt-6">
                 Let's discuss your segment.
               </h2>
-              <p className="font-body text-lg text-teal mt-6 max-w-xl">
+              <p className="font-body text-lg text-off-white-muted mt-6 max-w-xl">
                 Every expert-led business is unique. We'll help you understand how AI 
                 can amplify what makes yours exceptional.
               </p>

@@ -361,8 +361,8 @@ export default function Home() {
 
           {/* Data Security Note */}
           <ScrollReveal delay={0.4}>
-            <div className="mt-16 flex items-center gap-4 p-6 rounded-xl border border-teal/30 bg-teal/5 max-w-2xl">
-              <Shield className="w-6 h-6 text-teal flex-shrink-0" />
+            <div className="mt-16 flex items-center gap-4 p-6 rounded-xl border border-[#a8e4d7]/40 bg-[#a8e4d7]/5 max-w-2xl">
+              <Shield className="w-6 h-6 text-[#a8e4d7] shrink-0" />
               <p className="font-body text-off-white">
                 <span className="font-semibold">Your data stays yours.</span>{' '}
                 <span className="text-grey-body">Systems run in your environment—no client information leaves your control.</span>
@@ -537,7 +537,7 @@ export default function Home() {
               <h3 className="font-display text-3xl md:text-4xl font-semibold text-off-white">
                 Ready to move forward?
               </h3>
-              <p className="font-body text-lg text-off-white/70 mt-4">
+              <p className="font-body text-lg text-off-white-muted mt-4">
                 We work with growth-minded leaders in expert-led businesses. 
                 If you're ready to move, we should talk.
               </p>
