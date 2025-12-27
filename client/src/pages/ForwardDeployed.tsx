@@ -437,7 +437,7 @@ export default function ForwardDeployed() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-8 bg-white rounded-2xl border border-gray-200 hover:border-gold/50 hover:shadow-lg transition-all duration-300 group"
+                className="p-8 bg-white rounded-2xl border border-gray-200 hover:border-[#a8e4d7] hover:shadow-lg transition-all duration-300 group"
               >
                 <h3 className="text-xl font-display text-navy mb-3">{project.title}</h3>
                 <p className="text-gray-600 mb-6">{project.description}</p>

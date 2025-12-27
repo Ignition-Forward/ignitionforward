@@ -177,7 +177,7 @@ export default function Segments() {
             {segments.map((segment) => (
               <StaggerItem key={segment.href}>
                 <Link href={segment.href}>
-                  <div className="group h-full p-8 bg-white rounded-xl border border-gold/20 hover:border-gold/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <div className="group h-full p-8 bg-white rounded-xl border border-slate/10 hover:border-[#a8e4d7] transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                     {/* Icon */}
                     <div className="w-14 h-14 rounded-lg bg-navy flex items-center justify-center mb-6">
                       <segment.icon className="w-7 h-7 text-gold" />

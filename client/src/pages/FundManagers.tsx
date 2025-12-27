@@ -295,7 +295,7 @@ export default function FundManagers() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-white border border-gray-200 hover:border-gold/50 hover:shadow-lg transition-all group"
+                className="p-6 rounded-xl bg-white border border-gray-200 hover:border-[#a8e4d7] hover:shadow-lg transition-all group"
               >
                 <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-4 group-hover:bg-gold/20 transition-colors">
                   <challenge.icon className="w-6 h-6 text-gold" />

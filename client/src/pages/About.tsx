@@ -46,11 +46,11 @@ const teamMembers = [
 ];
 
 const principles = [
-  { number: "01", title: "We deploy, not deck.", description: "No 80-slide recommendations that gather dust. We build systems that run on day one.", accent: "gold" },
-  { number: "02", title: "Speed compounds.", description: "Every day of delay is competitive advantage lost. We move fast because the window is closing.", accent: "gold" },
-  { number: "03", title: "Your edge, amplified.", description: "AI should multiply your expertise, not replace it. We build systems that make you more dangerous.", accent: "gold" },
-  { number: "04", title: "Eat our own cooking.", description: "Maguire runs our firm. Everything we deploy, we use ourselves first.", accent: "gold" },
-  { number: "05", title: "Confidentiality is infrastructure.", description: "Legal training informs everything. LP data, portfolio company financials, deal flow intel—it stays yours.", accent: "teal" },
+  { number: "01", title: "We deploy, not deck.", description: "No 80-slide recommendations that gather dust. We build systems that run on day one." },
+  { number: "02", title: "Speed compounds.", description: "Every day of delay is competitive advantage lost. We move fast because the window is closing." },
+  { number: "03", title: "Your edge, amplified.", description: "AI should multiply your expertise, not replace it. We build systems that make you more dangerous." },
+  { number: "04", title: "Eat our own cooking.", description: "Maguire runs our firm. Everything we deploy, we use ourselves first." },
+  { number: "05", title: "Confidentiality is infrastructure.", description: "Legal training informs everything. LP data, portfolio company financials, deal flow intel—it stays yours." },
 ];
 
 export default function About() {
@@ -222,7 +222,7 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 * index }}
-                  className="bg-white rounded-xl p-5 border border-slate/10 hover:border-gold/30 hover:shadow-md transition-all duration-300"
+                  className="bg-white rounded-xl p-5 border border-slate/10 hover:border-[#a8e4d7] hover:shadow-md transition-all duration-300"
                 >
                   <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center mb-3">
                     <area.icon className="w-5 h-5 text-gold" />
@@ -318,15 +318,9 @@ export default function About() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`flex gap-4 md:gap-6 p-4 md:p-6 rounded-xl transition-colors ${
-                  principle.accent === 'teal' 
-                    ? 'bg-[#a8e4d7]/5 hover:bg-[#a8e4d7]/10 border border-[#a8e4d7]/20' 
-                    : 'bg-white/5 hover:bg-white/10'
-                }`}
+                className="flex gap-4 md:gap-6 p-4 md:p-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
               >
-                <span className={`font-display text-xl md:text-2xl ${
-                  principle.accent === 'teal' ? 'text-[#a8e4d7]' : 'text-gold'
-                }`}>{principle.number}</span>
+                <span className="text-gold font-display text-xl md:text-2xl">{principle.number}</span>
                 <div>
                   <h3 className="text-off-white font-semibold">{principle.title}</h3>
                   <p className="mt-1 text-off-white/60 text-sm">{principle.description}</p>
