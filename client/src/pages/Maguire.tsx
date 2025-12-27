@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link } from "wouter";
 import SEO, { generateArticleSchema, generateBreadcrumbSchema } from "@/components/SEO";
 import CometCTA from "@/components/CometCTA";
+import TwinkleField from "@/components/TwinkleField";
 
 /*
  * MAGUIRE CASE STUDY PAGE - STREAMLINED
@@ -133,8 +134,22 @@ export default function Maguire() {
       {/* ============================================
           HERO - Compact with segments, objections, stats
           ============================================ */}
-      <section className="min-h-screen flex flex-col justify-center px-6 md:px-8 py-24 relative bg-navy">
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/50 via-transparent to-navy-dark/30 pointer-events-none" />
+      <section className="min-h-screen flex flex-col justify-center px-6 md:px-8 py-24 relative bg-navy overflow-hidden">
+        {/* Background Image - Static */}
+        <div 
+          className="absolute inset-0 z-0 grayscale"
+          style={{
+            backgroundImage: 'url(/images/hero-maguire.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.15,
+          }}
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/50 via-transparent to-navy-dark/30 pointer-events-none z-0" />
+        
+        {/* Smooth random twinkle field */}
+        <TwinkleField />
         
         <div className="max-w-5xl mx-auto w-full relative z-10">
           {/* Label */}
@@ -236,22 +251,6 @@ export default function Maguire() {
             ))}
           </motion.div>
         </div>
-        
-        {/* Scroll Indicator - subtle pulse, not bouncy */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.6 }}
-          transition={{ delay: 0.6, duration: 0.36 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-xs text-off-white/50 uppercase tracking-widest">Scroll</span>
-          <motion.div
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronDown className="w-5 h-5 text-gold" />
-          </motion.div>
-        </motion.div>
       </section>
 
       {/* ============================================

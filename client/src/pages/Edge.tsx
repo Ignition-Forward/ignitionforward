@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link } from "wouter";
 import SEO, { generateServiceSchema, generateBreadcrumbSchema } from "@/components/SEO";
 import CometCTA from "@/components/CometCTA";
+import TwinkleField from "@/components/TwinkleField";
 
 /*
  * EDGE SERVICE PAGE - Executive AI Training
@@ -226,21 +227,17 @@ export default function Edge() {
       
       {/* Hero Section - Lead with Transformation */}
       <section ref={heroRef} className="relative min-h-[85vh] flex items-center bg-navy overflow-hidden">
-        {/* Animated background */}
-        <div className="absolute inset-0">
+        {/* Animated background - Ambient Intelligence style */}
+        <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-gold/10 via-gold/5 to-transparent" />
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-teal/5 to-transparent" />
-          {/* Floating particles */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-gold/30 rounded-full"
-              style={{ left: `${20 + i * 15}%`, top: `${30 + (i % 3) * 20}%` }}
-              animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 3 + i, repeat: Infinity, delay: i * 0.5 }}
-            />
-          ))}
         </div>
+        
+        {/* Smooth random twinkle field */}
+        <TwinkleField />
+        
+        {/* Subtle Grid pattern overlay */}
+        <div className="absolute inset-0 grid-pattern pointer-events-none opacity-10 z-0" />
         
         <div className="container relative z-10 pt-24 pb-16">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">

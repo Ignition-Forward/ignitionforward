@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { Scale, TrendingUp, Building2, Rocket, Bot, Briefcase, Users, Award, ArrowRight, Check } from "lucide-react";
 import SEO, { generateBreadcrumbSchema } from "@/components/SEO";
 import CometCTA from "@/components/CometCTA";
+import TwinkleField from "@/components/TwinkleField";
 
 /*
  * ABOUT PAGE - Redesigned
@@ -68,45 +69,44 @@ export default function About() {
       />
       
       {/* Hero Section - Track Record Focus */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center bg-navy pt-24 pb-16">
-        {/* Particle field */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 rounded-full bg-gold/30"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.2, 0.6, 0.2],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
+      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center bg-navy pt-24 pb-16 overflow-hidden">
+        {/* Background Image - Static */}
+        <div 
+          className="absolute inset-0 z-0 grayscale"
+          style={{
+            backgroundImage: 'url(/images/hero-about.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.2,
+          }}
+        />
+        
+        {/* Sophisticated Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-transparent z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-navy z-0" />
+        
+        {/* Smooth random twinkle field */}
+        <TwinkleField />
+        
+        {/* Subtle Grid pattern overlay */}
+        <div className="absolute inset-0 grid-pattern pointer-events-none opacity-10 z-0" />
         
         <div className="container relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.36 }}
+            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.36, ease: [0.2, 0, 0, 1] }}
             className="max-w-4xl"
           >
-            <span className="text-gold text-xs tracking-[0.3em] uppercase font-medium">Who We Are</span>
+            <span className="section-label">Who We Are</span>
             
-            <h1 className="mt-6 font-display text-4xl md:text-5xl lg:text-6xl text-off-white leading-[1.1]">
-              Operators who build what we use.
+            <h1 className="mt-8 font-display text-4xl md:text-5xl lg:text-7xl text-off-white leading-[1.1] font-semibold">
+              Operators who build <br />
+              <em className="text-gold">what we use.</em>
             </h1>
             
-            <p className="mt-6 text-off-white/70 text-lg md:text-xl max-w-2xl leading-relaxed">
-              Legal training. Institutional finance. Successful exits. AI practitioners. We've been on your side of the table—and we built systems to solve our own problems first.
+            <p className="mt-8 text-off-white/80 text-lg md:text-xl max-w-2xl leading-relaxed font-body">
+              Legal training. Institutional finance. Successful exits. AI practitioners. We've been on your side of the table—and we build systems to solve our own problems first.
             </p>
           </motion.div>
           

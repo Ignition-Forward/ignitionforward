@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { ArrowRight, Zap, Users, Rocket, Handshake, BookOpen, Target, Wrench, Sparkles, CheckCircle } from "lucide-react";
 import SEO, { generateBreadcrumbSchema } from "@/components/SEO";
 import CometCTA from "@/components/CometCTA";
+import TwinkleField from "@/components/TwinkleField";
 
 /*
  * DESIGN: How We Help Page - TIGHTENED VERSION
@@ -113,41 +114,54 @@ export default function HowWeHelp() {
       
       {/* HERO SECTION - CONCRETE, NOT ABSTRACT */}
       <section className="relative min-h-[60vh] flex items-center bg-navy overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        </div>
+        {/* Background Image - Static */}
+        <div 
+          className="absolute inset-0 z-0 grayscale"
+          style={{
+            backgroundImage: 'url(/images/hero-services.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.2,
+          }}
+        />
         
-        <div className="absolute inset-0 grid-pattern opacity-30" />
+        {/* Sophisticated Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-transparent z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-navy z-0" />
+        
+        {/* Smooth random twinkle field */}
+        <TwinkleField />
+        
+        {/* Subtle Grid pattern overlay */}
+        <div className="absolute inset-0 grid-pattern pointer-events-none opacity-10 z-0" />
         
         <div className="container relative z-10 pt-32 pb-16">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.36 }}
+              initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.36, ease: [0.2, 0, 0, 1] }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/20 mb-8"
             >
               <Sparkles className="w-4 h-4 text-gold" />
-              <span className="text-gold text-sm font-medium">The Ignition Forward Method</span>
+              <span className="text-gold text-sm font-medium tracking-wider uppercase">The Method</span>
             </motion.div>
             
             <motion.h1
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.36, delay: 0.1 }}
-              className="text-off-white text-4xl md:text-5xl lg:text-6xl font-display leading-tight"
+              initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.36, delay: 0.1, ease: [0.2, 0, 0, 1] }}
+              className="text-off-white text-4xl md:text-5xl lg:text-7xl font-display font-semibold leading-tight"
             >
-              Three ways to build AI capability.
-              <br />
-              <span className="text-gold italic">Pick your entry point.</span>
+              Three ways to build <br />
+              <span className="text-gold italic">AI capability.</span>
             </motion.h1>
             
             <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.36, delay: 0.2 }}
-              className="mt-8 text-lg md:text-xl text-off-white/70 leading-relaxed max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.36, delay: 0.2, ease: [0.2, 0, 0, 1] }}
+              className="mt-8 text-lg md:text-xl text-off-white/80 font-body leading-relaxed max-w-2xl mx-auto"
             >
               Most clients start with Edge. Some skip straight to implementation. We'll help you choose the right starting point.
             </motion.p>
@@ -276,7 +290,7 @@ export default function HowWeHelp() {
                         <ArrowRight className="w-5 h-5 text-gold opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                       <div className="mt-4 pt-4 border-t border-white/10">
-                        <p className="text-teal text-sm italic">"Now I understand AI. What should I build?"</p>
+                        <p className="text-gold/80 text-sm italic">"Now I understand AI. What should I build?"</p>
                       </div>
                     </div>
                   </Link>
@@ -312,7 +326,7 @@ export default function HowWeHelp() {
                         <ArrowRight className="w-5 h-5 text-gold opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                       <div className="mt-4 pt-4 border-t border-white/10">
-                        <p className="text-teal text-sm italic">"That worked. What else can we do?"</p>
+                        <p className="text-gold/80 text-sm italic">"That worked. What else can we do?"</p>
                       </div>
                     </div>
                   </Link>
@@ -347,7 +361,7 @@ export default function HowWeHelp() {
                         <ArrowRight className="w-5 h-5 text-gold opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                       <div className="mt-4 pt-4 border-t border-white/10">
-                        <p className="text-teal text-sm italic">"We're AI-native now. Keep us ahead."</p>
+                        <p className="text-gold/80 text-sm italic">"We're AI-native now. Keep us ahead."</p>
                       </div>
                     </div>
                   </Link>

@@ -3,9 +3,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Users, Target, TrendingUp, Briefcase, Building2, LineChart, Layers, Shield, Zap, Lock, User } from 'lucide-react';
 import { useRef } from 'react';
 import SEO, { generateOrganizationSchema, generateWebsiteSchema } from '@/components/SEO';
-import ParticleField from '@/components/ParticleField';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '@/components/ScrollReveal';
+import TwinkleField from '@/components/TwinkleField';
 import CometCTA from '@/components/CometCTA';
 
 /*
@@ -49,17 +49,29 @@ export default function Home() {
           ============================================ */}
       <section 
         ref={heroRef}
-        className="relative min-h-screen flex items-center overflow-hidden bg-navy"
+        className="relative min-h-[100dvh] flex items-center overflow-hidden bg-navy"
       >
-        {/* Particle Field Background */}
-        <ParticleField />
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 z-0 grayscale-[0.2]"
+          style={{
+            backgroundImage: 'url(/images/hero-main.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.25,
+          }}
+        />
         
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 grid-pattern pointer-events-none" />
+        {/* Sophisticated Overlays for depth and readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-transparent z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-navy z-0" />
         
-        {/* Gradient overlays for depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#1A2332]/80 pointer-events-none" />
+        {/* Smooth ambient twinkle field */}
+        <TwinkleField />
 
+        {/* Subtle Grid pattern overlay */}
+        <div className="absolute inset-0 grid-pattern pointer-events-none opacity-10 z-[1]" />
+        
         <motion.div 
           className="container relative z-10 pt-32 pb-20"
           style={{ opacity: heroOpacity, y: heroY }}
@@ -87,12 +99,12 @@ export default function Home() {
 
             {/* Subheadline */}
             <motion.p
-              className="font-body text-xl md:text-2xl text-teal mt-8 max-w-2xl leading-relaxed"
+              className="font-body text-xl md:text-2xl text-off-white/80 mt-8 max-w-2xl leading-relaxed"
               initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.36, delay: 0.26, ease: [0.2, 0, 0, 1] }}
             >
-              We build AI systems for expert-led businesses — where judgment and relationships are the product. Including our own.
+              We build AI systems for expert-led businesses — where <span className="text-gold font-medium">judgment and relationships</span> are the product.
             </motion.p>
 
             {/* CTA */}
@@ -106,22 +118,6 @@ export default function Home() {
                 See How We Work
               </CometCTA>
             </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Scroll indicator - subtle pulse, not bouncy */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.6 }}
-          transition={{ delay: 0.5, duration: 0.36 }}
-        >
-          <div className="w-6 h-10 rounded-full border-2 border-gold/30 flex justify-center pt-2">
-            <motion.div 
-              className="w-1.5 h-1.5 rounded-full bg-gold"
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            />
           </div>
         </motion.div>
       </section>
@@ -243,7 +239,7 @@ export default function Home() {
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-off-white mt-6">
               Operators Who've Been in the Seat
             </h2>
-            <p className="font-body text-xl text-teal mt-6">
+            <p className="font-body text-xl text-off-white/80 mt-6 italic border-l-2 border-gold/30 pl-6">
               We don't advise from the sidelines. We've built AI systems that run our own 
               business every day. That's the difference between theory and results.
             </p>
@@ -296,13 +292,13 @@ export default function Home() {
                 {/* 80/20 Bar */}
                 <div className="mt-8">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="font-body text-sm text-gold">80% Proven Core</span>
+                    <span className="font-body text-sm text-gold font-semibold">80% Proven Core</span>
                     <span className="font-body text-sm text-grey-body">+</span>
-                    <span className="font-body text-sm text-teal">20% Custom</span>
+                    <span className="font-body text-sm text-off-white/60">20% Custom</span>
                   </div>
                   <div className="h-3 rounded-full overflow-hidden bg-navy-light flex">
                     <div className="w-[80%] bg-gold rounded-l-full" />
-                    <div className="w-[20%] bg-teal rounded-r-full" />
+                    <div className="w-[20%] bg-gold/30 rounded-r-full" />
                   </div>
                   <p className="font-body text-xs text-grey-body mt-2">= Bespoke at scale</p>
                 </div>
@@ -541,7 +537,7 @@ export default function Home() {
               <h3 className="font-display text-3xl md:text-4xl font-semibold text-off-white">
                 Ready to move forward?
               </h3>
-              <p className="font-body text-lg text-teal mt-4">
+              <p className="font-body text-lg text-off-white/70 mt-4">
                 We work with growth-minded leaders in expert-led businesses. 
                 If you're ready to move, we should talk.
               </p>
