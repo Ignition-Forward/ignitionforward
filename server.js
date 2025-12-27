@@ -5,11 +5,24 @@ import { createClient } from '@supabase/supabase-js';
 const app = express();
 app.use(express.json());
 
+// Logging utility based on LOG_LEVEL
+const LOG_LEVELS = { error: 0, warn: 1, info: 2, debug: 3 };
+const currentLevel = LOG_LEVELS[process.env.LOG_LEVEL] ?? LOG_LEVELS.info;
+
+const log = {
+  error: (...args) => currentLevel >= LOG_LEVELS.error && console.error(`[ERROR] ${new Date().toISOString()}`, ...args),
+  warn: (...args) => currentLevel >= LOG_LEVELS.warn && console.warn(`[WARN]  ${new Date().toISOString()}`, ...args),
+  info: (...args) => currentLevel >= LOG_LEVELS.info && console.log(`[INFO]  ${new Date().toISOString()}`, ...args),
+  debug: (...args) => currentLevel >= LOG_LEVELS.debug && console.log(`[DEBUG] ${new Date().toISOString()}`, ...args),
+};
+
 // Lazy-initialized clients
 let _resend = null;
 const getResend = () => {
   if (!_resend) {
+    log.info('Initializing Resend client');
     _resend = new Resend(process.env.RESEND_API_KEY);
+    log.debug('Resend client initialized');
   }
   return _resend;
 };
@@ -17,23 +30,39 @@ const getResend = () => {
 let _supabase = null;
 const getSupabase = () => {
   if (!_supabase) {
+    log.info('Initializing Supabase client');
+    log.debug('Supabase URL:', process.env.SUPABASE_URL?.substring(0, 30) + '...');
     _supabase = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_ANON_KEY
     );
+    log.debug('Supabase client initialized');
   }
   return _supabase;
 };
 
 const getToEmail = () => process.env.CONTACT_TO_EMAIL || 'hello@ignitionforward.com';
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  log.debug('Health check requested');
+  res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
+
 app.post('/api/contact', async (req, res) => {
+  const startTime = Date.now();
+  log.info('Contact form submission received');
+
   try {
     const { name, email, company, role, segment, message } = req.body;
+    log.debug('Contact form data:', { name, email, company, role, segment, hasMessage: !!message });
 
     if (!name || !email || !company || !role || !segment) {
+      log.warn('Contact form validation failed - missing required fields');
       return res.status(400).json({ error: 'Missing required fields' });
     }
+
+    log.debug('Starting parallel DB insert and email send');
 
     // Run DB insert and email send in parallel
     const [dbResult, emailResult] = await Promise.allSettled([
@@ -58,30 +87,39 @@ app.post('/api/contact', async (req, res) => {
       }),
     ]);
 
-    // Log DB errors but don't fail the request
+    // Log DB result
     if (dbResult.status === 'rejected' || dbResult.value?.error) {
-      console.error('Supabase error:', dbResult.status === 'rejected' ? dbResult.reason : dbResult.value.error);
+      log.error('Supabase insert failed:', dbResult.status === 'rejected' ? dbResult.reason : dbResult.value.error);
+    } else {
+      log.debug('Supabase insert successful');
     }
 
     // Email is critical - fail if it doesn't send
     if (emailResult.status === 'rejected') {
-      console.error('Resend error:', emailResult.reason);
+      log.error('Resend email failed:', emailResult.reason);
       return res.status(500).json({ error: 'Failed to send email' });
     }
 
     if (emailResult.value.error) {
-      console.error('Resend error:', emailResult.value.error);
+      log.error('Resend email error:', emailResult.value.error);
       return res.status(500).json({ error: 'Failed to send email' });
     }
 
+    const duration = Date.now() - startTime;
+    log.info(`Contact form processed successfully in ${duration}ms`, { emailId: emailResult.value.data.id });
     res.json({ success: true, id: emailResult.value.data.id });
   } catch (error) {
-    console.error('Error:', error);
+    log.error('Contact form error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
 const PORT = process.env.API_PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`API server running on port ${PORT}`);
+  log.info(`API server started on port ${PORT}`);
+  log.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  log.info(`Log level: ${process.env.LOG_LEVEL || 'info'}`);
+  log.debug('Resend API key configured:', !!process.env.RESEND_API_KEY);
+  log.debug('Supabase URL configured:', !!process.env.SUPABASE_URL);
+  log.debug('Contact email:', getToEmail());
 });

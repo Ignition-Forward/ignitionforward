@@ -1,15 +1,15 @@
 import { Link } from 'wouter';
 import { ArrowRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { duration, easing, distance } from '@/lib/motion';
 
 /**
- * DESIGN: Command CTA - System Initializing Thesis
- * 
+ * DESIGN: CTA Button with micro-lift and scan sweep
+ *
  * Interaction:
  * - Clean gold button with micro-lift (2px, not bouncy)
- * - On hover: single scan sweep + command reveal "> move_forward()"
+ * - On hover: single scan sweep
  * - No shimmer, no glow, no sparkle
  * - Deterministic timing: 140ms hover, 220ms transitions
  */
@@ -19,21 +19,10 @@ interface CometCTAProps {
   children: React.ReactNode;
   className?: string;
   variant?: 'link' | 'button';
-  command?: string;
 }
 
-// Convert text to snake_case command
-function toCommand(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
-    .replace(/\s+/g, '_');
-}
-
-export default function CometCTA({ href, children, className = '', variant = 'button', command }: CometCTAProps) {
+export default function CometCTA({ href, children, className = '', variant = 'button' }: CometCTAProps) {
   const [isHovered, setIsHovered] = useState(false);
-  
-  const commandText = command || (typeof children === 'string' ? toCommand(children) : 'move_forward');
 
   // Button variant - solid gold with scan sweep
   if (variant === 'button') {
@@ -74,44 +63,14 @@ export default function CometCTA({ href, children, className = '', variant = 'bu
               }}
             />
 
-            {/* Content with command reveal */}
+            {/* Button content */}
             <span className="relative z-10 flex items-center gap-2.5">
-              <AnimatePresence mode="wait">
-                {isHovered ? (
-                  <motion.span
-                    key="command"
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ 
-                      duration: duration.fast, 
-                      ease: easing.standard 
-                    }}
-                    className="font-mono text-sm tracking-tight"
-                  >
-                    <span className="opacity-60">&gt;</span> {commandText}()
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="text"
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 4 }}
-                    transition={{ 
-                      duration: duration.fast, 
-                      ease: easing.standard 
-                    }}
-                  >
-                    {children}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-              
+              <span>{children}</span>
               <motion.span
-                animate={{ x: isHovered ? 3 : 0, opacity: isHovered ? 0.7 : 1 }}
-                transition={{ 
-                  duration: duration.fast, 
-                  ease: easing.standard 
+                animate={{ x: isHovered ? 3 : 0 }}
+                transition={{
+                  duration: duration.fast,
+                  ease: easing.standard
                 }}
               >
                 <ArrowRight className="w-5 h-5" strokeWidth={2.5} />
@@ -123,7 +82,7 @@ export default function CometCTA({ href, children, className = '', variant = 'bu
     );
   }
 
-  // Link variant - gold text with command reveal
+  // Link variant - gold text with underline
   return (
     <motion.div
       className={`relative inline-block ${className}`}
@@ -132,54 +91,31 @@ export default function CometCTA({ href, children, className = '', variant = 'bu
     >
       <Link href={href}>
         <span className="group relative inline-flex items-center gap-3 cursor-pointer focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4 rounded">
-          {/* Text content with command swap */}
+          {/* Text content */}
           <span className="font-body text-lg md:text-xl font-medium text-gold">
-            <AnimatePresence mode="wait">
-              {isHovered ? (
-                <motion.span
-                  key="command"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: duration.fast }}
-                  className="font-mono text-base tracking-tight"
-                >
-                  <span className="opacity-50">&gt;</span> {commandText}()
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="text"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: duration.fast }}
-                >
-                  {children}
-                </motion.span>
-              )}
-            </AnimatePresence>
+            {children}
           </span>
-          
+
           {/* Arrow */}
           <motion.span
             className="text-gold"
-            animate={{ x: isHovered ? 3 : 0, opacity: isHovered ? 0.7 : 1 }}
-            transition={{ 
-              duration: duration.fast, 
-              ease: easing.standard 
+            animate={{ x: isHovered ? 3 : 0 }}
+            transition={{
+              duration: duration.fast,
+              ease: easing.standard
             }}
           >
             <ArrowRight className="w-5 h-5" />
           </motion.span>
-          
+
           {/* Underline - wipe reveal style */}
-          <motion.span 
+          <motion.span
             className="absolute -bottom-1.5 left-0 right-8 h-[1.5px] bg-gold/40"
             initial={{ scaleX: 0.6 }}
             animate={{ scaleX: isHovered ? 1 : 0.6 }}
-            transition={{ 
-              duration: duration.base, 
-              ease: easing.standard 
+            transition={{
+              duration: duration.base,
+              ease: easing.standard
             }}
             style={{ transformOrigin: 'left' }}
           />
