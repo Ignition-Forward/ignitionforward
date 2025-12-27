@@ -42,8 +42,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Expose port 3000 (nginx)
-EXPOSE 3000
+# Expose ports
+EXPOSE 3000 3001
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
