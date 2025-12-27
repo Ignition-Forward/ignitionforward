@@ -12,8 +12,11 @@ RUN npm ci
 # Copy source files
 COPY . .
 
-# Build the frontend
-RUN npm run build
+# Cache bust arg - changes when source files change, invalidating the build cache
+ARG CACHE_BUST=default
+
+# Build the frontend (cache bust ensures fresh build when sources change)
+RUN echo "Cache bust: ${CACHE_BUST}" && npm run build
 
 # Production stage
 FROM node:22-alpine AS production

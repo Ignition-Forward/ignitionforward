@@ -7,6 +7,13 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      no_cache:
+        description: 'Build without cache'
+        required: false
+        default: 'false'
+        type: boolean
 
 env:
   REGISTRY: ghcr.io
@@ -45,6 +52,11 @@ jobs:
             type=sha,prefix=
             type=raw,value=latest,enable={{is_default_branch}}
 
+      - name: Get source hash for cache busting
+        id: source-hash
+        run: |
+          echo "hash=$(find client/src -type f -name '*.tsx' -o -name '*.ts' -o -name '*.css' | sort | xargs cat | sha256sum | cut -d' ' -f1 | head -c 16)" >> $GITHUB_OUTPUT
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -52,8 +64,11 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
+          cache-from: ${{ inputs.no_cache == true && '' || 'type=gha' }}
           cache-to: type=gha,mode=max
+          no-cache: ${{ inputs.no_cache == true }}
+          build-args: |
+            CACHE_BUST=${{ steps.source-hash.outputs.hash }}
 
   type-check:
     runs-on: ubuntu-latest
