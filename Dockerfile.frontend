@@ -12,6 +12,10 @@ RUN npm ci
 # Copy source files
 COPY . .
 
+# Cache bust arg - forces rebuild when source changes
+ARG CACHE_BUST=default
+RUN echo "Build: ${CACHE_BUST}"
+
 # Build the frontend
 RUN npm run build
 
