@@ -51,14 +51,26 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   
-  /* Brand Colors - OKLCH format for Tailwind 4 */
-  --color-navy: oklch(0.22 0.03 250);
-  --color-navy-light: oklch(0.28 0.03 250);
-  --color-gold: oklch(0.75 0.12 85);
-  --color-gold-hover: oklch(0.78 0.11 85);
-  --color-off-white: oklch(0.97 0.01 90);
-  --color-grey-body: oklch(0.50 0.02 250);
-  --color-teal: oklch(0.78 0.12 170);
+  /*
+   * Brand Colors (Tailwind v4)
+   *
+   * IMPORTANT:
+   * We intentionally use our canonical hex tokens (from :root) here via CSS vars.
+   * The previous OKLCH values were being converted into an unintended mint/teal
+   * "off-white" in the compiled CSS (e.g. #d8fff5...), causing production to
+   * show teal text when using classes like `text-off-white/60`.
+   */
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-gold: var(--gold);
+  --color-gold-hover: var(--gold-hover);
+  --color-off-white: var(--off-white);
+  --color-grey-body: var(--grey-body);
+
+  /* Teal accents (avoid using as primary text color) */
+  --color-teal: var(--teal);
+  --color-teal-soft: var(--teal-soft);
+  --color-teal-muted: var(--teal-muted);
 }
 
 :root {
@@ -73,8 +85,7 @@
   --teal-soft: #a8e4d7;
   --teal-muted: #9ed4c8;
   
-  /* Teal accent utilities */
-  --color-teal-soft: oklch(0.85 0.08 175);
+  /* NOTE: Tailwind color variables live in @theme inline above */
   
   /* Semantic mappings */
   --primary: oklch(0.75 0.12 85);
@@ -213,22 +224,52 @@
   }
   
   /* Brand color utilities */
-  /* 
-   * NOTE: bg-navy, bg-gold, bg-off-white, etc. are auto-generated 
-   * by Tailwind from @theme { --color-xxx } definitions.
-   * DO NOT define custom .bg-xxx classes here - they break opacity modifiers!
-   */
+  .bg-navy {
+    background-color: #1A2332;
+  }
   
-  /* 
-   * NOTE: text-navy, text-gold, text-off-white, etc. are auto-generated 
-   * by Tailwind from @theme { --color-xxx } definitions.
-   * DO NOT define custom .text-xxx classes here - they break opacity modifiers!
-   * e.g. text-off-white/80 only works with Tailwind's theme-based utilities.
-   */
+  .bg-navy-light {
+    background-color: #243044;
+  }
   
-  /* Keep text-off-white-muted as a convenience class */
+  .bg-gold {
+    background-color: #C9A962;
+  }
+  
+  .bg-off-white {
+    background-color: #F8F7F4;
+  }
+  
+  .text-navy {
+    color: #1A2332;
+  }
+  
+  .text-gold {
+    color: #C9A962;
+  }
+  
+  .text-teal {
+    color: #7dd3c0;
+  }
+  
+  .text-grey-body {
+    color: #5A6270;
+  }
+  
+  .text-off-white {
+    color: #F8F7F4;
+  }
+  
   .text-off-white-muted {
-    color: oklch(0.97 0.01 90 / 0.7);
+    color: rgba(248, 247, 244, 0.7);
+  }
+  
+  .border-gold {
+    border-color: #C9A962;
+  }
+  
+  .border-navy-light {
+    border-color: #243044;
   }
   
   /* Glassmorphism card */
