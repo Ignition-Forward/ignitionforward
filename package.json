@@ -7,10 +7,14 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host",
+    "start:api": "node server.js",
     "check": "tsc --noEmit",
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.47.10",
+    "express": "^4.21.2",
+    "resend": "^4.0.0",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",

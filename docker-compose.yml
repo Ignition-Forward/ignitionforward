@@ -8,24 +8,16 @@ services:
     container_name: ignition-forward
     restart: unless-stopped
     ports:
-      - "${PORT:-80}:80"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL:-hello@ignitionforward.com}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ignition-forward.rule=Host(`${DOMAIN:-localhost}`)"
-      - "traefik.http.routers.ignition-forward.entrypoints=websecure"
-      - "traefik.http.routers.ignition-forward.tls.certresolver=letsencrypt"
-      - "traefik.http.services.ignition-forward.loadbalancer.server.port=80"
-    networks:
-      - web
-
-networks:
-  web:
-    external: true
