@@ -213,52 +213,22 @@
   }
   
   /* Brand color utilities */
-  .bg-navy {
-    background-color: #1A2332;
-  }
+  /* 
+   * NOTE: bg-navy, bg-gold, bg-off-white, etc. are auto-generated 
+   * by Tailwind from @theme { --color-xxx } definitions.
+   * DO NOT define custom .bg-xxx classes here - they break opacity modifiers!
+   */
   
-  .bg-navy-light {
-    background-color: #243044;
-  }
+  /* 
+   * NOTE: text-navy, text-gold, text-off-white, etc. are auto-generated 
+   * by Tailwind from @theme { --color-xxx } definitions.
+   * DO NOT define custom .text-xxx classes here - they break opacity modifiers!
+   * e.g. text-off-white/80 only works with Tailwind's theme-based utilities.
+   */
   
-  .bg-gold {
-    background-color: #C9A962;
-  }
-  
-  .bg-off-white {
-    background-color: #F8F7F4;
-  }
-  
-  .text-navy {
-    color: #1A2332;
-  }
-  
-  .text-gold {
-    color: #C9A962;
-  }
-  
-  .text-teal {
-    color: #7dd3c0;
-  }
-  
-  .text-grey-body {
-    color: #5A6270;
-  }
-  
-  .text-off-white {
-    color: #F8F7F4;
-  }
-  
+  /* Keep text-off-white-muted as a convenience class */
   .text-off-white-muted {
-    color: rgba(248, 247, 244, 0.7);
-  }
-  
-  .border-gold {
-    border-color: #C9A962;
-  }
-  
-  .border-navy-light {
-    border-color: #243044;
+    color: oklch(0.97 0.01 90 / 0.7);
   }
   
   /* Glassmorphism card */
