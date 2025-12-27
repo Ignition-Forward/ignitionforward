@@ -146,24 +146,57 @@ export default function Contact() {
     }
   };
 
+  const submitToApi = async () => {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4003';
+    const response = await fetch(`${apiUrl}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        company: formData.company || 'Not provided',
+        role: formData.role || 'Not provided',
+        segment: formData.segment || 'Not provided',
+        message: formData.message,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to submit');
+    }
+
+    return response.json();
+  };
+
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success("Message sent! We'll be in touch within 24 hours.");
+
+    try {
+      await submitToApi();
+      setIsSubmitted(true);
+      toast.success("Message sent! We'll be in touch within 24 hours.");
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleSkipToSubmit = async () => {
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success("Message sent! We'll be in touch within 24 hours.");
+    try {
+      await submitToApi();
+      setIsSubmitted(true);
+      toast.success("Message sent! We'll be in touch within 24 hours.");
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Custom select component
