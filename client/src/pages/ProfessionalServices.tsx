@@ -164,7 +164,7 @@ export default function ProfessionalServices() {
       {
         '@type': 'Service',
         name: 'AI Enablement for Professional Services',
-        description: 'AI enablement for law firms, accounting practices, and consultancies. Governance-led approach that protects trust while creating leverage.',
+        description: 'AI enablement for consultancies, accounting practices, and professional services firms. Governance-led approach that protects trust while creating leverage.',
         provider: {
           '@type': 'Organization',
           name: 'Ignition Forward',
@@ -315,8 +315,8 @@ export default function ProfessionalServices() {
                 transition={{ delay: index * 0.1 }}
                 className="p-6 rounded-xl bg-white border border-gray-200 hover:border-[#a8e4d7] hover:shadow-lg transition-all group"
               >
-                <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-4 group-hover:bg-gold/20 transition-colors">
-                  <challenge.icon className="w-6 h-6 text-gold" />
+                <div className="w-12 h-12 rounded-lg bg-navy/5 flex items-center justify-center mb-4 group-hover:bg-navy/10 transition-colors">
+                  <challenge.icon className="w-6 h-6 text-navy/50" />
                 </div>
                 <h3 className="text-lg font-display text-navy mb-2">{challenge.title}</h3>
                 <p className="text-grey-body leading-relaxed">{challenge.description}</p>
@@ -339,6 +339,38 @@ export default function ProfessionalServices() {
             <h2 className="mt-4 text-off-white">AI enablement built for high-trust work</h2>
           </motion.div>
 
+          {/* SERVICE RECOMMENDATION - Segment-to-Service Mapping */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mb-16"
+          >
+            <div className="p-6 rounded-2xl bg-gold/10 border border-gold/30">
+              <div className="flex flex-col md:flex-row items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-5 h-5 text-gold" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-gold font-display text-lg mb-2">Recommended for Professional Services</h3>
+                  <p className="text-off-white/70 leading-relaxed mb-4">
+                    Most professional services firms start with <Link href="/how-we-help#forward-deployed" className="text-gold underline underline-offset-2 hover:text-gold/80">Forward Deployed</Link> to build governance frameworks and high-value workflows. Partners often begin with <Link href="/edge" className="text-gold underline underline-offset-2 hover:text-gold/80">Edge</Link> to develop personal AI fluency before firm-wide rollout.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Link href="/how-we-help#forward-deployed" className="inline-flex items-center gap-2 px-4 py-2 bg-gold text-navy rounded-full text-sm font-medium hover:bg-gold/90 transition-colors">
+                      Forward Deployed
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link href="/edge" className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-off-white rounded-full text-sm font-medium hover:bg-white/20 transition-colors">
+                      Edge for Partners
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Implementation Pillars */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
             {implementationPillars.map((pillar, index) => (
@@ -348,9 +380,9 @@ export default function ProfessionalServices() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-navy-light border border-gold/20"
+                className="p-6 rounded-xl bg-navy-light border border-white/10"
               >
-                <pillar.icon className="w-8 h-8 text-gold mb-4" />
+                <pillar.icon className="w-8 h-8 text-off-white/60 mb-4" />
                 <h3 className="text-lg font-display text-off-white mb-2">{pillar.title}</h3>
                 <p className="text-off-white/60 text-sm leading-relaxed">{pillar.description}</p>
               </motion.div>

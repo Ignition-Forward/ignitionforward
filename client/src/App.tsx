@@ -12,8 +12,6 @@ import Home from "./pages/Home";
 import Maguire from "./pages/Maguire";
 import HowWeHelp from "./pages/HowWeHelp";
 import Edge from "./pages/Edge";
-import FractionalAI from "./pages/FractionalAI";
-import ForwardDeployed from "./pages/ForwardDeployed";
 import ProfessionalServices from "./pages/ProfessionalServices";
 import FounderLed from "./pages/FounderLed";
 import FundManagers from "./pages/FundManagers";
@@ -23,6 +21,8 @@ import Segments from "./pages/Segments";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import StrategicDiagnostic from "./pages/StrategicDiagnostic";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 /*
@@ -121,9 +121,6 @@ function Router() {
               <Route path="/maguire" component={Maguire} />
               <Route path="/how-we-help" component={HowWeHelp} />
               <Route path="/edge" component={Edge} />
-              <Route path="/fractional-ai-officer" component={FractionalAI} />
-              <Route path="/fractional-ai" component={FractionalAI} />
-              <Route path="/forward-deployed" component={ForwardDeployed} />
               <Route path="/professional-services" component={ProfessionalServices} />
               <Route path="/founder-led" component={FounderLed} />
               <Route path="/fund-managers" component={FundManagers} />
@@ -134,6 +131,9 @@ function Router() {
               <Route path="/contact" component={Contact} />
               {/* Hidden page - not linked from navigation, shareable directly */}
               <Route path="/strategic-diagnostic" component={StrategicDiagnostic} />
+              {/* Legal pages */}
+              <Route path="/privacy" component={Privacy} />
+              <Route path="/terms" component={Terms} />
               <Route path="/404" component={NotFound} />
               <Route component={NotFound} />
             </Switch>

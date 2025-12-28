@@ -97,7 +97,7 @@ export default function GlobalFAQ({ faqs, title = "Frequently Asked", subtitle, 
 export const homepageFAQs: FAQItem[] = [
   {
     question: "What does 'expert-led business' mean?",
-    answer: "Expert-led businesses are companies where judgment and relationships are the product — law firms, consultancies, founder-led companies, fund managers, and PE portfolio companies. Your expertise is the moat, and AI should amplify it, not replace it.",
+    answer: "Expert-led businesses are companies where judgment and relationships are the product — consultancies, financial advisors, founder-led companies, fund managers, and PE portfolio companies. Your expertise is the moat, and AI should amplify it, not replace it.",
   },
   {
     question: "How is Ignition Forward different from other AI consultants?",

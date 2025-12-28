@@ -1,4 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#1A2332"/>
-  <text x="16" y="22" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#C9A962" text-anchor="middle">IF</text>
+  <defs>
+    <!-- Gradient for comet tail -->
+    <linearGradient id="cometTail" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C9A962" stop-opacity="0"/>
+      <stop offset="60%" stop-color="#C9A962" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#C9A962" stop-opacity="1"/>
+    </linearGradient>
+    <!-- Glow effect for spark -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Navy background -->
+  <rect width="32" height="32" rx="6" fill="#1A2332"/>
+
+  <!-- Abstract "I" as upward thrust/ignition -->
+  <path d="M14 24 L14 12 L16 8 L18 12 L18 24" fill="none" stroke="#C9A962" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Comet streak going right from the spark tip -->
+  <path d="M16 8 Q20 7, 26 6" fill="none" stroke="url(#cometTail)" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Bright spark at the peak -->
+  <circle cx="16" cy="7" r="2" fill="#F5F0E6" filter="url(#glow)"/>
+  <circle cx="16" cy="7" r="1" fill="#FFFFFF"/>
+
+  <!-- Subtle base glow -->
+  <ellipse cx="16" cy="25" rx="3" ry="1" fill="#C9A962" opacity="0.3"/>
 </svg>

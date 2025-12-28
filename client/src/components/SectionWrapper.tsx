@@ -38,7 +38,7 @@ interface SectionLabelProps {
 
 export function SectionLabel({ children, dark = false }: SectionLabelProps) {
   return (
-    <span className={`label-text ${dark ? 'text-gold' : 'text-gold'}`}>
+    <span className={`label-text ${dark ? 'text-off-white/50' : 'text-navy/50'}`}>
       {children}
     </span>
   );

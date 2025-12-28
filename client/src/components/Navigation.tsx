@@ -1,19 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { ChevronDown, Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import MoveForwardButton from "./MoveForwardButton";
 
 /*
- * NAVIGATION - Original Design System
+ * NAVIGATION - Scroll-Aware Design
+ *
+ * Behavior:
+ * - Top nav: visible at top, hides on scroll down, reappears on scroll up
+ * - Bottom nav (desktop): appears after scrolling past hero, provides quick access
+ * - Mobile: sticky CTA at bottom always
+ *
  * Typography: Playfair Display (logo) + DM Sans (links)
  * Colors: Navy #1A2332, Gold #C9A962, Off-White #F8F7F4
- * Button radius: 6px
  */
 
 const howWeHelpLinks = [
-  { href: "/edge", label: "Edge", subtitle: "9 hours to AI fluency. By application only." },
-  { href: "/fractional-ai", label: "Fractional AI Officer", subtitle: "Strategic AI leadership without the full-time hire." },
-  { href: "/forward-deployed", label: "Forward Deployed", subtitle: "Implementation teams working alongside yours." },
+  { href: "/how-we-help#forward-deployed", label: "Forward Deployed", subtitle: "AI systems that multiply your team." },
+  { href: "/how-we-help#fractional-ai", label: "Fractional AI Officer", subtitle: "Executive AI leadership on demand." },
+  { href: "/edge", label: "Edge", subtitle: "Personal AI fluency for leaders." },
 ];
 
 const forYourBusinessLinks = [
@@ -30,15 +36,51 @@ const forYouLinks = [
 export default function Navigation() {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [topNavVisible, setTopNavVisible] = useState(true);
+  const [showBottomNav, setShowBottomNav] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [howWeHelpOpen, setHowWeHelpOpen] = useState(false);
   const [whoWeWorkWithOpen, setWhoWeWorkWithOpen] = useState(false);
+  // Bottom nav dropdown states
+  const [bottomHowWeHelpOpen, setBottomHowWeHelpOpen] = useState(false);
+  const [bottomWhoWeWorkWithOpen, setBottomWhoWeWorkWithOpen] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
+
+      // Basic scrolled state for background
+      setIsScrolled(currentScrollY > 50);
+
+      // Bottom nav: show after scrolling past hero (desktop only)
+      const shouldShowBottomNav = currentScrollY > heroHeight * 0.7;
+      setShowBottomNav(shouldShowBottomNav);
+
+      // Top nav logic:
+      // - If bottom nav is showing → hide top nav (maximize reading space)
+      // - If near top of page → show top nav
+      // - Otherwise → show on scroll up, hide on scroll down
+      if (shouldShowBottomNav) {
+        // Bottom nav is active → keep top nav hidden
+        setTopNavVisible(false);
+      } else if (currentScrollY < 100) {
+        // Near top → always show top nav
+        setTopNavVisible(true);
+      } else {
+        // Middle zone: show on scroll up, hide on scroll down
+        if (currentScrollY > lastScrollY.current + 10) {
+          setTopNavVisible(false);
+        } else if (currentScrollY < lastScrollY.current - 10) {
+          setTopNavVisible(true);
+        }
+      }
+
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -49,25 +91,34 @@ export default function Navigation() {
 
   return (
     <>
-      <header 
-        className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-[140ms] ease-[cubic-bezier(0.2,0,0,1)] ${
+      <header
+        className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
           isScrolled ? 'py-3' : 'py-5'
         }`}
-        style={{ 
-          background: isScrolled 
+        style={{
+          background: isScrolled
             ? 'linear-gradient(180deg, rgba(26, 35, 50, 0.95) 0%, rgba(26, 35, 50, 0.9) 100%)'
             : 'transparent',
           backdropFilter: isScrolled ? 'blur(20px)' : 'none',
           borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.05)' : 'none',
+          transform: topNavVisible ? 'translateY(0)' : 'translateY(-100%)',
+          opacity: topNavVisible ? 1 : 0,
         }}
       >
         <nav className="container">
           <div className="flex items-center justify-between">
-            {/* Logo - Playfair Display */}
-            <Link href="/" className="flex items-center">
-              <span className="text-xl md:text-2xl tracking-tight font-display">
-                <span className="text-off-white italic font-light">Ignition</span>
-                <span className="text-gold font-semibold">Forward</span>
+            {/* Logo - Montserrat - All caps, compact, confident with one-time comet animation */}
+            <Link href="/" className="flex items-center group">
+              <span className="text-[0.85rem] md:text-[0.95rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
+                <span className="text-off-white font-bold">Ignition</span>
+                <span className="relative text-gold font-extrabold">
+                  Forward
+                  {/* Comet underline - animates once on load then dissipates */}
+                  <span className="absolute -bottom-0.5 left-0 right-0 h-[1.5px] overflow-hidden" aria-hidden="true">
+                    {/* Comet that streaks across and fades */}
+                    <span className="absolute inset-y-0 w-8 bg-gradient-to-r from-transparent via-gold to-off-white/90 animate-[comet-streak_1.2s_ease-out_0.5s_forwards] opacity-0 blur-[0.5px]" />
+                  </span>
+                </span>
               </span>
             </Link>
 
@@ -79,8 +130,8 @@ export default function Navigation() {
                 onMouseEnter={() => setHowWeHelpOpen(true)}
                 onMouseLeave={() => setHowWeHelpOpen(false)}
               >
-                <button 
-                  className="flex items-center gap-1 text-gold hover:text-gold/80 transition-colors py-2 font-body text-sm font-medium"
+                <button
+                  className="flex items-center gap-1 text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
                 >
                   How We Help
                   <ChevronDown className={`w-4 h-4 transition-transform duration-[140ms] ease-[cubic-bezier(0.2,0,0,1)] ${howWeHelpOpen ? 'rotate-180' : ''}`} />
@@ -143,8 +194,8 @@ export default function Navigation() {
                 onMouseEnter={() => setWhoWeWorkWithOpen(true)}
                 onMouseLeave={() => setWhoWeWorkWithOpen(false)}
               >
-                <button 
-                  className="flex items-center gap-1 text-gold hover:text-gold/80 transition-colors py-2 font-body text-sm font-medium"
+                <button
+                  className="flex items-center gap-1 text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
                 >
                   Who We Work With
                   <ChevronDown className={`w-4 h-4 transition-transform duration-[140ms] ease-[cubic-bezier(0.2,0,0,1)] ${whoWeWorkWithOpen ? 'rotate-180' : ''}`} />
@@ -223,29 +274,27 @@ export default function Navigation() {
                 </AnimatePresence>
               </div>
 
-              <Link 
-                href="/maguire" 
-                className="text-gold hover:text-gold/80 transition-colors py-2 font-body text-sm font-medium"
+              <Link
+                href="/maguire"
+                className="text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
               >
                 Our Proof
               </Link>
 
-              <Link 
-                href="/about" 
-                className="text-gold hover:text-gold/80 transition-colors py-2 font-body text-sm font-medium"
+              <Link
+                href="/about"
+                className="text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
               >
                 About
               </Link>
 
-              {/* CTA Button - 6px radius */}
-              <Link href="/contact" className="btn btn-gold">
-                Move Forward <ArrowRight className="w-4 h-4" />
-              </Link>
+              {/* CTA Button - Command-line aesthetic */}
+              <MoveForwardButton />
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - 48px minimum touch target */}
             <button
-              className="lg:hidden text-off-white p-2"
+              className="lg:hidden text-off-white p-3 -mr-2 min-w-[48px] min-h-[48px] flex items-center justify-center"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -344,9 +393,7 @@ export default function Navigation() {
 
                 {/* CTA */}
                 <div className="pt-4">
-                  <Link href="/contact" className="btn btn-gold w-full justify-center">
-                    Move Forward <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <MoveForwardButton fullWidth />
                 </div>
               </div>
             </motion.div>
@@ -354,11 +401,192 @@ export default function Navigation() {
         )}
       </AnimatePresence>
 
+      {/* Desktop Bottom Nav - Appears after scrolling past hero */}
+      <AnimatePresence>
+        {showBottomNav && (
+          <motion.div
+            className="fixed bottom-0 left-0 right-0 z-[998] hidden lg:block pointer-events-none"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.2, 0, 0, 1] }}
+          >
+            {/* Subtle gradient fade above */}
+            <div className="absolute inset-x-0 bottom-full h-8 bg-gradient-to-t from-navy/60 to-transparent" />
+
+            <div
+              className="pointer-events-auto border-t border-gold/20"
+              style={{
+                background: 'linear-gradient(180deg, rgba(26, 35, 50, 0.95) 0%, rgba(26, 35, 50, 0.98) 100%)',
+                backdropFilter: 'blur(20px)',
+              }}
+            >
+              <div className="container py-3">
+                <div className="flex items-center justify-between">
+                  {/* Left: Nav links with dropdowns */}
+                  <div className="flex items-center gap-6">
+                    {/* How We Help Dropdown */}
+                    <div
+                      className="relative"
+                      onMouseEnter={() => setBottomHowWeHelpOpen(true)}
+                      onMouseLeave={() => setBottomHowWeHelpOpen(false)}
+                    >
+                      <button className="flex items-center gap-1 text-off-white/70 hover:text-off-white text-sm font-body transition-colors">
+                        How We Help
+                        <ChevronDown className={`w-3 h-3 transition-transform duration-[140ms] ${bottomHowWeHelpOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      <AnimatePresence>
+                        {bottomHowWeHelpOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 6 }}
+                            transition={{ duration: 0.14, ease: [0.2, 0, 0, 1] }}
+                            className="absolute bottom-full left-0 pb-2 z-50"
+                          >
+                            <div
+                              className="w-72 rounded-lg overflow-hidden"
+                              style={{
+                                background: 'linear-gradient(135deg, rgba(36, 48, 68, 0.98) 0%, rgba(26, 35, 50, 0.99) 100%)',
+                                backdropFilter: 'blur(20px)',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                boxShadow: '0 -10px 40px -12px rgba(0, 0, 0, 0.4)',
+                              }}
+                            >
+                              <Link href="/how-we-help">
+                                <div className="px-4 py-3 hover:bg-white/5 transition-colors group border-b border-white/10">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-off-white font-medium font-body text-sm">Overview</span>
+                                    <ArrowRight className="w-3 h-3 text-off-white group-hover:translate-x-1 transition-transform" />
+                                  </div>
+                                </div>
+                              </Link>
+                              {howWeHelpLinks.map((link) => (
+                                <Link key={link.href} href={link.href}>
+                                  <div className="px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
+                                    <span className="text-off-white font-medium font-body text-sm">{link.label}</span>
+                                    <p className="text-grey-body text-xs mt-0.5">{link.subtitle}</p>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Who We Work With Dropdown */}
+                    <div
+                      className="relative"
+                      onMouseEnter={() => setBottomWhoWeWorkWithOpen(true)}
+                      onMouseLeave={() => setBottomWhoWeWorkWithOpen(false)}
+                    >
+                      <button className="flex items-center gap-1 text-off-white/70 hover:text-off-white text-sm font-body transition-colors">
+                        Who We Work With
+                        <ChevronDown className={`w-3 h-3 transition-transform duration-[140ms] ${bottomWhoWeWorkWithOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      <AnimatePresence>
+                        {bottomWhoWeWorkWithOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 6 }}
+                            transition={{ duration: 0.14, ease: [0.2, 0, 0, 1] }}
+                            className="absolute bottom-full left-0 pb-2 z-50"
+                          >
+                            <div
+                              className="w-72 rounded-lg overflow-hidden"
+                              style={{
+                                background: 'linear-gradient(135deg, rgba(36, 48, 68, 0.98) 0%, rgba(26, 35, 50, 0.99) 100%)',
+                                backdropFilter: 'blur(20px)',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                boxShadow: '0 -10px 40px -12px rgba(0, 0, 0, 0.4)',
+                              }}
+                            >
+                              {/* For Your Business */}
+                              <div className="px-4 py-2 border-b border-white/10">
+                                <span className="text-xs tracking-[0.12em] uppercase text-gold font-medium">For Your Business</span>
+                              </div>
+                              {forYourBusinessLinks.map((link) => (
+                                <Link key={link.href} href={link.href}>
+                                  <div className="px-4 py-2.5 hover:bg-white/5 transition-colors border-b border-white/5">
+                                    <span className="text-off-white font-medium font-body text-sm">{link.label}</span>
+                                  </div>
+                                </Link>
+                              ))}
+                              {/* For You */}
+                              <div className="px-4 py-2 border-t border-white/10">
+                                <span className="text-xs tracking-[0.12em] uppercase text-gold font-medium">For You</span>
+                              </div>
+                              {forYouLinks.map((link) => (
+                                <Link key={link.href} href={link.href}>
+                                  <div className="px-4 py-2.5 hover:bg-white/5 transition-colors">
+                                    <span className="text-off-white font-medium font-body text-sm">{link.label}</span>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    <Link href="/maguire" className="text-off-white/70 hover:text-off-white text-sm font-body transition-colors">
+                      Our Proof
+                    </Link>
+                    <Link href="/about" className="text-off-white/70 hover:text-off-white text-sm font-body transition-colors">
+                      About
+                    </Link>
+                  </div>
+
+                  {/* Right: CTA with comet streak */}
+                  <div className="flex items-center gap-4 relative">
+                    {/* Comet animation - plays once on mount */}
+                    <motion.div
+                      className="absolute right-full mr-4 pointer-events-none"
+                      initial={{ x: -140, opacity: 0 }}
+                      animate={{ x: 90, opacity: [0, 1, 1, 0] }}
+                      transition={{
+                        duration: 1.4,
+                        delay: 0.3,
+                        ease: [0.4, 0, 0.2, 1],
+                        times: [0, 0.08, 0.75, 1],
+                      }}
+                    >
+                      {/* Comet head */}
+                      <div className="relative">
+                        <div className="w-2 h-2 rounded-full bg-gold shadow-[0_0_8px_2px_rgba(201,169,98,0.6)]" />
+                        {/* Comet tail */}
+                        <div
+                          className="absolute top-1/2 right-full -translate-y-1/2 w-16 h-[2px]"
+                          style={{
+                            background: 'linear-gradient(to left, rgba(201,169,98,0.8), rgba(201,169,98,0.3), transparent)',
+                          }}
+                        />
+                      </div>
+                    </motion.div>
+
+                    <Link href="/contact">
+                      <motion.span
+                        className="btn-gold text-sm px-5 py-2"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.14, ease: [0.2, 0, 0, 1] }}
+                      >
+                        Move Forward <ArrowRight className="w-4 h-4 inline ml-1" />
+                      </motion.span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Mobile Sticky CTA - Always visible on mobile */}
       <div className="fixed bottom-0 left-0 right-0 z-[998] lg:hidden bg-navy/95 backdrop-blur-lg border-t border-white/10 p-3 safe-area-pb">
-        <Link href="/contact" className="btn btn-gold w-full justify-center text-base py-3">
-          Move Forward <ArrowRight className="w-4 h-4" />
-        </Link>
+        <MoveForwardButton fullWidth className="text-base py-3" />
       </div>
     </>
   );

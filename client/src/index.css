@@ -71,6 +71,13 @@
   --color-teal: var(--teal);
   --color-teal-soft: var(--teal-soft);
   --color-teal-muted: var(--teal-muted);
+
+  /* Premium Black Palette - proof moments & grounding */
+  --color-black: var(--black);
+  --color-charcoal: var(--charcoal);
+
+  /* Warm Grey - layered depth */
+  --color-warm-grey: var(--warm-grey);
 }
 
 :root {
@@ -84,7 +91,22 @@
   --teal: #7dd3c0;
   --teal-soft: #a8e4d7;
   --teal-muted: #9ed4c8;
-  
+
+  /* Premium Black Palette - for proof moments & grounding */
+  --black: #000000;
+  --charcoal: #0D0D0D;
+
+  /* Warm Grey - layered depth for light sections */
+  --warm-grey: #E8E6E1;
+
+  /* Warm undertones - subtle amber/orange for depth in navy sections */
+  --warm-glow: rgba(255, 180, 100, 0.08);
+  --warm-glow-soft: rgba(255, 200, 120, 0.05);
+
+  /* Premium soft whites - breathing room palette */
+  --cream: #FDFCFA;           /* Softer than off-white, slightly warmer */
+  --cream-warm: #FBF9F5;      /* Hint of warmth for premium feel */
+
   /* NOTE: Tailwind color variables live in @theme inline above */
   
   /* Semantic mappings */
@@ -218,9 +240,13 @@
   .font-display {
     font-family: 'Playfair Display', serif;
   }
-  
+
   .font-body {
     font-family: 'DM Sans', sans-serif;
+  }
+
+  .font-logo {
+    font-family: 'Montserrat', sans-serif;
   }
   
   /* Brand color utilities */
@@ -239,7 +265,19 @@
   .bg-off-white {
     background-color: #F8F7F4;
   }
-  
+
+  .bg-black {
+    background-color: #000000;
+  }
+
+  .bg-charcoal {
+    background-color: #0D0D0D;
+  }
+
+  .bg-warm-grey {
+    background-color: #E8E6E1;
+  }
+
   .text-navy {
     color: #1A2332;
   }
@@ -925,6 +963,262 @@
   .stagger-4 { animation-delay: 0.2s; }
   .stagger-5 { animation-delay: 0.25s; }
   .stagger-6 { animation-delay: 0.3s; }
+
+  /* ============================================
+     STANDARDIZED SECTION PADDING SYSTEM
+     ============================================ */
+
+  /* Standard section padding - use py-section for consistent vertical rhythm */
+  .py-section {
+    padding-top: 5rem;    /* 80px - mobile */
+    padding-bottom: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .py-section {
+      padding-top: 6rem;  /* 96px - tablet */
+      padding-bottom: 6rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .py-section {
+      padding-top: 8rem;  /* 128px - desktop */
+      padding-bottom: 8rem;
+    }
+  }
+
+  /* Compact section variant - for denser content areas */
+  .py-section-sm {
+    padding-top: 3rem;    /* 48px - mobile */
+    padding-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .py-section-sm {
+      padding-top: 4rem;  /* 64px - tablet */
+      padding-bottom: 4rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .py-section-sm {
+      padding-top: 5rem;  /* 80px - desktop */
+      padding-bottom: 5rem;
+    }
+  }
+
+  /* ============================================
+     STANDARDIZED HERO HEIGHT SYSTEM
+     ============================================ */
+
+  /* Primary hero - full viewport with mobile safe area */
+  .min-h-hero {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport for mobile */
+  }
+
+  /* Secondary hero - for subpages */
+  .min-h-hero-secondary {
+    min-height: 85vh;
+    min-height: 85dvh;
+  }
+
+  @media (min-width: 768px) {
+    .min-h-hero-secondary {
+      min-height: 80vh;
+      min-height: 80dvh;
+    }
+  }
+
+  /* Compact hero - for utility pages */
+  .min-h-hero-compact {
+    min-height: 60vh;
+    min-height: 60dvh;
+  }
+
+  @media (min-width: 768px) {
+    .min-h-hero-compact {
+      min-height: 70vh;
+      min-height: 70dvh;
+    }
+  }
+
+  /* ============================================
+     MOBILE BOTTOM SAFE AREA
+     ============================================ */
+
+  /* Add padding for mobile sticky CTA */
+  .pb-mobile-cta {
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 1023px) {
+    .pb-mobile-cta {
+      padding-bottom: 5rem; /* Space for sticky CTA */
+    }
+  }
+
+  /* Safe area padding for mobile bottom nav */
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  /* ============================================
+     STANDARDIZED CARD ELEVATION SYSTEM
+     ============================================ */
+
+  /* Level 1 - Subtle (for inline elements) */
+  .shadow-card-subtle {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Level 2 - Standard (for cards at rest) */
+  .shadow-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Level 3 - Elevated (for hover states, modals) */
+  .shadow-card-elevated {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Level 4 - Prominent (for active/focus states) */
+  .shadow-card-prominent {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  /* ============================================
+     STANDARDIZED FORM FIELD HEIGHTS
+     ============================================ */
+
+  /* Consistent form field sizing */
+  .form-input-base {
+    height: 2.75rem;     /* 44px - touch target minimum */
+    padding: 0.625rem 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .form-input-base {
+      height: 3rem;      /* 48px - desktop */
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  /* Larger form fields for prominent CTAs */
+  .form-input-lg {
+    height: 3.25rem;     /* 52px */
+    padding: 0.875rem 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .form-input-lg {
+      height: 3.5rem;    /* 56px */
+      padding: 1rem 1.5rem;
+    }
+  }
+
+  /* ============================================
+     STANDARDIZED BORDER RADIUS SYSTEM
+     ============================================ */
+
+  /* Use these for consistency across components */
+  .rounded-card {
+    border-radius: 1rem;  /* 16px - standard cards */
+  }
+
+  .rounded-card-lg {
+    border-radius: 1.5rem; /* 24px - hero cards, prominent elements */
+  }
+
+  .rounded-input {
+    border-radius: 0.5rem; /* 8px - form inputs, buttons */
+  }
+
+  .rounded-badge {
+    border-radius: 9999px; /* full - pills, tags, badges */
+  }
+
+  /* ============================================
+     STANDARDIZED GRID GAPS
+     ============================================ */
+
+  /* Tight grid - for dense layouts */
+  .gap-grid-tight {
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .gap-grid-tight {
+      gap: 1.5rem;
+    }
+  }
+
+  /* Standard grid - for most card layouts */
+  .gap-grid {
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .gap-grid {
+      gap: 2rem;
+    }
+  }
+
+  /* Spacious grid - for hero/feature sections */
+  .gap-grid-spacious {
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .gap-grid-spacious {
+      gap: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gap-grid-spacious {
+      gap: 4rem;
+    }
+  }
+
+  /* ============================================
+     TOUCH FEEDBACK FOR MOBILE CARDS
+     ============================================ */
+
+  .touch-card {
+    transition: transform 0.14s cubic-bezier(0.2, 0, 0, 1);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .touch-card:active {
+    transform: scale(0.98);
+  }
+
+  @media (min-width: 1024px) {
+    .touch-card:active {
+      transform: none; /* Disable on desktop, use hover instead */
+    }
+
+    .touch-card:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  /* ============================================
+     SCROLL PROGRESS INDICATOR
+     ============================================ */
+
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #C9A962 0%, #D4B872 100%);
+    transform-origin: left;
+    z-index: 9999;
+  }
   
   /* ============================================
      PAGE TRANSITION ANIMATIONS
@@ -990,5 +1284,43 @@
   /* Loading indicator - System Initializing motion (no pulse, just opacity) */
   .loading-pulse {
     opacity: 0.8;
+  }
+
+  /* Logo comet streak animation - fires once on load, streaks left to right, then fades */
+  @keyframes comet-streak {
+    0% {
+      left: -20%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+
+  /* Legacy flicker animation - kept for reference */
+  @keyframes flicker {
+    0%, 100% {
+      opacity: 0.6;
+      transform: translateX(-50%) scaleY(1);
+    }
+    25% {
+      opacity: 0.75;
+      transform: translateX(-50%) scaleY(1.05);
+    }
+    50% {
+      opacity: 0.55;
+      transform: translateX(-50%) scaleY(0.95);
+    }
+    75% {
+      opacity: 0.7;
+      transform: translateX(-50%) scaleY(1.02);
+    }
   }
 }

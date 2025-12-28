@@ -321,6 +321,38 @@ export default function FounderLed() {
             <h2 className="mt-4 text-off-white">Turn AI into leverage — without becoming an AI project manager</h2>
           </motion.div>
 
+          {/* SERVICE RECOMMENDATION - Segment-to-Service Mapping */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mb-16"
+          >
+            <div className="p-6 rounded-2xl bg-gold/10 border border-gold/30">
+              <div className="flex flex-col md:flex-row items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-5 h-5 text-gold" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-gold font-display text-lg mb-2">Recommended for Founder-Led Businesses</h3>
+                  <p className="text-off-white/70 leading-relaxed mb-4">
+                    Most founders start with <Link href="/edge" className="text-gold underline underline-offset-2 hover:text-gold/80">Edge</Link> to build personal AI fluency and reclaim time. When ready to scale beyond yourself, <Link href="/how-we-help#fractional-ai" className="text-gold underline underline-offset-2 hover:text-gold/80">Fractional AI Officer</Link> provides strategic leadership without the $400K hire.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Link href="/edge" className="inline-flex items-center gap-2 px-4 py-2 bg-gold text-navy rounded-full text-sm font-medium hover:bg-gold/90 transition-colors">
+                      Edge for Founders
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link href="/how-we-help#fractional-ai" className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-off-white rounded-full text-sm font-medium hover:bg-white/20 transition-colors">
+                      Fractional AI Officer
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-16">
             {implementationPillars.map((pillar, index) => (
               <motion.div

@@ -4,16 +4,17 @@ import { ArrowRight, Linkedin, Twitter } from "lucide-react";
 /*
  * FOOTER - Original Design System
  * Typography: Playfair Display (logo) + DM Sans (links)
- * Colors: Navy #1A2332, Gold #C9A962, Off-White #F8F7F4
+ * Colors: True Black #000000, Gold #C9A962, Off-White #F8F7F4
+ * True black creates definitive page ending, premium feel
  * 4-column grid layout
  */
 
 const footerLinks = {
   services: [
     { href: "/how-we-help", label: "How We Help" },
+    { href: "/how-we-help#forward-deployed", label: "Forward Deployed" },
+    { href: "/how-we-help#fractional-ai", label: "Fractional AI Officer" },
     { href: "/edge", label: "Edge" },
-    { href: "/fractional-ai", label: "Fractional AI Officer" },
-    { href: "/forward-deployed", label: "Forward Deployed" },
   ],
   segments: [
     { href: "/professional-services", label: "Professional Services" },
@@ -32,16 +33,20 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy border-t border-white/5">
+    <footer className="bg-black border-t border-white/5">
       <div className="container py-16 md:py-20">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block">
-              <span className="text-2xl tracking-tight font-display">
-                <span className="text-off-white italic font-light">Ignition</span>
-                <span className="text-gold font-semibold">Forward</span>
+            <Link href="/" className="inline-block group">
+              <span className="text-[0.85rem] md:text-[0.95rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
+                <span className="text-off-white font-bold">Ignition</span>
+                <span className="relative text-gold font-extrabold">
+                  Forward
+                  {/* Subtle static underline - no animation in footer */}
+                  <span className="absolute -bottom-0.5 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-gold/40 to-gold/60 opacity-40 group-hover:opacity-70 transition-opacity duration-300" aria-hidden="true" />
+                </span>
               </span>
             </Link>
             <p className="font-body text-grey-body mt-4 text-sm leading-relaxed">

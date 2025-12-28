@@ -1,112 +1,57 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Check, X, Shield, User, Ban, Send, Search, TrendingUp, ChevronDown } from "lucide-react";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ArrowRight, Check, Shield, Users, Target, Zap, TrendingUp, Clock, Brain, MessageSquare, ChevronRight } from "lucide-react";
+import { useRef, useState } from "react";
 import { Link } from "wouter";
 import SEO, { generateArticleSchema, generateBreadcrumbSchema } from "@/components/SEO";
-import CometCTA from "@/components/CometCTA";
 import TwinkleField from "@/components/TwinkleField";
+import MoveForwardButton from "@/components/MoveForwardButton";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 /*
- * MAGUIRE CASE STUDY PAGE - STREAMLINED
- * 
+ * MAGUIRE - AI PROOF PAGE
+ *
+ * Core message: Craig proves AI works. This is the artifact.
+ *
  * Structure:
- * 1. Hero (with segments, objection handlers, and stats)
- * 2. The Problem (visible, clear)
- * 3. How It Works (5 steps)
- * 4. Before/After
- * 5. Craig's Story
- * 6. What You'll See (artifacts)
- * 7. Security
- * 8. CTA
+ * 1. Hero - Meet Craig. This is what AI did for his practice.
+ * 2. Problem → Solution - Interactive before/after experience
+ * 3. The System - What Maguire actually does
+ * 4. Real Results - 18 months of compound gains
+ * 5. CTA - Get yours
  */
 
-/* Section Label Component */
-function SectionLabel({ children, centered = false }: { children: React.ReactNode; centered?: boolean }) {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 8, filter: 'blur(8px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.36, ease: [0.2, 0, 0, 1] }}
-      className={`flex items-center gap-6 mb-8 ${centered ? 'justify-center' : ''}`}
-    >
-      <div className="w-16 h-px bg-gold" />
-      <p className="text-xs tracking-[0.3em] uppercase text-gold font-medium">{children}</p>
-      {centered && <div className="w-16 h-px bg-gold" />}
-    </motion.div>
-  );
-}
-
-/* Animated Counter for Stats */
-function AnimatedStat({ 
-  stat, 
-  label, 
-  delay = 0 
-}: { 
-  stat: string; 
-  label: string; 
-  delay?: number;
-}) {
-  const [displayValue, setDisplayValue] = useState("");
-  const [hasAnimated, setHasAnimated] = useState(false);
-  
-  useEffect(() => {
-    if (hasAnimated) return;
-    
-    const timer = setTimeout(() => {
-      setDisplayValue(stat);
-      setHasAnimated(true);
-    }, delay);
-    
-    return () => clearTimeout(timer);
-  }, [stat, delay, hasAnimated]);
-  
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.36, delay: delay / 1000, ease: [0.2, 0, 0, 1] }}
-      className="text-center"
-    >
-      <p className="font-display text-4xl md:text-5xl text-gold mb-2">{displayValue || stat}</p>
-      <p className="text-sm text-off-white/80">{label}</p>
-    </motion.div>
-  );
-}
+/* Staggered animation config */
+const stagger = {
+  container: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 }
+    }
+  },
+  item: {
+    hidden: { opacity: 0, y: 12, filter: 'blur(8px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 0.36, ease: [0.2, 0, 0, 1] }
+    }
+  }
+};
 
 export default function Maguire() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const progressBarWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  const heroStats = [
-    { stat: "18%→65%", label: "Conversion Rate" },
-    { stat: "3X", label: "Revenue/Client" },
-    { stat: "5hrs", label: "Saved/Week" },
-    { stat: "232+", label: "Iterations" },
-  ];
-
-  const beforeItems = [
-    "More clients = more chaos",
-    "Scattered notes across email, CRM, and memory",
-    "Prep for meetings takes hours",
-    "Follow-ups fall through the cracks",
-  ];
-
-  const afterItems = [
-    "More clients = more leverage",
-    "Single source of truth for every relationship",
-    "AI-generated briefs in seconds",
-    "Automated reminders and suggested actions",
-  ];
+  const [showAfter, setShowAfter] = useState(false);
 
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
       generateArticleSchema({
-        headline: 'Maguire: Relationship Intelligence',
-        description: 'How we built an AI-powered system that transformed our own client relationships—and why it matters for your business.',
+        headline: 'Maguire: AI That Actually Works',
+        description: "18 months. 232 refinements. 65% close rate. This is what AI did for one consulting firm.",
         url: '/maguire',
       }),
       generateBreadcrumbSchema([
@@ -117,261 +62,461 @@ export default function Maguire() {
   };
 
   return (
-    <div ref={containerRef} className="overflow-hidden">
+    <div ref={containerRef} className="overflow-hidden pb-mobile-cta">
       <SEO
-        title="Maguire: Relationship Intelligence - Our Proof"
-        description="How we built an AI-powered system that transformed our own client relationships. 18%→65% conversion rate, 3X revenue per client. See what's possible."
+        title="Maguire: AI That Actually Works"
+        description="18 months. 232 refinements. 65% close rate. This is what AI did for one consulting firm. See the proof."
         canonical="/maguire"
         structuredData={structuredData}
       />
-      
+
       {/* Scroll Progress Bar */}
-      <motion.div 
+      <motion.div
         className="fixed top-0 left-0 h-1 bg-gold z-50"
         style={{ width: progressBarWidth }}
       />
-      
+
       {/* ============================================
-          HERO - Compact with segments, objections, stats
+          SECTION 1: HERO
+          Meet Craig. Leaner, asymmetric layout.
           ============================================ */}
-      <section className="min-h-screen flex flex-col justify-center px-6 md:px-8 py-24 relative bg-navy overflow-hidden">
-        {/* Background Image - Static */}
-        <div 
-          className="absolute inset-0 z-0 grayscale"
+      <section className="min-h-hero flex flex-col justify-center px-6 md:px-8 py-24 md:py-32 relative bg-navy overflow-hidden">
+        {/* Background */}
+        <div
+          className="absolute inset-0 z-0"
           style={{
             backgroundImage: 'url(/images/hero-maguire.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: 0.15,
+            opacity: 0.12,
+            filter: 'grayscale(100%)',
           }}
         />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/50 via-transparent to-navy-dark/30 pointer-events-none z-0" />
-        
-        {/* Smooth random twinkle field */}
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/70 via-navy/60 to-navy pointer-events-none z-0" />
         <TwinkleField />
-        
+
         <div className="max-w-5xl mx-auto w-full relative z-10">
-          {/* Label */}
-          <motion.p 
-            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.36, ease: [0.2, 0, 0, 1] }}
-            className="text-gold text-xs tracking-[0.35em] uppercase mb-6 font-medium"
-          >
-            Our Proof
-          </motion.p>
-          
-          {/* Headline */}
-          <motion.h1 
-            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.36, delay: 0.08, ease: [0.2, 0, 0, 1] }}
-            className="font-display text-5xl md:text-6xl lg:text-7xl text-off-white leading-[1.1] mb-4"
-          >
-            Maguire
-          </motion.h1>
-          
-          {/* Tagline */}
-          <motion.p 
-            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.36, delay: 0.16, ease: [0.2, 0, 0, 1] }}
-            className="font-display text-3xl md:text-4xl text-gold italic mb-6"
-          >
-            "Close more. Grind less."
-          </motion.p>
-          
-          {/* Subhead */}
-          <motion.p 
-            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.36, delay: 0.24, ease: [0.2, 0, 0, 1] }}
-            className="text-lg md:text-xl text-off-white/90 max-w-2xl mb-8 leading-relaxed"
-          >
-            AI sales coach and copilot for expert-led businesses. Built for Craig, used daily for 18 months. Not SaaS—a training model that learns your patterns.
-          </motion.p>
-          
-          {/* Segment Tags + Who It's For */}
-          <motion.div
-            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.36, delay: 0.32, ease: [0.2, 0, 0, 1] }}
-            className="mb-10"
-          >
-            <p className="text-sm text-gold/80 mb-4">Built for expert-led businesses:</p>
-            <div className="flex flex-wrap gap-3 mb-4">
-              {["Professional Services", "Founder-Led", "Fund Managers", "PE Portfolio"].map((seg, i) => (
-                <span 
-                  key={i}
-                  className="px-4 py-2 bg-navy-dark border border-gold/30 text-off-white text-sm"
+          {/* Asymmetric layout - headline left, Craig right */}
+          <div className="grid md:grid-cols-[1.2fr_1fr] gap-10 md:gap-16 items-center">
+            {/* Left: Headline + CTA */}
+            <div>
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl leading-[1.1]">
+                {/* "Grind less" - heavy, labored entrance */}
+                <motion.span
+                  className="block text-off-white/60 mb-2"
+                  initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.2,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
                 >
-                  {seg}
-                </span>
-              ))}
+                  Grind less.
+                </motion.span>
+                {/* "Close more" - smooth, effortless, golden */}
+                <motion.span
+                  className="block text-gold italic"
+                  initial={{ opacity: 0, scale: 0.95, filter: 'blur(8px)' }}
+                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.9,
+                    ease: [0, 0, 0.2, 1]
+                  }}
+                >
+                  Close more.
+                </motion.span>
+              </h1>
+
+              <motion.p
+                className="mt-6 text-lg text-off-white/70 leading-relaxed max-w-md"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 1.2 }}
+              >
+                Craig built Maguire to solve his own problem: too many clients, not enough hours.
+                <span className="text-off-white font-medium"> 18 months later</span>, it's still running every day.
+              </motion.p>
+
+              <motion.div
+                className="mt-8 flex items-center gap-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 1.4 }}
+              >
+                <Link href="/contact" className="btn-gold inline-flex items-center gap-2">
+                  Get yours built
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <span className="text-off-white/40 text-sm">The proof AI works.</span>
+              </motion.div>
             </div>
-            <p className="text-base text-off-white/70">
-              For LP relations, deal teams, rainmakers, and partner-led practices.
-            </p>
-          </motion.div>
-          
-          {/* Objection Handlers - Compact */}
-          <motion.div
-            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.36, delay: 0.40, ease: [0.2, 0, 0, 1] }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 pb-10 border-b border-white/10"
-          >
-            {[
-              { thought: "I've tried AI tools", response: "This isn't a tool. It's a system built around how YOU work." },
-              { thought: "My business is unique", response: "That's the point. Generic doesn't work. Custom does." },
-              { thought: "How long until ROI?", response: "First working system: 3 weeks. Results: immediate." },
-            ].map((obj, i) => (
-              <div key={i} className="bg-navy-dark/50 p-4 border-l-2 border-gold/50">
-                <p className="text-gold/80 italic text-sm mb-1">"{obj.thought}"</p>
-                <p className="text-off-white text-sm">{obj.response}</p>
+
+            {/* Right: Craig's testimonial + stats */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              {/* Craig info + quote card */}
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 md:p-8">
+                {/* Craig's identity */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-full bg-gold/20 flex items-center justify-center border-2 border-gold/40">
+                    <span className="text-gold font-bold text-xl">CG</span>
+                  </div>
+                  <div>
+                    <p className="text-off-white font-medium">Craig Gainsboro</p>
+                    <p className="text-off-white/50 text-sm">CEO, Ignition Consultants</p>
+                  </div>
+                </div>
+
+                {/* Quote */}
+                <blockquote className="pl-4 border-l-2 border-gold/40 mb-6">
+                  <p className="text-off-white/90 italic text-lg leading-relaxed">
+                    "Every client gets my full attention now. I'm not just faster—I'm sharper."
+                  </p>
+                </blockquote>
+
+                {/* Stats row */}
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                      <span className="text-off-white/30 text-sm line-through">18%</span>
+                      <ArrowRight className="w-3 h-3 text-gold/50" />
+                      <span className="text-gold text-xl font-display font-bold">65%</span>
+                    </div>
+                    <div className="text-off-white/40 text-[10px]">Close rate</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-display text-xl text-gold font-bold">3X</div>
+                    <div className="text-off-white/40 text-[10px]">Revenue</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-display text-xl text-gold font-bold">18mo</div>
+                    <div className="text-off-white/40 text-[10px]">Daily use</div>
+                  </div>
+                </div>
               </div>
-            ))}
-          </motion.div>
-          
-          {/* Stats Row */}
-          <motion.div 
-            initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.36, delay: 0.48, ease: [0.2, 0, 0, 1] }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+
+              {/* Badge - offset */}
+              <div className="absolute -top-3 -right-3 bg-gold px-3 py-1.5 rounded-full shadow-lg">
+                <span className="text-navy text-xs font-bold">232 iterations</span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        <ScrollIndicator />
+      </section>
+
+      {/* Key insight - moved up for prominence */}
+      <section className="py-10 md:py-14 px-6 md:px-8 bg-navy-light">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-3xl mx-auto text-center"
+        >
+          <p className="text-off-white/90 text-lg md:text-xl lg:text-2xl leading-relaxed">
+            Maguire doesn't replace your expertise—it <span className="text-gold font-semibold">amplifies</span> it.
+            You still make every decision. You just walk in with complete context and zero cognitive overhead.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* ============================================
+          SECTION 2: BEFORE → AFTER
+          Interactive problem/solution experience
+          ============================================ */}
+      <section className="py-section px-6 md:px-8 bg-off-white relative overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          {/* Toggle header with dynamic commentary */}
+          <motion.div
+            className="text-center mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            {heroStats.map((item, i) => (
-              <AnimatedStat 
-                key={i} 
-                stat={item.stat} 
-                label={item.label}
-                delay={i * 150 + 600}
-              />
-            ))}
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-navy leading-tight mb-4">
+              A day in the life
+            </h2>
+
+            {/* Dynamic subhead based on toggle state */}
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={showAfter ? "after-desc" : "before-desc"}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+                className="text-navy/60 text-base md:text-lg max-w-xl mx-auto mb-8"
+              >
+                {showAfter
+                  ? "Same day, same clients. But now you show up prepared, respond faster, and nothing slips."
+                  : "The grind most relationship-driven professionals know too well. Context scattered, time squeezed, balls dropped."
+                }
+              </motion.p>
+            </AnimatePresence>
+
+            {/* Interactive toggle */}
+            <div className="inline-flex items-center bg-navy rounded-full p-1.5">
+              <button
+                onClick={() => setShowAfter(false)}
+                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                  !showAfter
+                    ? "bg-white text-navy shadow-lg"
+                    : "text-off-white/60 hover:text-off-white"
+                }`}
+              >
+                Before Maguire
+              </button>
+              <button
+                onClick={() => setShowAfter(true)}
+                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                  showAfter
+                    ? "bg-gold text-navy shadow-lg"
+                    : "text-off-white/60 hover:text-off-white"
+                }`}
+              >
+                After Maguire
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Before/After content */}
+          <div className="relative min-h-[400px]">
+            <AnimatePresence mode="wait">
+              {!showAfter ? (
+                /* BEFORE STATE */
+                <motion.div
+                  key="before"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                >
+                  {[
+                    {
+                      icon: Brain,
+                      time: "7:45 AM",
+                      title: "The problem: Context is scattered",
+                      detail: "You're digging through emails, notes, and your memory trying to piece together what this client needs. You're already running late.",
+                      pain: "20 min wasted"
+                    },
+                    {
+                      icon: Clock,
+                      time: "11:30 AM",
+                      title: "The problem: Prep steals your day",
+                      detail: "Three calls today. Each one needs context, history, talking points. That's 2 hours of prep you don't have.",
+                      pain: "Quality suffers"
+                    },
+                    {
+                      icon: MessageSquare,
+                      time: "4:15 PM",
+                      title: "The problem: Things slip through",
+                      detail: "Client asks about the intro you promised last week. You forgot. They noticed. Trust takes a hit.",
+                      pain: "Trust eroded"
+                    }
+                  ].map((item, i) => {
+                    const Icon = item.icon;
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: i * 0.1 }}
+                        className="bg-white p-6 border border-red-200/50 rounded-xl relative overflow-hidden"
+                      >
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-400/50 to-red-300/30" />
+                        <div className="flex items-center gap-2 mb-4">
+                          <Icon className="w-4 h-4 text-red-400/70" />
+                          <span className="text-navy/40 text-xs font-mono">{item.time}</span>
+                        </div>
+                        <h3 className="text-navy font-semibold mb-2">{item.title}</h3>
+                        <p className="text-navy/60 text-sm leading-relaxed mb-4">{item.detail}</p>
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 rounded-full">
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                          <span className="text-red-600/80 text-xs font-medium">{item.pain}</span>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              ) : (
+                /* AFTER STATE */
+                <motion.div
+                  key="after"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                >
+                  {[
+                    {
+                      icon: Target,
+                      time: "7:45 AM",
+                      title: "The solution: Context in seconds",
+                      detail: "Full client history, commitments, and talking points on your phone before you leave. No digging. No scrambling.",
+                      win: "Instant recall"
+                    },
+                    {
+                      icon: Zap,
+                      time: "11:30 AM",
+                      title: "The solution: Prep is automatic",
+                      detail: "Maguire surfaces exactly what you need. Three calls today? Three briefings ready. You show up sharp.",
+                      win: "2 hours saved"
+                    },
+                    {
+                      icon: Check,
+                      time: "4:15 PM",
+                      title: "The solution: Nothing falls through",
+                      detail: "That intro you promised? Already drafted and waiting. Review, personalize, send. Client impressed.",
+                      win: "Trust deepened"
+                    }
+                  ].map((item, i) => {
+                    const Icon = item.icon;
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: i * 0.1 }}
+                        className="bg-white p-6 border border-gold/30 rounded-xl relative overflow-hidden shadow-lg"
+                      >
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold to-gold/50" />
+                        <div className="flex items-center gap-2 mb-4">
+                          <Icon className="w-4 h-4 text-gold" />
+                          <span className="text-navy/40 text-xs font-mono">{item.time}</span>
+                        </div>
+                        <h3 className="text-navy font-semibold mb-2">{item.title}</h3>
+                        <p className="text-navy/60 text-sm leading-relaxed mb-4">{item.detail}</p>
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gold/10 rounded-full">
+                          <Check className="w-3 h-3 text-gold" />
+                          <span className="text-gold-dark text-xs font-medium">{item.win}</span>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Transition prompt */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-10 text-center"
+          >
+            <button
+              onClick={() => setShowAfter(!showAfter)}
+              className="inline-flex items-center gap-2 text-navy/60 hover:text-navy transition-colors text-sm"
+            >
+              <span>{showAfter ? "See the problem" : "See the solution"}</span>
+              <ChevronRight className={`w-4 h-4 transition-transform ${showAfter ? "rotate-180" : ""}`} />
+            </button>
           </motion.div>
         </div>
       </section>
 
       {/* ============================================
-          THE PROBLEM - Clear and Visible
+          SECTION 3: 18 MONTHS OF PROOF
+          Craig's daily-driven artifact
           ============================================ */}
-      <section className="py-20 px-6 md:px-8 bg-off-white">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 12 }}
+      <section className="py-section px-6 md:px-8 bg-navy relative overflow-hidden">
+        <div className="absolute inset-0 grid-pattern opacity-10" />
+
+        <div className="max-w-5xl mx-auto relative z-10">
+          {/* Section header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="text-center mb-12"
           >
-            <p className="text-gold text-xs tracking-[0.3em] uppercase mb-6 font-medium">The Problem</p>
-            <p className="text-2xl md:text-3xl text-navy leading-relaxed">
-              Relationship context is fragmented across email, calendar, docs, and memory. 
-              Follow-ups slip. Deals die quietly. <span className="text-gold font-semibold">The more clients you have, the worse it gets.</span>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-off-white mb-4">
+              18 months of <span className="text-gold italic">compound gains</span>
+            </h2>
+            <p className="text-off-white/60 text-base md:text-lg max-w-xl mx-auto">
+              What happens when AI works every day, not just launch day.
             </p>
           </motion.div>
-        </div>
-      </section>
 
-      {/* ============================================
-          HOW IT WORKS - 5 Steps
-          ============================================ */}
-      <section className="py-24 px-6 md:px-8 bg-navy">
-        <div className="max-w-5xl mx-auto">
-          <SectionLabel centered>How Maguire Works</SectionLabel>
-          <motion.h2 
-            initial={{ opacity: 0, y: 12 }}
+          {/* Transformation metrics */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-display text-4xl md:text-5xl text-off-white text-center mb-16"
+            transition={{ delay: 0.15 }}
+            className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8 md:p-10 max-w-4xl mx-auto"
           >
-            Five Steps to Relationship Intelligence
-          </motion.h2>
-          
-          <div className="relative">
-            {/* Connection Line */}
-            <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-gold/20 via-gold to-gold/20" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
               {[
-                { step: "1", title: "Capture", desc: "Interactions from email, calendar, conversations" },
-                { step: "2", title: "Normalize", desc: "Build relationship memory over time" },
-                { step: "3", title: "Surface", desc: "Next actions, risks, stalled follow-ups" },
-                { step: "4", title: "Enable", desc: "Outreach and briefs in your voice" },
-                { step: "5", title: "Measure", desc: "Conversion, coverage, relationship health" },
-              ].map((item, i) => (
-                <motion.div 
+                { before: "18%", after: "65%", label: "Close rate" },
+                { before: "1X", after: "3X", label: "Revenue/client" },
+                { before: "10+ hrs", after: "2 hrs", label: "Weekly prep" },
+                { before: "4 hrs", after: "15 min", label: "Response time" },
+              ].map((stat, i) => (
+                <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.24, delay: i * 0.1 }}
-                  className="text-center relative"
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                  className="text-center"
                 >
-                  <div className="w-10 h-10 rounded-full bg-gold text-navy font-bold text-lg flex items-center justify-center mx-auto mb-4 relative z-10">
-                    {item.step}
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="text-off-white/30 text-lg line-through">{stat.before}</span>
+                    <ArrowRight className="w-4 h-4 text-gold/50" />
+                    <span className="text-gold text-2xl md:text-3xl font-display font-bold">{stat.after}</span>
                   </div>
-                  <h3 className="text-base font-semibold text-off-white mb-2">{item.title}</h3>
-                  <p className="text-sm text-off-white/70">{item.desc}</p>
+                  <div className="text-off-white/50 text-xs">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
 
-      {/* ============================================
-          BEFORE/AFTER
-          ============================================ */}
-      <section className="py-24 px-6 md:px-8 bg-off-white">
-        <div className="max-w-4xl mx-auto">
-          <SectionLabel centered>The Transformation</SectionLabel>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 12 }}
+          {/* Bottom proof bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.36 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-xl overflow-hidden shadow-xl"
+            transition={{ delay: 0.3 }}
+            className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-16 text-center"
           >
-            {/* Before */}
-            <div className="bg-navy p-8">
-              <h3 className="text-lg font-semibold text-off-white mb-6 flex items-center gap-2">
-                <X className="w-5 h-5 text-red-400" /> Before
-              </h3>
-              <div className="space-y-4">
-                {beforeItems.map((item, i) => (
-                  <motion.p 
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="text-off-white/80 text-sm"
-                  >
-                    {item}
-                  </motion.p>
-                ))}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-gold" />
+              </div>
+              <div className="text-left">
+                <div className="font-display text-xl text-off-white">232+</div>
+                <div className="text-off-white/50 text-xs">Refinements shipped</div>
               </div>
             </div>
-            
-            {/* After */}
-            <div className="bg-gold p-8">
-              <h3 className="text-lg font-semibold text-navy mb-6 flex items-center gap-2">
-                <Check className="w-5 h-5 text-navy" /> After
-              </h3>
-              <div className="space-y-4">
-                {afterItems.map((item, i) => (
-                  <motion.p 
-                    key={i}
-                    initial={{ opacity: 0, x: 10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="text-navy text-sm font-medium"
-                  >
-                    {item}
-                  </motion.p>
-                ))}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center">
+                <Zap className="w-5 h-5 text-gold" />
+              </div>
+              <div className="text-left">
+                <div className="font-display text-xl text-off-white">100%</div>
+                <div className="text-off-white/50 text-xs">Daily usage streak</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center">
+                <Check className="w-5 h-5 text-gold" />
+              </div>
+              <div className="text-left">
+                <div className="font-display text-xl text-off-white">0</div>
+                <div className="text-off-white/50 text-xs">Dropped commitments</div>
               </div>
             </div>
           </motion.div>
@@ -379,185 +524,111 @@ export default function Maguire() {
       </section>
 
       {/* ============================================
-          CRAIG'S STORY - Compact
+          SECTION 4: GET YOURS BUILT
+          Same system, customized for you
           ============================================ */}
-      <section className="py-24 px-6 md:px-8 bg-navy-dark">
-        <div className="max-w-4xl mx-auto">
-          <SectionLabel>The Story</SectionLabel>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Quote */}
-            <motion.div 
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-navy p-8 border-l-4 border-gold"
-            >
-              <div className="text-gold text-4xl mb-4 font-display">"</div>
-              <p className="font-display text-xl text-off-white italic leading-relaxed mb-6">
-                The time I gained was immense. I was immediately more effective with every client interaction.
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center">
-                  <span className="text-gold font-semibold">CG</span>
-                </div>
-                <div>
-                  <p className="text-off-white font-medium">Craig Gainsboro</p>
-                  <p className="text-off-white/60 text-sm">Founder, Ignition Consultants</p>
+      <section className="py-section px-6 md:px-8 bg-off-white relative overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-navy mb-4">
+              Same system. <span className="text-gold italic">Your practice.</span>
+            </h2>
+            <p className="text-navy/70 text-base md:text-lg max-w-2xl mx-auto">
+              We take what's proven—232 refinements of battle-tested patterns—and customize it to how you work.
+            </p>
+          </motion.div>
+
+          {/* 80/20 visual */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto mb-12"
+          >
+            <div className="bg-white rounded-2xl border border-navy/10 p-8 shadow-lg">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-gold font-display text-4xl font-bold">80%</span>
+                <div className="flex-1">
+                  <span className="text-navy font-semibold">Proven core</span>
+                  <p className="text-navy/60 text-sm">Craig's daily-driven system: context retrieval, draft generation, commitment tracking</p>
                 </div>
               </div>
-            </motion.div>
-            
-            {/* Narrative */}
-            <motion.div 
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="space-y-6"
-            >
-              <p className="text-off-white/90 leading-relaxed">
-                Craig runs an expert-led advisory firm where his expertise IS the product. Every new client meant more prep, more follow-ups, more context to remember. Growth was hitting a ceiling.
-              </p>
-              <p className="text-off-white/90 leading-relaxed">
-                We built Maguire around how he actually works. His decision patterns. His voice. His frameworks.
-              </p>
-              <p className="text-gold font-semibold">
-                18 months in production. 232 iterations. Close rate: 18%→65%. Revenue per client: 3X.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+              <div className="h-4 rounded-full overflow-hidden bg-navy/10 flex mb-6">
+                <motion.div
+                  className="bg-gold rounded-l-full"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "80%" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+                <motion.div
+                  className="bg-navy/30 rounded-r-full"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "20%" }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 1.0 }}
+                />
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-navy font-display text-4xl font-bold">20%</span>
+                <div className="flex-1">
+                  <span className="text-navy font-semibold">Custom to you</span>
+                  <p className="text-navy/60 text-sm">Your voice, your patterns, your client categories, your workflow triggers</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
 
-      {/* ============================================
-          WHAT YOU'LL SEE - Artifacts
-          ============================================ */}
-      <section className="py-24 px-6 md:px-8 bg-off-white">
-        <div className="max-w-5xl mx-auto">
-          <SectionLabel centered>Inside Maguire</SectionLabel>
-          <motion.h2 
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-display text-4xl md:text-5xl text-navy text-center mb-4"
-          >
-            What You'll Actually See
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center text-navy/70 mb-12"
-          >
-            Real outputs from a working system — not mockups or promises.
-          </motion.p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Timeline */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
-              { 
-                title: "Relationship Record", 
-                desc: "Full context on every contact",
-                preview: "Last Contact: 3 days ago\nOpen Commitments: 2\nRelationship Health: Strong\nNext Action: Follow up on proposal"
+              {
+                phase: "Week 1-2",
+                title: "Discovery",
+                items: ["Map your client patterns", "Define what success looks like", "Identify quick wins"]
               },
-              { 
-                title: "Weekly Briefing", 
-                desc: "AI-generated summary of all activity",
-                preview: "🔴 At Risk: 2 deals with no activity\n🟡 Needs Attention: 5 commitments expiring\n🟢 Momentum: 3 deals advancing"
+              {
+                phase: "Week 3-4",
+                title: "Build",
+                items: ["Deploy Maguire core", "Customize to your voice", "Initial training on your data"]
               },
-              { 
-                title: "Meeting Prep Brief", 
-                desc: "Everything you need before any meeting",
-                preview: "Context: 3rd meeting, discussing timeline\nTheir Priorities: Speed, minimal IT lift\nOpen Items: Pricing approved, legal pending"
+              {
+                phase: "Week 5+",
+                title: "Compound",
+                items: ["Daily use refines the system", "New patterns emerge", "Continuous improvement"]
               },
-              { 
-                title: "Opportunity Alert", 
-                desc: "Proactive notifications when deals need attention",
-                preview: "⚠️ Acme Corp: No response in 12 days\nSuggested: Send check-in with value recap\nDraft Ready: 'Hi Sarah, wanted to follow up...'"
-              },
-            ].map((artifact, i) => (
+            ].map((phase, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white p-6 rounded-lg shadow-md border border-navy/10"
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="relative"
               >
-                <h3 className="text-lg font-semibold text-navy mb-1">{artifact.title}</h3>
-                <p className="text-navy/60 text-sm mb-4">{artifact.desc}</p>
-                <div className="bg-navy/5 p-4 rounded font-mono text-xs text-navy/80 whitespace-pre-line">
-                  {artifact.preview}
+                <div className="bg-white border border-navy/10 p-6 rounded-xl h-full shadow-md">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-gold font-mono text-sm font-medium">{phase.phase}</span>
+                    <div className="flex-1 h-px bg-gold/30" />
+                  </div>
+                  <h3 className="font-display text-xl text-navy mb-4">{phase.title}</h3>
+                  <ul className="space-y-2">
+                    {phase.items.map((item, j) => (
+                      <li key={j} className="flex items-start gap-2 text-navy/60 text-sm">
+                        <Check className="w-4 h-4 text-gold mt-0.5 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          SECURITY - Compact
-          ============================================ */}
-      <section className="py-24 px-6 md:px-8 bg-navy">
-        <div className="max-w-3xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-navy-dark p-8 md:p-10 border border-gold/20"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <Shield className="w-6 h-6 text-gold" />
-              <h3 className="font-display text-2xl text-off-white">Your Data. Your Control.</h3>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                "NDA-first — we sign before we see anything",
-                "Your data never trains our models",
-                "Client info never leaves your environment",
-                "You own everything we build",
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <Check className="w-4 h-4 text-gold mt-1 flex-shrink-0" />
-                  <span className="text-off-white/80 text-sm">{item}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ============================================
-          CTA
-          ============================================ */}
-      <section className="py-24 px-6 md:px-8 bg-navy-dark">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-gold text-xs tracking-[0.3em] uppercase mb-6 font-medium">See It In Action</p>
-            <h2 className="font-display text-4xl md:text-5xl text-off-white mb-6">
-              See Maguire in Action
-            </h2>
-            <p className="text-off-white/80 mb-8 max-w-xl mx-auto">
-              15-20 minutes to see what's possible for your firm. Not a generic demo — we'll explore what your system could look like.
-            </p>
-            
-            <div className="flex flex-wrap justify-center gap-6 mb-10 text-sm text-off-white/70">
-              <span>18 months in production</span>
-              <span>•</span>
-              <span>232+ iterations</span>
-              <span>•</span>
-              <span>4-8 weeks to deploy</span>
-            </div>
-            
-            <CometCTA href="/contact" className="text-lg">
-              See Maguire in Action
-            </CometCTA>
-          </motion.div>
         </div>
       </section>
     </div>

@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * TWINKLE FIELD - Subtle Starfield with Comets
- * 
+ * TWINKLE FIELD - Subtle Starfield
+ *
  * - Subtle, random starfield across the entire background
  * - Stars have very gentle, smooth opacity changes (no blinking)
- * - Occasional shooting star/comet streaks
  */
 
 interface Star {
@@ -20,24 +19,12 @@ interface Star {
   isTeal: boolean;
 }
 
-interface Streak {
-  x: number;
-  y: number;
-  length: number;
-  angle: number;
-  speed: number;
-  opacity: number;
-  life: number;
-  maxLife: number;
-}
 
 export default function TwinkleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const starsRef = useRef<Star[]>([]);
-  const streaksRef = useRef<Streak[]>([]);
   const animationRef = useRef<number>(0);
-  const lastStreakTime = useRef<number>(0);
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -81,30 +68,8 @@ export default function TwinkleField() {
       });
     }
 
-    // Initialize streaks
-    streaksRef.current = [];
-
     const render = (time: number) => {
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
-
-      // Spawn comets occasionally
-      if (time - lastStreakTime.current > 4000 + Math.random() * 6000) {
-        if (streaksRef.current.length < 2) {
-          // Start from random edge position
-          const startFromLeft = Math.random() > 0.5;
-          streaksRef.current.push({
-            x: startFromLeft ? -50 : dimensions.width * (0.3 + Math.random() * 0.5),
-            y: Math.random() * dimensions.height * 0.6,
-            length: 60 + Math.random() * 80,
-            angle: startFromLeft ? 0.2 + Math.random() * 0.3 : 0.5 + Math.random() * 0.4,
-            speed: 3 + Math.random() * 4,
-            opacity: 0.5 + Math.random() * 0.3,
-            life: 0,
-            maxLife: 80 + Math.random() * 60,
-          });
-          lastStreakTime.current = time;
-        }
-      }
 
       // Draw stars - realistic distant star appearance
       starsRef.current.forEach(star => {
@@ -140,55 +105,6 @@ export default function TwinkleField() {
         ctx.arc(star.x, star.y, coreSize, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
         ctx.fill();
-      });
-
-      // Draw and update comets
-      streaksRef.current = streaksRef.current.filter(streak => {
-        streak.life++;
-        streak.x += Math.cos(streak.angle) * streak.speed;
-        streak.y += Math.sin(streak.angle) * streak.speed;
-        
-        const lifeRatio = streak.life / streak.maxLife;
-        // Smooth fade in and out
-        const fadeIn = Math.min(1, streak.life / 15);
-        const fadeOut = lifeRatio > 0.6 ? Math.max(0, 1 - (lifeRatio - 0.6) / 0.4) : 1;
-        const currentOpacity = streak.opacity * fadeIn * fadeOut;
-        
-        if (currentOpacity > 0.01) {
-          const tailX = streak.x - Math.cos(streak.angle) * streak.length;
-          const tailY = streak.y - Math.sin(streak.angle) * streak.length;
-          
-          // Comet gradient - gold tail fading to bright head
-          const gradient = ctx.createLinearGradient(tailX, tailY, streak.x, streak.y);
-          gradient.addColorStop(0, 'rgba(201, 169, 98, 0)');
-          gradient.addColorStop(0.6, `rgba(201, 169, 98, ${currentOpacity * 0.3})`);
-          gradient.addColorStop(0.9, `rgba(220, 200, 150, ${currentOpacity * 0.7})`);
-          gradient.addColorStop(1, `rgba(255, 255, 255, ${currentOpacity})`);
-          
-          ctx.beginPath();
-          ctx.moveTo(tailX, tailY);
-          ctx.lineTo(streak.x, streak.y);
-          ctx.strokeStyle = gradient;
-          ctx.lineWidth = 2;
-          ctx.lineCap = 'round';
-          ctx.stroke();
-          
-          // Small glow at the head
-          const headGlow = ctx.createRadialGradient(
-            streak.x, streak.y, 0,
-            streak.x, streak.y, 8
-          );
-          headGlow.addColorStop(0, `rgba(255, 255, 255, ${currentOpacity * 0.6})`);
-          headGlow.addColorStop(0.5, `rgba(201, 169, 98, ${currentOpacity * 0.2})`);
-          headGlow.addColorStop(1, 'rgba(201, 169, 98, 0)');
-          
-          ctx.beginPath();
-          ctx.arc(streak.x, streak.y, 8, 0, Math.PI * 2);
-          ctx.fillStyle = headGlow;
-          ctx.fill();
-        }
-        
-        return streak.life < streak.maxLife;
       });
 
       animationRef.current = requestAnimationFrame(render);

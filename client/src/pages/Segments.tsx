@@ -17,7 +17,7 @@ const segments = [
   {
     icon: Briefcase,
     title: 'Professional Services',
-    description: 'Law firms, accounting practices, and consultancies. Transform billable expertise into scalable systems.',
+    description: 'Consultancies, accounting practices, and professional services firms. Transform billable expertise into scalable systems.',
     href: '/professional-services',
     stats: '40% admin reduction',
   },
