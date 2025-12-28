@@ -196,16 +196,16 @@ export default function FounderLed() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.36, delay: 0.1 }}
-              className="text-off-white text-4xl md:text-5xl lg:text-6xl font-display leading-tight"
+              className="text-off-white text-4xl md:text-5xl lg:text-7xl font-display leading-tight font-semibold"
             >
               Founder-Led & Expert Practices
             </motion.h1>
-            
+
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.36, delay: 0.2 }}
-              className="mt-6 text-xl text-off-white/80 leading-relaxed max-w-3xl"
+              className="mt-8 text-lg md:text-xl text-off-white/80 leading-relaxed max-w-3xl font-body"
             >
               Founders and expert practitioners ready to scale their expertise without scaling their calendar — and without losing what makes the business special.
             </motion.p>
@@ -214,7 +214,7 @@ export default function FounderLed() {
       </section>
 
       {/* SECTION 2: SCENARIO + FIT CHECK */}
-      <section className="bg-navy-light py-16">
+      <section className="bg-navy-light py-20 md:py-24">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -222,7 +222,7 @@ export default function FounderLed() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-2xl font-display text-off-white mb-6">Your World</h2>
+            <h2 className="text-2xl md:text-3xl font-display text-off-white mb-6 font-semibold">Your World</h2>
             <div className="p-8 rounded-r-xl bg-navy border-l-4 border-gold">
               <p className="text-off-white/80 text-lg leading-relaxed">
                 You built the business on judgment, craft, and relationships — and it worked. Now growth is making you the bottleneck: approvals, sales, delivery review, hiring, and decisions. The team is experimenting with AI tools, the board asks about "AI strategy," and competitors are marketing AI whether it's real or not. You need a coherent system that turns AI into leverage — without becoming an AI project manager.
@@ -275,7 +275,7 @@ export default function FounderLed() {
       </section>
 
       {/* SECTION 3: CHALLENGES */}
-      <section className="bg-off-white py-20">
+      <section className="bg-off-white py-20 md:py-24">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -283,8 +283,8 @@ export default function FounderLed() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="label-text text-gold-dark">The Tension You Feel</span>
-            <h2 className="mt-4 text-navy">Challenges We Address</h2>
+            <span className="section-label text-gold">The Tension You Feel</span>
+            <h2 className="mt-4 text-2xl md:text-3xl lg:text-4xl font-display text-navy font-semibold">Challenges We Address</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
@@ -309,7 +309,7 @@ export default function FounderLed() {
       </section>
 
       {/* SECTION 4: HOW WE HELP */}
-      <section className="bg-navy py-20">
+      <section className="bg-navy py-20 md:py-24">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -317,8 +317,8 @@ export default function FounderLed() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="label-text text-gold">How We Help</span>
-            <h2 className="mt-4 text-off-white">Turn AI into leverage — without becoming an AI project manager</h2>
+            <span className="section-label">How We Help</span>
+            <h2 className="mt-4 text-2xl md:text-3xl lg:text-4xl font-display text-off-white font-semibold">Turn AI into leverage — without becoming an AI project manager</h2>
           </motion.div>
 
           {/* SERVICE RECOMMENDATION - Segment-to-Service Mapping */}
@@ -361,11 +361,11 @@ export default function FounderLed() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-navy-light border border-gold/20"
+                className="p-6 md:p-8 rounded-xl bg-navy-light border border-gold/20"
               >
-                <pillar.icon className="w-8 h-8 text-gold mb-4" />
-                <h3 className="text-lg font-display text-off-white mb-2">{pillar.title}</h3>
-                <p className="text-off-white/60 text-sm leading-relaxed">{pillar.description}</p>
+                <pillar.icon className="w-8 h-8 text-gold/70 mb-4" />
+                <h3 className="text-lg md:text-xl font-display text-off-white mb-2 font-semibold">{pillar.title}</h3>
+                <p className="text-off-white/70 text-sm md:text-base leading-relaxed font-body">{pillar.description}</p>
               </motion.div>
             ))}
           </div>
@@ -409,7 +409,7 @@ export default function FounderLed() {
       </section>
 
       {/* SECTION 5: OUTCOMES */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-off-white py-20 md:py-24">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -417,8 +417,8 @@ export default function FounderLed() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="label-text text-gold-dark">What Changes</span>
-            <h2 className="mt-4 text-navy">Outcomes You Can Expect</h2>
+            <span className="section-label text-gold">What Changes</span>
+            <h2 className="mt-4 text-2xl md:text-3xl lg:text-4xl font-display text-navy font-semibold">Outcomes You Can Expect</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -442,7 +442,7 @@ export default function FounderLed() {
       </section>
 
       {/* SECTION 6: FAQ */}
-      <section className="bg-white py-20">
+      <section className="bg-white py-20 md:py-24">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -450,8 +450,8 @@ export default function FounderLed() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="label-text text-gold-dark">Questions</span>
-            <h2 className="mt-4 text-navy">Frequently Asked</h2>
+            <span className="section-label text-gold">Questions</span>
+            <h2 className="mt-4 text-2xl md:text-3xl lg:text-4xl font-display text-navy font-semibold">Frequently Asked</h2>
           </motion.div>
 
           <div className="max-w-3xl mx-auto">
@@ -461,7 +461,7 @@ export default function FounderLed() {
       </section>
 
       {/* SECTION 7: CTA */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-off-white py-20 md:py-24">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -469,8 +469,8 @@ export default function FounderLed() {
             viewport={{ once: true }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h2 className="text-navy">Ready to scale your impact?</h2>
-            <p className="mt-4 text-grey-body text-lg">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-display text-navy font-semibold">Ready to scale your impact?</h2>
+            <p className="mt-6 text-grey-body text-lg md:text-xl font-body leading-relaxed">
               Let's build the AI enablement system that multiplies your effectiveness — without diluting quality.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">

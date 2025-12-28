@@ -40,7 +40,7 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block group">
-              <span className="text-[0.85rem] md:text-[0.95rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
+              <span className="text-[1rem] md:text-[1.1rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
                 <span className="text-off-white font-bold">Ignition</span>
                 <span className="relative text-gold font-extrabold">
                   Forward
@@ -49,7 +49,7 @@ export default function Footer() {
                 </span>
               </span>
             </Link>
-            <p className="font-body text-grey-body mt-4 text-sm leading-relaxed">
+            <p className="font-body text-grey-body mt-4 text-[0.9375rem] leading-relaxed">
               We use AI to amplify expert judgment, not replace it. AI enablement and Fractional AI Officers for Expert led businesses.
             </p>
             

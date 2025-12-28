@@ -4,10 +4,10 @@ import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 /**
- * MOVE FORWARD BUTTON - Command-Line Aesthetic
+ * FAST FORWARD BUTTON - Command-Line Aesthetic
  *
  * Design Philosophy:
- * - Hover: Text transforms to "> move_forward()" — telegraphs "we build systems"
+ * - Hover: Text transforms to "> fast_forward()" — telegraphs "we build systems"
  * - Click: Scale down (0.98) for physical button press feel
  * - No shimmer, no glow, no bounce — deterministic, operator-grade
  * - Timing: 140ms transitions, 120-240ms click feedback
@@ -62,7 +62,7 @@ export default function MoveForwardButton({ className = '', fullWidth = false }:
               ease: [0.2, 0, 0, 1],
             }}
           >
-            Move Forward <ArrowRight className="w-4 h-4" />
+            Fast Forward <ArrowRight className="w-4 h-4" />
           </motion.span>
 
           {/* Hovered state - command line aesthetic */}
@@ -77,7 +77,7 @@ export default function MoveForwardButton({ className = '', fullWidth = false }:
               ease: [0.2, 0, 0, 1],
             }}
           >
-            <span className="text-navy/60">&gt;</span>&nbsp;move_forward()
+            <span className="text-navy/60">&gt;</span>&nbsp;fast_forward()
           </motion.span>
         </span>
       </motion.a>

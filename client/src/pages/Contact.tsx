@@ -323,7 +323,7 @@ export default function Contact() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-center lg:text-left lg:sticky lg:top-32 mb-10 lg:mb-0"
+              className="text-center lg:text-left lg:sticky lg:top-32 mb-10 lg:mb-0 relative"
             >
               <span className="text-gold text-xs tracking-[0.25em] uppercase font-medium">Let's Talk</span>
 
@@ -356,6 +356,102 @@ export default function Contact() {
               <div className="hidden lg:flex mt-8 items-center gap-2 text-gold/70 text-sm">
                 <span className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
                 <span>Limited spots for {getIntakeMonth()}</span>
+              </div>
+
+              {/* Flywheel Ecosystem Animation - positioned below content */}
+              <div className="hidden lg:block absolute -bottom-32 left-1/2 -translate-x-1/2 w-[400px] h-[300px] pointer-events-none">
+                {/* Orbital rings expanding outward */}
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={`ring-${i}`}
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+                    style={{
+                      borderColor: i === 1 ? 'rgba(201, 169, 98, 0.15)' : 'rgba(248, 247, 244, 0.08)',
+                      width: 80,
+                      height: 80,
+                    }}
+                    animate={{
+                      width: [80, 320],
+                      height: [80, 320],
+                      opacity: [0.4, 0],
+                    }}
+                    transition={{
+                      duration: 12,
+                      ease: 'linear',
+                      repeat: Infinity,
+                      delay: i * 4,
+                    }}
+                  />
+                ))}
+
+                {/* Gold accent arc on one ring */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 300">
+                  <motion.circle
+                    cx="200"
+                    cy="150"
+                    r="60"
+                    fill="none"
+                    stroke="rgba(201, 169, 98, 0.2)"
+                    strokeWidth="1.5"
+                    strokeDasharray="60 320"
+                    strokeLinecap="round"
+                    animate={{
+                      r: [60, 160],
+                      opacity: [0.3, 0],
+                    }}
+                    transition={{
+                      duration: 12,
+                      ease: 'linear',
+                      repeat: Infinity,
+                      delay: 1,
+                    }}
+                  />
+                </svg>
+
+                {/* Static network nodes that rings pass through */}
+                {[
+                  { x: 50, y: 40 },
+                  { x: 85, y: 65 },
+                  { x: 20, y: 55 },
+                  { x: 70, y: 30 },
+                  { x: 35, y: 70 },
+                ].map((pos, i) => (
+                  <motion.div
+                    key={`node-${i}`}
+                    className="absolute w-1.5 h-1.5 rounded-full bg-off-white/20"
+                    style={{
+                      left: `${pos.x}%`,
+                      top: `${pos.y}%`,
+                    }}
+                    animate={{
+                      opacity: [0.15, 0.4, 0.15],
+                      scale: [1, 1.3, 1],
+                    }}
+                    transition={{
+                      duration: 4,
+                      ease: 'easeInOut',
+                      repeat: Infinity,
+                      delay: i * 0.8,
+                    }}
+                  />
+                ))}
+
+                {/* Central subtle glow */}
+                <motion.div
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(201, 169, 98, 0.15) 0%, transparent 70%)',
+                  }}
+                  animate={{
+                    scale: [1, 1.4, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 6,
+                    ease: 'easeInOut',
+                    repeat: Infinity,
+                  }}
+                />
               </div>
             </motion.div>
 

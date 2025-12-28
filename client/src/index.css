@@ -567,16 +567,16 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
   
-  /* Button base with 6px radius - Top-class styling */
+  /* Button base with 8px radius - Top-class styling */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
+    padding: 1rem 2rem;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     letter-spacing: 0.01em;
     border-radius: 8px;
     transition: all 0.14s cubic-bezier(0.2, 0, 0, 1);
@@ -594,10 +594,10 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
+    padding: 1rem 2rem;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     letter-spacing: 0.01em;
     border-radius: 8px;
     background: linear-gradient(135deg, #C9A962 0%, #D4B872 100%);
@@ -622,10 +622,10 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
+    padding: 1rem 2rem;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     letter-spacing: 0.01em;
     border-radius: 8px;
     background: transparent;
@@ -652,10 +652,10 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.875rem 1.75rem;
+    padding: 1rem 2rem;
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     letter-spacing: 0.01em;
     border-radius: 8px;
     background: transparent;

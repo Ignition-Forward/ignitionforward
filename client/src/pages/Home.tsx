@@ -1,7 +1,7 @@
 import { Link } from 'wouter';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import SEO, { generateOrganizationSchema, generateWebsiteSchema } from '@/components/SEO';
 import ScrollReveal from '@/components/ScrollReveal';
 import CometCTA from '@/components/CometCTA';
@@ -21,6 +21,36 @@ import CometCTA from '@/components/CometCTA';
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollIndicatorVisible, setScrollIndicatorVisible] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Cursor-following glow - desktop only
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  }, []);
+
+  useEffect(() => {
+    // Check if desktop (no touch, wider than mobile)
+    const checkDesktop = () => {
+      setIsDesktop(window.matchMedia('(min-width: 1024px) and (hover: hover)').matches);
+    };
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
+    const hero = heroRef.current;
+    if (!hero) return;
+    hero.addEventListener('mousemove', handleMouseMove);
+    return () => hero.removeEventListener('mousemove', handleMouseMove);
+  }, [isDesktop, handleMouseMove]);
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -69,6 +99,128 @@ export default function Home() {
             background: 'linear-gradient(135deg, #0D0D0D 0%, #1A2332 40%, #243044 60%, #1A2332 100%)',
           }}
         />
+
+        {/* Cursor-following glow - desktop only */}
+        {isDesktop && mousePosition.x > 0 && (
+          <motion.div
+            className="absolute z-[2] pointer-events-none"
+            style={{
+              width: 400,
+              height: 400,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(201, 169, 98, 0.08) 0%, rgba(201, 169, 98, 0.02) 40%, transparent 70%)',
+              filter: 'blur(30px)',
+            }}
+            animate={{
+              x: mousePosition.x - 200,
+              y: mousePosition.y - 200,
+            }}
+            transition={{
+              type: 'spring',
+              damping: 25,
+              stiffness: 100,
+              mass: 0.5,
+            }}
+          />
+        )}
+
+        {/* Semantic Spotlight - Four phases: search → find → pulse → fade back */}
+        <motion.div
+          className="absolute inset-0 z-[1] pointer-events-none overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, delay: 0.3 }}
+        >
+          {/* Primary beam: search → find → pulse → fade back to search */}
+          <motion.div
+            className="absolute"
+            style={{
+              bottom: '-20%',
+              right: '-10%',
+              width: '120%',
+              height: '200%',
+              background: 'conic-gradient(from 200deg at 100% 100%, transparent 0deg, rgba(201, 169, 98, 0.04) 12deg, rgba(255, 250, 240, 0.08) 22deg, rgba(201, 169, 98, 0.04) 32deg, transparent 45deg)',
+              transformOrigin: 'bottom right',
+            }}
+            animate={{
+              // Search (0-20%) → Find (20-35%) → Pulse (35-75%) → Fade back (75-100%)
+              rotate: [0, -15, -5, -38, -35, -38, -35, -20, -8, 0],
+            }}
+            transition={{
+              duration: 16,
+              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
+              ease: 'easeInOut',
+              repeat: Infinity,
+            }}
+          />
+
+          {/* Secondary beam - follows primary with offset */}
+          <motion.div
+            className="absolute"
+            style={{
+              bottom: '-30%',
+              right: '5%',
+              width: '100%',
+              height: '180%',
+              background: 'conic-gradient(from 205deg at 95% 100%, transparent 0deg, rgba(201, 169, 98, 0.02) 15deg, rgba(255, 250, 240, 0.04) 25deg, rgba(201, 169, 98, 0.02) 35deg, transparent 50deg)',
+              transformOrigin: 'bottom right',
+            }}
+            animate={{
+              rotate: [0, -12, -3, -32, -30, -33, -30, -18, -6, 0],
+            }}
+            transition={{
+              duration: 16,
+              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
+              ease: 'easeInOut',
+              repeat: Infinity,
+              delay: 0.3,
+            }}
+          />
+
+          {/* Focused glow - intensifies when found, fades when beams drift away */}
+          <motion.div
+            className="absolute"
+            style={{
+              left: '5%',
+              top: '35%',
+              width: '50%',
+              height: '30%',
+              background: 'radial-gradient(ellipse 100% 100% at 30% 50%, rgba(201, 169, 98, 0.12) 0%, rgba(255, 250, 240, 0.04) 40%, transparent 70%)',
+              filter: 'blur(60px)',
+            }}
+            animate={{
+              // Dim → bright when found → pulse → fade back to dim
+              opacity: [0.1, 0.15, 0.1, 0.6, 0.8, 0.65, 0.8, 0.4, 0.15, 0.1],
+              scale: [0.8, 0.85, 0.8, 1.1, 1, 1.05, 1, 0.9, 0.82, 0.8],
+            }}
+            transition={{
+              duration: 16,
+              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
+              ease: 'easeInOut',
+              repeat: Infinity,
+            }}
+          />
+
+          {/* Origin haze - pulses in sync, dims when fading back */}
+          <motion.div
+            className="absolute bottom-0 right-0 w-72 h-72"
+            style={{
+              background: 'radial-gradient(circle at 100% 100%, rgba(201, 169, 98, 0.15) 0%, rgba(201, 169, 98, 0.05) 30%, transparent 60%)',
+              filter: 'blur(40px)',
+            }}
+            animate={{
+              scale: [1, 1.1, 1, 1.25, 1.15, 1.2, 1.15, 1.08, 1.02, 1],
+              opacity: [0.4, 0.5, 0.4, 0.9, 0.7, 0.8, 0.7, 0.5, 0.42, 0.4],
+            }}
+            transition={{
+              duration: 16,
+              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
+              ease: 'easeInOut',
+              repeat: Infinity,
+            }}
+          />
+
+        </motion.div>
         
         <motion.div 
           className="container relative z-10 pt-32 pb-20"
@@ -105,7 +257,19 @@ export default function Home() {
                   }}
                   aria-hidden="true"
                 />
-                <em className="text-gold relative">What Matters.</em>
+                <motion.em
+                  className="text-gold relative inline-block"
+                  animate={{
+                    filter: ['brightness(1)', 'brightness(1.15)', 'brightness(1)'],
+                  }}
+                  transition={{
+                    duration: 4,
+                    ease: 'easeInOut',
+                    repeat: Infinity,
+                  }}
+                >
+                  What Matters.
+                </motion.em>
               </span>
             </motion.h1>
 
@@ -240,7 +404,7 @@ export default function Home() {
                 <div className="flex-1">
                   <span className="text-gold/70 text-xs tracking-wider uppercase font-medium">Example: Maguire</span>
                   <p className="font-display text-xl md:text-2xl text-off-white mt-2">
-                    Our client intelligence system. 18 months. 232 iterations.
+                    Our client intelligence system. 26 months. 232 iterations.
                     <span className="text-gold"> 3× growth.</span>
                   </p>
                   <p className="font-body text-off-white/60 text-sm mt-2">

@@ -16,7 +16,7 @@ import ScrollIndicator from "@/components/ScrollIndicator";
  * 1. Hero - Meet Craig. This is what AI did for his practice.
  * 2. Problem → Solution - Interactive before/after experience
  * 3. The System - What Maguire actually does
- * 4. Real Results - 18 months of compound gains
+ * 4. Real Results - 26 months of compound gains
  * 5. CTA - Get yours
  */
 
@@ -51,7 +51,7 @@ export default function Maguire() {
     '@graph': [
       generateArticleSchema({
         headline: 'Maguire: AI That Actually Works',
-        description: "18 months. 232 refinements. 65% close rate. This is what AI did for one consulting firm.",
+        description: "26 months. 232 refinements. 85% close rate. This is what AI did for one consulting firm.",
         url: '/maguire',
       }),
       generateBreadcrumbSchema([
@@ -65,7 +65,7 @@ export default function Maguire() {
     <div ref={containerRef} className="overflow-hidden pb-mobile-cta">
       <SEO
         title="Maguire: AI That Actually Works"
-        description="18 months. 232 refinements. 65% close rate. This is what AI did for one consulting firm. See the proof."
+        description="26 months. 232 refinements. 85% close rate. This is what AI did for one consulting firm. See the proof."
         canonical="/maguire"
         structuredData={structuredData}
       />
@@ -136,7 +136,7 @@ export default function Maguire() {
                 transition={{ duration: 0.5, delay: 1.2 }}
               >
                 Craig built Maguire to solve his own problem: too many clients, not enough hours.
-                <span className="text-off-white font-medium"> 18 months later</span>, it's still running every day.
+                <span className="text-off-white font-medium"> 26 months later</span>, it's still running every day.
               </motion.p>
 
               <motion.div
@@ -184,9 +184,9 @@ export default function Maguire() {
                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-1.5 mb-1">
-                      <span className="text-off-white/30 text-sm line-through">18%</span>
+                      <span className="text-off-white/30 text-sm line-through">45%</span>
                       <ArrowRight className="w-3 h-3 text-gold/50" />
-                      <span className="text-gold text-xl font-display font-bold">65%</span>
+                      <span className="text-gold text-xl font-display font-bold">85%</span>
                     </div>
                     <div className="text-off-white/40 text-[10px]">Close rate</div>
                   </div>
@@ -195,7 +195,7 @@ export default function Maguire() {
                     <div className="text-off-white/40 text-[10px]">Revenue</div>
                   </div>
                   <div className="text-center">
-                    <div className="font-display text-xl text-gold font-bold">18mo</div>
+                    <div className="font-display text-xl text-gold font-bold">26mo</div>
                     <div className="text-off-white/40 text-[10px]">Daily use</div>
                   </div>
                 </div>
@@ -428,7 +428,7 @@ export default function Maguire() {
       </section>
 
       {/* ============================================
-          SECTION 3: 18 MONTHS OF PROOF
+          SECTION 3: 26 MONTHS OF PROOF
           Craig's daily-driven artifact
           ============================================ */}
       <section className="py-section px-6 md:px-8 bg-navy relative overflow-hidden">
@@ -443,7 +443,7 @@ export default function Maguire() {
             className="text-center mb-12"
           >
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-off-white mb-4">
-              18 months of <span className="text-gold italic">compound gains</span>
+              26 months of <span className="text-gold italic">compound gains</span>
             </h2>
             <p className="text-off-white/60 text-base md:text-lg max-w-xl mx-auto">
               What happens when AI works every day, not just launch day.
@@ -460,7 +460,7 @@ export default function Maguire() {
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
               {[
-                { before: "18%", after: "65%", label: "Close rate" },
+                { before: "45%", after: "85%", label: "Close rate" },
                 { before: "1X", after: "3X", label: "Revenue/client" },
                 { before: "10+ hrs", after: "2 hrs", label: "Weekly prep" },
                 { before: "4 hrs", after: "15 min", label: "Response time" },

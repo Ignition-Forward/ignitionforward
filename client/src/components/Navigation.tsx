@@ -107,9 +107,9 @@ export default function Navigation() {
       >
         <nav className="container">
           <div className="flex items-center justify-between">
-            {/* Logo - Montserrat - All caps, compact, confident with one-time comet animation */}
+            {/* Logo - Montserrat - All caps, confident with one-time comet animation */}
             <Link href="/" className="flex items-center group">
-              <span className="text-[0.85rem] md:text-[0.95rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
+              <span className="text-[1rem] md:text-[1.1rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
                 <span className="text-off-white font-bold">Ignition</span>
                 <span className="relative text-gold font-extrabold">
                   Forward
@@ -131,7 +131,7 @@ export default function Navigation() {
                 onMouseLeave={() => setHowWeHelpOpen(false)}
               >
                 <button
-                  className="flex items-center gap-1 text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
+                  className="flex items-center gap-1 text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-[0.9375rem] font-medium"
                 >
                   How We Help
                   <ChevronDown className={`w-4 h-4 transition-transform duration-[140ms] ease-[cubic-bezier(0.2,0,0,1)] ${howWeHelpOpen ? 'rotate-180' : ''}`} />
@@ -195,7 +195,7 @@ export default function Navigation() {
                 onMouseLeave={() => setWhoWeWorkWithOpen(false)}
               >
                 <button
-                  className="flex items-center gap-1 text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
+                  className="flex items-center gap-1 text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-[0.9375rem] font-medium"
                 >
                   Who We Work With
                   <ChevronDown className={`w-4 h-4 transition-transform duration-[140ms] ease-[cubic-bezier(0.2,0,0,1)] ${whoWeWorkWithOpen ? 'rotate-180' : ''}`} />
@@ -276,14 +276,14 @@ export default function Navigation() {
 
               <Link
                 href="/maguire"
-                className="text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
+                className="text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-[0.9375rem] font-medium"
               >
                 Our Proof
               </Link>
 
               <Link
                 href="/about"
-                className="text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-sm font-medium"
+                className="text-off-white hover:text-off-white/70 transition-colors py-2 font-body text-[0.9375rem] font-medium"
               >
                 About
               </Link>
@@ -423,8 +423,19 @@ export default function Navigation() {
             >
               <div className="container py-3">
                 <div className="flex items-center justify-between">
-                  {/* Left: Nav links with dropdowns */}
+                  {/* Left: Logo + Nav links with dropdowns */}
                   <div className="flex items-center gap-6">
+                    {/* Home Logo */}
+                    <Link href="/" className="flex items-center group mr-2">
+                      <span className="text-[0.9rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
+                        <span className="text-off-white font-bold">Ignition</span>
+                        <span className="text-gold font-extrabold">Forward</span>
+                      </span>
+                    </Link>
+
+                    {/* Divider */}
+                    <div className="h-4 w-px bg-white/20" />
+
                     {/* How We Help Dropdown */}
                     <div
                       className="relative"
