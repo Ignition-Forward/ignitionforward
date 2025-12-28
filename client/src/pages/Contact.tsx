@@ -353,7 +353,7 @@ export default function Contact() {
               </div>
 
               {/* Urgency - hidden on mobile, shown on desktop */}
-              <div className="hidden lg:flex mt-8 items-center gap-2 text-gold/70 text-sm">
+              <div className="hidden lg:flex mt-6 items-center gap-2 text-gold/70 text-sm">
                 <span className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
                 <span>Limited spots for {getIntakeMonth()}</span>
               </div>
@@ -769,6 +769,34 @@ export default function Contact() {
             )}
           </AnimatePresence>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Partner Inquiry - Separate, elevated pathway */}
+      <section className="bg-navy border-t border-white/10">
+        <div className="container py-16 md:py-20">
+          <div className="max-w-2xl mx-auto text-center">
+            <span className="text-gold/60 text-xs tracking-[0.2em] uppercase font-medium">For Partners</span>
+            <h2 className="mt-4 font-display text-2xl md:text-3xl text-off-white">
+              Strategic Partnership Inquiries
+            </h2>
+            <p className="mt-4 text-off-white/50 text-sm md:text-base leading-relaxed max-w-lg mx-auto">
+              If you represent a firm, fund, or platform with a meaningful collaboration opportunity,
+              we welcome a direct conversation.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="mailto:partners@ignitionforward.com"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-gold/40 rounded-lg text-gold hover:bg-gold/10 transition-colors text-sm font-medium"
+              >
+                <span>partners@ignitionforward.com</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+            <p className="mt-6 text-off-white/30 text-xs">
+              Please include context on your organization and the nature of the opportunity.
+            </p>
           </div>
         </div>
       </section>

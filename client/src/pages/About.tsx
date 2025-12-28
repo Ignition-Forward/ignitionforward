@@ -383,31 +383,23 @@ export default function About() {
                 >
                   <p className="text-xl md:text-2xl text-navy leading-relaxed font-display">
                     <span className="float-left text-6xl md:text-7xl font-display text-gold leading-none mr-3 mt-1">I</span>
-                    started a business at 20 selling promotional items to campus groups. People thought I was crazy to leave NYU Law for a t-shirt company—until it sold for $700 million.
+                    thought I'd built enough companies years ago. Four companies, three exits, 100+ investments, five boards. So I figured I'd spend the next decade advising, investing, toward the sidelines.
                   </p>
 
                   <div className="mt-8 space-y-6 text-grey-body leading-relaxed font-body">
                     <p>
-                      I left CustomInk early. A decision I still call a lesson learned. Then I spent a decade building other things: a hedge fund with Greenlight backing, a company with 190 employees that sold to Gilt, another that got acquired back into CustomInk. I returned as President and helped finish what I'd walked away from.
-                    </p>
-
-                    <p>
-                      Somewhere in there I made 100+ investments. Three became unicorns. I've been on boards where I've hired CEOs and boards where I've delivered news nobody wanted to hear.
+                      Then AI radically changed what a small team could actually build. Not eventually. Now. And more every day. It drew me back in.
                     </p>
 
                     {/* Pull quote */}
                     <blockquote className="my-10 py-6 border-y border-navy/10">
                       <p className="text-xl md:text-2xl font-display text-navy italic leading-relaxed">
-                        "If the structure doesn't work for everyone, I walk."
+                        "Pattern recognition plus the tools to finally act on it—with you, not for you."
                       </p>
                     </blockquote>
 
                     <p>
-                      For ten years, I stopped building to advise and invest. Then AI crossed a threshold. Things I'd wanted to build for years became buildable. I'd been a client of Ignition for 15 years. I knew the business. I knew what it could become. I told Craig, the founder: you're a doer, not a builder. Let me partner with you.
-                    </p>
-
-                    <p>
-                      We don't sell things we haven't used. The AI systems here run our own business first. If they don't make us better, we don't deploy them for anyone else.
+                      I'd been an Ignition client for 10 years. I partnered with Craig, we built a team, and we started using AI to drive big improvements inside our core business. Once we saw results we wanted to share—that's Ignition Forward.
                     </p>
                   </div>
 
