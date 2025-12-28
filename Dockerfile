@@ -13,6 +13,7 @@ RUN npm ci
 COPY . .
 
 # Cache bust arg - changes when source files change, invalidating the build cache
+# Force rebuild: 2025-12-28 v2
 ARG CACHE_BUST=default
 
 # Build the frontend (cache bust ensures fresh build when sources change)
