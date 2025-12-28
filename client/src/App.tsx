@@ -1,6 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Route, Switch, useLocation } from "wouter";
+import { Route, Switch, useLocation, Redirect } from "wouter";
 import { AnimatePresence, motion } from "framer-motion";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -128,6 +128,7 @@ function Router() {
               <Route path="/boutique-experts" component={BoutiqueExperts} />
               <Route path="/segments" component={Segments} />
               <Route path="/about" component={About} />
+              <Route path="/our-team">{() => <Redirect to="/about" />}</Route>
               <Route path="/contact" component={Contact} />
               {/* Hidden page - not linked from navigation, shareable directly */}
               <Route path="/strategic-diagnostic" component={StrategicDiagnostic} />
