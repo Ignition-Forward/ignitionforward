@@ -1,7 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
-import { useState, useEffect } from "react";
 import SEO, { generateBreadcrumbSchema } from "@/components/SEO";
 import MoveForwardButton from "@/components/MoveForwardButton";
 import ScrollIndicator from "@/components/ScrollIndicator";
@@ -21,178 +20,7 @@ const trackRecord = [
   { value: "500+", label: "Companies Advised" },
 ];
 
-// Evolution stages - from horse & buggy to AI/rocket
-const evolutionStages = [
-  {
-    id: 'buggy',
-    label: '1800s',
-    // Horse and buggy silhouette
-    svg: (
-      <svg viewBox="0 0 200 80" fill="currentColor" className="w-full h-full">
-        {/* Horse */}
-        <ellipse cx="45" cy="50" rx="20" ry="15" opacity="0.9" />
-        <ellipse cx="35" cy="40" rx="8" ry="12" opacity="0.9" />
-        <path d="M28 30 Q25 20, 30 15 L35 25 Z" opacity="0.9" />
-        {/* Legs */}
-        <rect x="30" y="58" width="4" height="18" rx="2" opacity="0.8" />
-        <rect x="40" y="58" width="4" height="18" rx="2" opacity="0.8" />
-        <rect x="50" y="58" width="4" height="18" rx="2" opacity="0.8" />
-        <rect x="58" y="58" width="4" height="18" rx="2" opacity="0.8" />
-        {/* Connection */}
-        <rect x="65" y="48" width="30" height="4" opacity="0.7" />
-        {/* Buggy body */}
-        <ellipse cx="120" cy="45" rx="25" ry="18" opacity="0.9" />
-        {/* Wheels */}
-        <circle cx="100" cy="65" r="12" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.8" />
-        <circle cx="140" cy="65" r="12" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.8" />
-        {/* Spokes */}
-        <line x1="100" y1="53" x2="100" y2="77" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-        <line x1="88" y1="65" x2="112" y2="65" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-        <line x1="140" y1="53" x2="140" y2="77" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-        <line x1="128" y1="65" x2="152" y2="65" stroke="currentColor" strokeWidth="1.5" opacity="0.5" />
-      </svg>
-    ),
-  },
-  {
-    id: 'train',
-    label: '1850s',
-    // Steam locomotive
-    svg: (
-      <svg viewBox="0 0 200 80" fill="currentColor" className="w-full h-full">
-        {/* Boiler */}
-        <rect x="20" y="30" width="80" height="30" rx="15" opacity="0.9" />
-        {/* Cab */}
-        <rect x="100" y="20" width="40" height="45" rx="3" opacity="0.9" />
-        <rect x="105" y="25" width="12" height="12" rx="2" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.6" />
-        {/* Smokestack */}
-        <rect x="35" y="10" width="15" height="20" rx="2" opacity="0.85" />
-        <ellipse cx="42.5" cy="8" rx="10" ry="4" opacity="0.7" />
-        {/* Steam puffs */}
-        <circle cx="42" cy="-2" r="6" opacity="0.3" />
-        <circle cx="50" cy="-8" r="5" opacity="0.2" />
-        <circle cx="38" cy="-10" r="4" opacity="0.15" />
-        {/* Cowcatcher */}
-        <path d="M5 65 L20 35 L20 65 Z" opacity="0.7" />
-        {/* Wheels */}
-        <circle cx="45" cy="65" r="14" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.85" />
-        <circle cx="85" cy="65" r="14" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.85" />
-        <circle cx="120" cy="65" r="10" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.8" />
-        <circle cx="145" cy="65" r="10" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.8" />
-        {/* Connecting rod */}
-        <rect x="45" y="60" width="45" height="3" rx="1" opacity="0.6" />
-      </svg>
-    ),
-  },
-  {
-    id: 'car',
-    label: '1920s',
-    // Early automobile
-    svg: (
-      <svg viewBox="0 0 200 80" fill="currentColor" className="w-full h-full">
-        {/* Body */}
-        <path d="M30 50 L40 30 L80 25 L130 25 L150 35 L160 50 L160 55 L30 55 Z" opacity="0.9" />
-        {/* Roof */}
-        <path d="M55 25 L60 12 L120 12 L125 25" fill="none" stroke="currentColor" strokeWidth="3" opacity="0.8" />
-        {/* Windows */}
-        <rect x="62" y="14" width="20" height="10" rx="1" opacity="0.4" />
-        <rect x="88" y="14" width="20" height="10" rx="1" opacity="0.4" />
-        {/* Hood */}
-        <rect x="130" y="35" width="35" height="18" rx="2" opacity="0.85" />
-        {/* Headlight */}
-        <circle cx="168" cy="42" r="5" opacity="0.7" />
-        {/* Fenders */}
-        <ellipse cx="55" cy="58" rx="20" ry="8" opacity="0.85" />
-        <ellipse cx="135" cy="58" rx="20" ry="8" opacity="0.85" />
-        {/* Wheels */}
-        <circle cx="55" cy="62" r="14" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.9" />
-        <circle cx="55" cy="62" r="8" opacity="0.5" />
-        <circle cx="135" cy="62" r="14" fill="none" stroke="currentColor" strokeWidth="4" opacity="0.9" />
-        <circle cx="135" cy="62" r="8" opacity="0.5" />
-        {/* Running board */}
-        <rect x="70" y="55" width="50" height="4" rx="1" opacity="0.7" />
-      </svg>
-    ),
-  },
-  {
-    id: 'plane',
-    label: '1960s',
-    // Jet airplane
-    svg: (
-      <svg viewBox="0 0 200 80" fill="currentColor" className="w-full h-full">
-        {/* Fuselage */}
-        <ellipse cx="100" cy="40" rx="75" ry="12" opacity="0.9" />
-        {/* Nose cone */}
-        <path d="M175 40 L195 40 L175 35 M175 40 L195 40 L175 45" opacity="0.85" />
-        {/* Cockpit */}
-        <ellipse cx="165" cy="38" rx="12" ry="6" opacity="0.5" />
-        {/* Wings */}
-        <path d="M80 40 L60 70 L70 70 L100 45 Z" opacity="0.85" />
-        <path d="M80 40 L60 10 L70 10 L100 35 Z" opacity="0.85" />
-        {/* Tail */}
-        <path d="M25 40 L10 20 L20 20 L35 35 Z" opacity="0.8" />
-        <path d="M25 40 L15 55 L25 55 L35 45 Z" opacity="0.8" />
-        {/* Engines */}
-        <ellipse cx="75" cy="55" rx="12" ry="5" opacity="0.75" />
-        <ellipse cx="75" cy="25" rx="12" ry="5" opacity="0.75" />
-        {/* Windows */}
-        <circle cx="140" cy="38" r="2" opacity="0.4" />
-        <circle cx="130" cy="38" r="2" opacity="0.4" />
-        <circle cx="120" cy="38" r="2" opacity="0.4" />
-        <circle cx="110" cy="38" r="2" opacity="0.4" />
-      </svg>
-    ),
-  },
-  {
-    id: 'rocket',
-    label: 'Now',
-    // Modern rocket / spacecraft
-    svg: (
-      <svg viewBox="0 0 200 80" fill="currentColor" className="w-full h-full">
-        {/* Main body */}
-        <path d="M40 40 L170 40 L190 35 L190 45 L170 40" opacity="0.95" />
-        <ellipse cx="105" cy="40" rx="70" ry="14" opacity="0.9" />
-        {/* Nose cone - sleek */}
-        <path d="M175 40 Q195 40, 198 40" stroke="currentColor" strokeWidth="8" fill="none" opacity="0.9" strokeLinecap="round" />
-        {/* Fins */}
-        <path d="M45 40 L25 65 L40 60 L55 45 Z" opacity="0.85" />
-        <path d="M45 40 L25 15 L40 20 L55 35 Z" opacity="0.85" />
-        <path d="M50 40 L40 55 L55 50 Z" opacity="0.7" />
-        <path d="M50 40 L40 25 L55 30 Z" opacity="0.7" />
-        {/* Engine glow */}
-        <ellipse cx="30" cy="40" rx="8" ry="6" opacity="0.6" />
-        {/* Thrust flames */}
-        <path d="M30 40 L5 35 L15 40 L5 45 Z" opacity="0.4" />
-        <path d="M25 40 L-5 38 L10 40 L-5 42 Z" opacity="0.25" />
-        {/* Window/viewport */}
-        <ellipse cx="160" cy="40" rx="8" ry="6" opacity="0.5" />
-        {/* Tech details */}
-        <line x1="80" y1="30" x2="80" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.3" />
-        <line x1="100" y1="28" x2="100" y2="52" stroke="currentColor" strokeWidth="1" opacity="0.3" />
-        <line x1="120" y1="28" x2="120" y2="52" stroke="currentColor" strokeWidth="1" opacity="0.3" />
-        <line x1="140" y1="30" x2="140" y2="50" stroke="currentColor" strokeWidth="1" opacity="0.3" />
-        {/* Speed lines */}
-        <line x1="-10" y1="35" x2="20" y2="35" stroke="currentColor" strokeWidth="1" opacity="0.2" />
-        <line x1="-20" y1="40" x2="15" y2="40" stroke="currentColor" strokeWidth="1.5" opacity="0.25" />
-        <line x1="-10" y1="45" x2="20" y2="45" stroke="currentColor" strokeWidth="1" opacity="0.2" />
-      </svg>
-    ),
-  },
-];
-
-
-
-
 export default function About() {
-  const [currentStage, setCurrentStage] = useState(0);
-
-  // Cycle through evolution stages
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentStage((prev) => (prev + 1) % evolutionStages.length);
-    }, 3000); // 3 seconds per stage
-
-    return () => clearInterval(interval);
-  }, []);
 
   const structuredData = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
@@ -212,94 +40,160 @@ export default function About() {
 
       {/* Hero Section - Track Record Focus */}
       <section className="relative min-h-hero-compact flex items-center bg-navy pt-24 pb-16 overflow-hidden">
-        {/* Evolution Animation Background - positioned to the right */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          {/* Timeline track - shifted right */}
-          <div
-            className="absolute w-[60%] h-[2px] top-1/2 -translate-y-1/2 right-0"
-            style={{
-              background: 'linear-gradient(90deg, transparent 0%, rgba(201, 169, 98, 0.15) 30%, rgba(201, 169, 98, 0.25) 70%, rgba(201, 169, 98, 0.1) 100%)',
-            }}
-          />
+        {/* Subtle Grid pattern overlay */}
+        <div className="absolute inset-0 grid-pattern pointer-events-none opacity-10 z-0" />
 
-          {/* Stage indicators - positioned to the right */}
-          <div className="absolute bottom-[18%] right-[15%] md:right-[20%] flex items-center gap-3 md:gap-6">
-            {evolutionStages.map((stage, index) => (
-              <motion.div
-                key={stage.id}
-                className="flex flex-col items-center gap-2"
-                animate={{
-                  opacity: currentStage === index ? 1 : 0.3,
-                  scale: currentStage === index ? 1.1 : 1,
-                }}
-                transition={{ duration: 0.4 }}
-              >
-                <div
-                  className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
-                    currentStage === index
-                      ? 'bg-gold shadow-[0_0_12px_rgba(201,169,98,0.6)]'
-                      : currentStage > index
-                        ? 'bg-gold/50'
-                        : 'bg-white/20'
-                  }`}
-                />
-                <span className={`text-[10px] md:text-xs font-body tracking-wide transition-colors duration-300 ${
-                  currentStage === index ? 'text-gold' : 'text-white/40'
-                }`}>
-                  {stage.label}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Evolution silhouette - shape-shifting morph animation, positioned right */}
-          <div className="absolute right-[10%] md:right-[15%] top-1/2 -translate-y-1/2 w-[280px] md:w-[450px] h-[120px] md:h-[180px]">
-            {/* Show all stages, morph between them with opacity and blur */}
-            {evolutionStages.map((stage, index) => (
-              <motion.div
-                key={stage.id}
-                className="absolute inset-0 text-gold/25"
-                initial={false}
-                animate={{
-                  opacity: currentStage === index ? 1 : 0,
-                  scale: currentStage === index ? 1 : 0.95,
-                  filter: currentStage === index ? 'blur(0px)' : 'blur(8px)',
-                }}
-                transition={{
-                  duration: 1.2,
-                  ease: [0.4, 0, 0.2, 1],
-                }}
-              >
-                {stage.svg}
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Ambient glow behind current stage - positioned right */}
+        {/* Flywheel/Motor Animation - Right side, accelerating spin */}
+        <div className="absolute right-[-5%] md:right-[5%] top-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[550px] md:h-[550px] pointer-events-none">
+          {/* Outer ring - slowest rotation */}
           <motion.div
-            className="absolute right-[10%] md:right-[13%] top-1/2 -translate-y-1/2 w-[350px] h-[180px] md:w-[500px] md:h-[250px]"
+            className="absolute inset-0"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 60, ease: "linear", repeat: Infinity }}
+          >
+            <svg viewBox="0 0 400 400" className="w-full h-full">
+              {/* Outer segmented ring */}
+              <circle cx="200" cy="200" r="190" fill="none" stroke="rgba(201, 169, 98, 0.08)" strokeWidth="1" />
+              {/* Tick marks around outer edge */}
+              {[...Array(60)].map((_, i) => (
+                <line
+                  key={i}
+                  x1="200"
+                  y1="15"
+                  x2="200"
+                  y2={i % 5 === 0 ? "25" : "20"}
+                  stroke={i % 5 === 0 ? "rgba(201, 169, 98, 0.25)" : "rgba(201, 169, 98, 0.1)"}
+                  strokeWidth={i % 5 === 0 ? "1.5" : "1"}
+                  transform={`rotate(${i * 6} 200 200)`}
+                />
+              ))}
+            </svg>
+          </motion.div>
+
+          {/* Second ring - medium rotation */}
+          <motion.div
+            className="absolute inset-[12%]"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+          >
+            <svg viewBox="0 0 400 400" className="w-full h-full">
+              <circle cx="200" cy="200" r="180" fill="none" stroke="rgba(201, 169, 98, 0.1)" strokeWidth="2" strokeDasharray="20 10" />
+              {/* Gear teeth effect */}
+              {[...Array(24)].map((_, i) => (
+                <rect
+                  key={i}
+                  x="195"
+                  y="25"
+                  width="10"
+                  height="20"
+                  rx="2"
+                  fill="rgba(201, 169, 98, 0.15)"
+                  transform={`rotate(${i * 15} 200 200)`}
+                />
+              ))}
+            </svg>
+          </motion.div>
+
+          {/* Third ring - faster rotation */}
+          <motion.div
+            className="absolute inset-[25%]"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+          >
+            <svg viewBox="0 0 400 400" className="w-full h-full">
+              <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(201, 169, 98, 0.12)" strokeWidth="3" />
+              {/* Spokes */}
+              {[...Array(8)].map((_, i) => (
+                <line
+                  key={i}
+                  x1="200"
+                  y1="60"
+                  x2="200"
+                  y2="140"
+                  stroke="rgba(201, 169, 98, 0.2)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  transform={`rotate(${i * 45} 200 200)`}
+                />
+              ))}
+            </svg>
+          </motion.div>
+
+          {/* Inner turbine - fastest rotation */}
+          <motion.div
+            className="absolute inset-[38%]"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 12, ease: "linear", repeat: Infinity }}
+          >
+            <svg viewBox="0 0 400 400" className="w-full h-full">
+              {/* Turbine blades */}
+              {[...Array(6)].map((_, i) => (
+                <path
+                  key={i}
+                  d="M200 200 L200 80 Q220 120, 200 200"
+                  fill="rgba(201, 169, 98, 0.15)"
+                  transform={`rotate(${i * 60} 200 200)`}
+                />
+              ))}
+              <circle cx="200" cy="200" r="40" fill="none" stroke="rgba(201, 169, 98, 0.2)" strokeWidth="2" />
+            </svg>
+          </motion.div>
+
+          {/* Core - glowing center */}
+          <motion.div
+            className="absolute inset-[45%] rounded-full"
             style={{
-              background: 'radial-gradient(ellipse at center, rgba(201, 169, 98, 0.08) 0%, transparent 60%)',
-              filter: 'blur(40px)',
+              background: 'radial-gradient(circle, rgba(201, 169, 98, 0.3) 0%, rgba(201, 169, 98, 0.1) 50%, transparent 70%)',
             }}
             animate={{
               scale: [1, 1.15, 1],
-              opacity: [0.5, 0.8, 0.5],
+              opacity: [0.6, 1, 0.6],
             }}
             transition={{
-              duration: 3,
+              duration: 2,
+              ease: "easeInOut",
               repeat: Infinity,
-              ease: 'easeInOut',
+            }}
+          />
+
+          {/* Energy particles orbiting */}
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 rounded-full bg-gold/40"
+              style={{
+                left: '50%',
+                top: '50%',
+                marginLeft: '-4px',
+                marginTop: '-4px',
+              }}
+              animate={{
+                x: [0, Math.cos(i * 2.09) * 120, Math.cos(i * 2.09 + 2) * 120, 0],
+                y: [0, Math.sin(i * 2.09) * 120, Math.sin(i * 2.09 + 2) * 120, 0],
+                opacity: [0, 0.8, 0.8, 0],
+                scale: [0.5, 1, 1, 0.5],
+              }}
+              transition={{
+                duration: 4,
+                ease: "easeInOut",
+                repeat: Infinity,
+                delay: i * 1.3,
+              }}
+            />
+          ))}
+
+          {/* Ambient glow */}
+          <div
+            className="absolute inset-[-20%] rounded-full pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle, rgba(201, 169, 98, 0.06) 0%, transparent 50%)',
+              filter: 'blur(40px)',
             }}
           />
         </div>
 
-        {/* Sophisticated Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-transparent z-0" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-navy z-0" />
-
-        {/* Subtle Grid pattern overlay */}
-        <div className="absolute inset-0 grid-pattern pointer-events-none opacity-10 z-0" />
+        {/* Left-side gradient overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-transparent z-[1]" />
         
         <div className="container relative z-10">
           <motion.div

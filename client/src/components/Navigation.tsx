@@ -46,6 +46,39 @@ export default function Navigation() {
   const [bottomWhoWeWorkWithOpen, setBottomWhoWeWorkWithOpen] = useState(false);
   const lastScrollY = useRef(0);
 
+  // Secret triple-tap Easter egg state - fires comet and jets logo right
+  const [logoBlasting, setLogoBlasting] = useState(false);
+  const [cometKey, setCometKey] = useState(0); // Key to retrigger comet animation
+  const logoClickCount = useRef(0);
+  const logoClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    logoClickCount.current += 1;
+
+    // Clear existing timer
+    if (logoClickTimer.current) {
+      clearTimeout(logoClickTimer.current);
+    }
+
+    // If triple click detected
+    if (logoClickCount.current >= 3) {
+      e.preventDefault();
+      logoClickCount.current = 0;
+      setLogoBlasting(true);
+      setCometKey(prev => prev + 1); // Retrigger comet animation
+
+      // Reset after animation completes
+      setTimeout(() => {
+        setLogoBlasting(false);
+      }, 500);
+    } else {
+      // Reset count after 400ms if not enough clicks
+      logoClickTimer.current = setTimeout(() => {
+        logoClickCount.current = 0;
+      }, 400);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -108,15 +141,30 @@ export default function Navigation() {
         <nav className="container">
           <div className="flex items-center justify-between">
             {/* Logo - Montserrat - All caps, confident with one-time comet animation */}
-            <Link href="/" className="flex items-center group">
-              <span className="text-[1rem] md:text-[1.1rem] tracking-[0.08em] font-logo uppercase flex items-baseline">
+            {/* Secret: Triple-click to blast off! */}
+            <Link href="/" className="flex items-center group" onClick={handleLogoClick}>
+              <span
+                className="text-[1rem] md:text-[1.1rem] tracking-[0.08em] font-logo uppercase flex items-baseline transition-transform duration-300 ease-out"
+                style={{
+                  transform: logoBlasting ? 'translateX(144px)' : 'translateX(0)',
+                }}
+              >
                 <span className="text-off-white font-bold">Ignition</span>
                 <span className="relative text-gold font-extrabold">
                   Forward
-                  {/* Comet underline - animates once on load then dissipates */}
+                  {/* Comet underline - animates once on load, retriggerable via triple-click */}
                   <span className="absolute -bottom-0.5 left-0 right-0 h-[1.5px] overflow-hidden" aria-hidden="true">
                     {/* Comet that streaks across and fades */}
-                    <span className="absolute inset-y-0 w-8 bg-gradient-to-r from-transparent via-gold to-off-white/90 animate-[comet-streak_1.2s_ease-out_0.5s_forwards] opacity-0 blur-[0.5px]" />
+                    <span
+                      key={cometKey}
+                      className="absolute inset-y-0 w-8 bg-gradient-to-r from-transparent via-gold to-off-white/90 blur-[0.5px]"
+                      style={{
+                        animation: cometKey === 0
+                          ? 'comet-streak 1.2s ease-out 0.5s forwards'
+                          : 'comet-streak 0.5s ease-out forwards',
+                        opacity: 0,
+                      }}
+                    />
                   </span>
                 </span>
               </span>

@@ -1,34 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
-    <!-- Gradient for comet tail -->
-    <linearGradient id="cometTail" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#C9A962" stop-opacity="0"/>
-      <stop offset="60%" stop-color="#C9A962" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#C9A962" stop-opacity="1"/>
+    <!-- Gradient for the forward arrow/flame -->
+    <linearGradient id="forwardGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C9A962"/>
+      <stop offset="100%" stop-color="#E8D5A3"/>
     </linearGradient>
-    <!-- Glow effect for spark -->
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+    <!-- Subtle glow -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
       <feMerge>
-        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
   </defs>
 
-  <!-- Navy background -->
-  <rect width="32" height="32" rx="6" fill="#1A2332"/>
+  <!-- Navy background with subtle rounded corners -->
+  <rect width="32" height="32" rx="7" fill="#1A2332"/>
 
-  <!-- Abstract "I" as upward thrust/ignition -->
-  <path d="M14 24 L14 12 L16 8 L18 12 L18 24" fill="none" stroke="#C9A962" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Forward arrow / ignition mark - bold, confident -->
+  <!-- Two chevrons stacked to create momentum/speed -->
+  <g filter="url(#glow)">
+    <!-- Primary forward chevron -->
+    <path
+      d="M10 22 L16 16 L10 10"
+      fill="none"
+      stroke="url(#forwardGrad)"
+      stroke-width="3.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <!-- Secondary chevron - echo/momentum -->
+    <path
+      d="M17 22 L23 16 L17 10"
+      fill="none"
+      stroke="url(#forwardGrad)"
+      stroke-width="3.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      opacity="0.6"
+    />
+  </g>
 
-  <!-- Comet streak going right from the spark tip -->
-  <path d="M16 8 Q20 7, 26 6" fill="none" stroke="url(#cometTail)" stroke-width="1.5" stroke-linecap="round"/>
-
-  <!-- Bright spark at the peak -->
-  <circle cx="16" cy="7" r="2" fill="#F5F0E6" filter="url(#glow)"/>
-  <circle cx="16" cy="7" r="1" fill="#FFFFFF"/>
-
-  <!-- Subtle base glow -->
-  <ellipse cx="16" cy="25" rx="3" ry="1" fill="#C9A962" opacity="0.3"/>
+  <!-- Spark accent at the leading edge -->
+  <circle cx="24" cy="16" r="1.5" fill="#F8F7F4" opacity="0.9"/>
 </svg>
