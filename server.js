@@ -116,37 +116,6 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// Track page visits - logs to Supabase
-app.post('/api/track', async (req, res) => {
-  try {
-    const { page, referrer, userAgent, screenWidth, screenHeight } = req.body;
-    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-
-    log.debug('Page visit tracked:', { page, ip: ip?.substring(0, 10) + '...', referrer });
-
-    // Insert into page_visits table
-    const { error } = await getSupabase().from('page_visits').insert({
-      page,
-      referrer: referrer || null,
-      user_agent: userAgent || null,
-      ip_address: ip || null,
-      screen_width: screenWidth || null,
-      screen_height: screenHeight || null,
-      visited_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      log.error('Failed to track visit:', error);
-      // Don't fail the request - tracking is non-critical
-    }
-
-    res.json({ success: true });
-  } catch (error) {
-    log.error('Track endpoint error:', error);
-    res.json({ success: false }); // Don't fail client-side
-  }
-});
-
 const PORT = process.env.API_PORT || 3001;
 app.listen(PORT, () => {
   log.info(`API server started on port ${PORT}`);

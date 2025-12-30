@@ -24,7 +24,6 @@ import StrategicDiagnostic from "./pages/StrategicDiagnostic";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
-import { usePageTracking } from "./hooks/usePageTracking";
 
 /*
  * PAGE TRANSITION ANIMATIONS
@@ -92,9 +91,6 @@ function Router() {
   const [location] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(location);
-
-  // Custom page tracking to Supabase
-  usePageTracking();
 
   useEffect(() => {
     if (location !== currentLocation) {
