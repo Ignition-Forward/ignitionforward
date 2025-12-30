@@ -152,25 +152,21 @@ export default function Edge() {
 
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Availability Badge */}
+            {/* Combined Badge */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.36 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full mb-6"
+              className="inline-flex items-center gap-3 mb-8"
             >
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-gold text-sm font-medium">3 spots available for {getIntakeMonth()}</span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.36, delay: 0.1, ease: [0.2, 0, 0, 1] }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/20 mb-6"
-            >
-              <Zap className="w-4 h-4 text-gold" />
-              <span className="text-gold text-xs font-semibold tracking-wider uppercase">Edge Program</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-gold text-sm font-medium">3 spots available for {getIntakeMonth()}</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gold/15 border border-gold/30">
+                <Zap className="w-4 h-4 text-gold" />
+                <span className="text-gold text-xs font-semibold tracking-wider uppercase">Edge Program</span>
+              </div>
             </motion.div>
 
             <motion.h1
@@ -202,7 +198,7 @@ export default function Edge() {
                 Apply for Edge
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <a href="#process" className="btn-outline-light inline-flex items-center justify-center gap-2">
+              <a href="#process" className="btn-outline-gold">
                 See the Process
               </a>
             </motion.div>

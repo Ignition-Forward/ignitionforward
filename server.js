@@ -56,10 +56,10 @@ app.post('/api/contact', async (req, res) => {
   log.info('Contact form submission received');
 
   try {
-    const { name, email, company, role, segment, message } = req.body;
-    log.debug('Contact form data:', { name, email, company, role, segment, hasMessage: !!message });
+    const { name, email, company, companyStage, pathInterest, timeline, aiExpertise, referralSource, message } = req.body;
+    log.debug('Contact form data:', { name, email, company, pathInterest, timeline, hasMessage: !!message });
 
-    if (!name || !email || !company || !role || !segment) {
+    if (!name || !email) {
       log.warn('Contact form validation failed - missing required fields');
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -69,22 +69,34 @@ app.post('/api/contact', async (req, res) => {
     // Run DB insert and email send in parallel
     const [dbResult, emailResult] = await Promise.allSettled([
       // Save to Supabase for tracking
-      getSupabase().from('contacts').insert({ name, email, company, role, segment, message }),
+      getSupabase().from('contacts').insert({
+        name,
+        email,
+        company: company || null,
+        company_stage: companyStage || null,
+        path_interest: pathInterest || null,
+        timeline: timeline || null,
+        ai_expertise: aiExpertise || null,
+        referral_source: referralSource || null,
+        message: message || null
+      }),
       // Send email notification
       getResend().emails.send({
         from: 'Ignition Forward <contact@ignitionforward.com>',
         to: [getToEmail()],
         replyTo: email,
-        subject: `New Contact: ${name} from ${company}`,
+        subject: `New Contact: ${name}${company && company !== 'Not provided' ? ` from ${company}` : ''}`,
         html: `
           <h2>New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Company:</strong> ${company}</p>
-          <p><strong>Role:</strong> ${role}</p>
-          <p><strong>Segment:</strong> ${segment}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message || '(No message provided)'}</p>
+          ${company && company !== 'Not provided' ? `<p><strong>Company:</strong> ${company}</p>` : ''}
+          ${pathInterest && pathInterest !== 'Not provided' ? `<p><strong>Interest:</strong> ${pathInterest}</p>` : ''}
+          ${timeline && timeline !== 'Not provided' ? `<p><strong>Timeline:</strong> ${timeline}</p>` : ''}
+          ${companyStage && companyStage !== 'Not provided' ? `<p><strong>Team Size:</strong> ${companyStage}</p>` : ''}
+          ${aiExpertise && aiExpertise !== 'Not provided' ? `<p><strong>AI Experience:</strong> ${aiExpertise}/5</p>` : ''}
+          ${referralSource && referralSource !== 'Not provided' ? `<p><strong>Found via:</strong> ${referralSource}</p>` : ''}
+          ${message ? `<p><strong>Message:</strong></p><p>${message}</p>` : ''}
         `,
       }),
     ]);

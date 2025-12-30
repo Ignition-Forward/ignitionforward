@@ -22,16 +22,25 @@ export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollIndicatorVisible, setScrollIndicatorVisible] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [spotlightAngle, setSpotlightAngle] = useState(-35);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  // Cursor-following glow - desktop only
+  // Cursor-following spotlight - calculate angle from bottom-right corner to cursor
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!heroRef.current) return;
     const rect = heroRef.current.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePosition({ x, y });
+
+    // Calculate angle from bottom-right corner to cursor
+    const originX = rect.width;
+    const originY = rect.height;
+    const deltaX = x - originX;
+    const deltaY = y - originY;
+    const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+    // Adjust angle so beam points at cursor (offset by ~200deg to match conic gradient origin)
+    setSpotlightAngle(angle + 200);
   }, []);
 
   useEffect(() => {
@@ -100,38 +109,14 @@ export default function Home() {
           }}
         />
 
-        {/* Cursor-following glow - desktop only */}
-        {isDesktop && mousePosition.x > 0 && (
-          <motion.div
-            className="absolute z-[2] pointer-events-none"
-            style={{
-              width: 400,
-              height: 400,
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(201, 169, 98, 0.08) 0%, rgba(201, 169, 98, 0.02) 40%, transparent 70%)',
-              filter: 'blur(30px)',
-            }}
-            animate={{
-              x: mousePosition.x - 200,
-              y: mousePosition.y - 200,
-            }}
-            transition={{
-              type: 'spring',
-              damping: 25,
-              stiffness: 100,
-              mass: 0.5,
-            }}
-          />
-        )}
-
-        {/* Semantic Spotlight - Four phases: search → find → pulse → fade back */}
+        {/* Spotlight beams from bottom-right corner */}
         <motion.div
           className="absolute inset-0 z-[1] pointer-events-none overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.3 }}
         >
-          {/* Primary beam: search → find → pulse → fade back to search */}
+          {/* Primary beam - follows cursor on desktop, animates on mobile */}
           <motion.div
             className="absolute"
             style={{
@@ -143,18 +128,17 @@ export default function Home() {
               transformOrigin: 'bottom right',
             }}
             animate={{
-              // Search (0-20%) → Find (20-35%) → Pulse (35-75%) → Fade back (75-100%)
-              rotate: [0, -15, -5, -38, -35, -38, -35, -20, -8, 0],
+              rotate: isDesktop && mousePosition.x > 0
+                ? spotlightAngle
+                : [0, -15, -5, -38, -35, -38, -35, -20, -8, 0],
             }}
-            transition={{
-              duration: 16,
-              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
-              ease: 'easeInOut',
-              repeat: Infinity,
-            }}
+            transition={isDesktop && mousePosition.x > 0
+              ? { type: 'spring', damping: 30, stiffness: 80, mass: 0.5 }
+              : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity }
+            }
           />
 
-          {/* Secondary beam - follows primary with offset */}
+          {/* Secondary beam - follows with offset */}
           <motion.div
             className="absolute"
             style={{
@@ -166,18 +150,36 @@ export default function Home() {
               transformOrigin: 'bottom right',
             }}
             animate={{
-              rotate: [0, -12, -3, -32, -30, -33, -30, -18, -6, 0],
+              rotate: isDesktop && mousePosition.x > 0
+                ? spotlightAngle - 5
+                : [0, -12, -3, -32, -30, -33, -30, -18, -6, 0],
             }}
-            transition={{
-              duration: 16,
-              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
-              ease: 'easeInOut',
-              repeat: Infinity,
-              delay: 0.3,
-            }}
+            transition={isDesktop && mousePosition.x > 0
+              ? { type: 'spring', damping: 35, stiffness: 70, mass: 0.6 }
+              : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity, delay: 0.3 }
+            }
           />
 
-          {/* Focused glow - intensifies when found, fades when beams drift away */}
+          {/* Glow at cursor position - desktop only */}
+          {isDesktop && mousePosition.x > 0 && (
+            <motion.div
+              className="absolute pointer-events-none"
+              style={{
+                width: 300,
+                height: 300,
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(201, 169, 98, 0.15) 0%, rgba(255, 250, 240, 0.05) 40%, transparent 70%)',
+                filter: 'blur(40px)',
+              }}
+              animate={{
+                x: mousePosition.x - 150,
+                y: mousePosition.y - 150,
+              }}
+              transition={{ type: 'spring', damping: 25, stiffness: 120, mass: 0.3 }}
+            />
+          )}
+
+          {/* Focused glow on content - pulses when beams find it */}
           <motion.div
             className="absolute"
             style={{
@@ -188,38 +190,32 @@ export default function Home() {
               background: 'radial-gradient(ellipse 100% 100% at 30% 50%, rgba(201, 169, 98, 0.12) 0%, rgba(255, 250, 240, 0.04) 40%, transparent 70%)',
               filter: 'blur(60px)',
             }}
-            animate={{
-              // Dim → bright when found → pulse → fade back to dim
-              opacity: [0.1, 0.15, 0.1, 0.6, 0.8, 0.65, 0.8, 0.4, 0.15, 0.1],
-              scale: [0.8, 0.85, 0.8, 1.1, 1, 1.05, 1, 0.9, 0.82, 0.8],
-            }}
-            transition={{
-              duration: 16,
-              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
-              ease: 'easeInOut',
-              repeat: Infinity,
-            }}
+            animate={isDesktop && mousePosition.x > 0
+              ? { opacity: 0.5, scale: 1 }
+              : { opacity: [0.1, 0.15, 0.1, 0.6, 0.8, 0.65, 0.8, 0.4, 0.15, 0.1], scale: [0.8, 0.85, 0.8, 1.1, 1, 1.05, 1, 0.9, 0.82, 0.8] }
+            }
+            transition={isDesktop && mousePosition.x > 0
+              ? { duration: 0.5 }
+              : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity }
+            }
           />
 
-          {/* Origin haze - pulses in sync, dims when fading back */}
+          {/* Origin haze - corner glow */}
           <motion.div
             className="absolute bottom-0 right-0 w-72 h-72"
             style={{
               background: 'radial-gradient(circle at 100% 100%, rgba(201, 169, 98, 0.15) 0%, rgba(201, 169, 98, 0.05) 30%, transparent 60%)',
               filter: 'blur(40px)',
             }}
-            animate={{
-              scale: [1, 1.1, 1, 1.25, 1.15, 1.2, 1.15, 1.08, 1.02, 1],
-              opacity: [0.4, 0.5, 0.4, 0.9, 0.7, 0.8, 0.7, 0.5, 0.42, 0.4],
-            }}
-            transition={{
-              duration: 16,
-              times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1],
-              ease: 'easeInOut',
-              repeat: Infinity,
-            }}
+            animate={isDesktop && mousePosition.x > 0
+              ? { scale: 1.1, opacity: 0.6 }
+              : { scale: [1, 1.1, 1, 1.25, 1.15, 1.2, 1.15, 1.08, 1.02, 1], opacity: [0.4, 0.5, 0.4, 0.9, 0.7, 0.8, 0.7, 0.5, 0.42, 0.4] }
+            }
+            transition={isDesktop && mousePosition.x > 0
+              ? { duration: 0.5 }
+              : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity }
+            }
           />
-
         </motion.div>
         
         <motion.div 
