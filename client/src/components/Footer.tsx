@@ -50,7 +50,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="font-body text-grey-body mt-4 text-[0.9375rem] leading-relaxed">
-              We use AI to amplify expert judgment, not replace it. AI enablement and Fractional AI Officers for Expert led businesses.
+              We use AI to amplify expert judgment, not replace it. AI enablement and Fractional AI Officers for growth-minded operators and investors.
             </p>
             
             {/* Social Links */}
@@ -133,11 +133,31 @@ export default function Footer() {
             </ul>
             
             {/* CTA */}
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="inline-flex items-center gap-2 mt-6 text-gold font-body text-sm font-medium hover:underline underline-offset-4"
             >
               Move Forward <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Join Us CTA - Standalone */}
+        <div className="mt-12 pt-8 border-t border-white/5">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h4 className="font-body text-off-white text-sm font-semibold">
+                Want to join the team?
+              </h4>
+              <p className="text-grey-body text-sm mt-1">
+                We're building the future of AI-powered operations.
+              </p>
+            </div>
+            <Link
+              href="/careers"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-gold/30 rounded-lg text-off-white font-body text-sm font-medium transition-all"
+            >
+              Join Us <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>

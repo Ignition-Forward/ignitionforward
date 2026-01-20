@@ -23,6 +23,7 @@ import Contact from "./pages/Contact";
 import StrategicDiagnostic from "./pages/StrategicDiagnostic";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Careers from "./pages/Careers";
 import NotFound from "./pages/NotFound";
 
 /*
@@ -129,6 +130,7 @@ function Router() {
               <Route path="/segments" component={Segments} />
               <Route path="/about" component={About} />
               <Route path="/our-team">{() => <Redirect to="/about" />}</Route>
+              <Route path="/careers" component={Careers} />
               <Route path="/contact" component={Contact} />
               {/* Hidden page - not linked from navigation, shareable directly */}
               <Route path="/strategic-diagnostic" component={StrategicDiagnostic} />

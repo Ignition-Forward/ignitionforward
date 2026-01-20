@@ -129,11 +129,11 @@ export default function Navigation() {
           isScrolled ? 'py-3' : 'py-5'
         }`}
         style={{
-          background: isScrolled
+          background: isScrolled || location === '/how-we-help' || location === '/contact'
             ? 'linear-gradient(180deg, rgba(26, 35, 50, 0.95) 0%, rgba(26, 35, 50, 0.9) 100%)'
             : 'transparent',
-          backdropFilter: isScrolled ? 'blur(20px)' : 'none',
-          borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.05)' : 'none',
+          backdropFilter: isScrolled || location === '/how-we-help' || location === '/contact' ? 'blur(20px)' : 'none',
+          borderBottom: isScrolled || location === '/how-we-help' || location === '/contact' ? '1px solid rgba(255, 255, 255, 0.05)' : 'none',
           transform: topNavVisible ? 'translateY(0)' : 'translateY(-100%)',
           opacity: topNavVisible ? 1 : 0,
         }}

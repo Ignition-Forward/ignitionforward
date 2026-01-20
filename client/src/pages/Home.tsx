@@ -276,7 +276,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.36, delay: 0.26, ease: [0.2, 0, 0, 1] }}
             >
-              We build AI systems for expert-led businesses — where <span className="text-gold font-medium">judgment and relationships</span> are the product.
+              We enable growth-minded operators to unlock necessary leverage from applying AI.
             </motion.p>
 
             {/* CTA */}
