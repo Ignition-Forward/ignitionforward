@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useRef, useState, useEffect, useCallback } from 'react';
 import SEO, { generateOrganizationSchema, generateWebsiteSchema } from '@/components/SEO';
@@ -21,27 +21,52 @@ import CometCTA from '@/components/CometCTA';
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollIndicatorVisible, setScrollIndicatorVisible] = useState(true);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [spotlightAngle, setSpotlightAngle] = useState(-35);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [cursorActive, setCursorActive] = useState(false);
+
+  const heroRectRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const pendingPointerRef = useRef<{ x: number; y: number } | null>(null);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const spotlightAngle = useMotionValue(-35);
+
+  const spotlightAngleSpring = useSpring(spotlightAngle, { damping: 32, stiffness: 260, mass: 0.22 });
+  const spotlightAngleSpringOffset = useTransform(spotlightAngleSpring, (value) => value - 5);
+
+  const mouseXSpring = useSpring(mouseX, { damping: 24, stiffness: 520, mass: 0.18 });
+  const mouseYSpring = useSpring(mouseY, { damping: 24, stiffness: 520, mass: 0.18 });
+  const glowX = useTransform(mouseXSpring, (value) => value - 150);
+  const glowY = useTransform(mouseYSpring, (value) => value - 150);
 
   // Cursor-following spotlight - calculate angle from bottom-right corner to cursor
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setMousePosition({ x, y });
+  const handlePointerMove = useCallback((e: PointerEvent) => {
+    pendingPointerRef.current = { x: e.clientX, y: e.clientY };
 
-    // Calculate angle from bottom-right corner to cursor
-    const originX = rect.width;
-    const originY = rect.height;
-    const deltaX = x - originX;
-    const deltaY = y - originY;
-    const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-    // Adjust angle so beam points at cursor (offset by ~200deg to match conic gradient origin)
-    setSpotlightAngle(angle + 200);
-  }, []);
+    if (rafRef.current !== null) return;
+    rafRef.current = window.requestAnimationFrame(() => {
+      rafRef.current = null;
+      const hero = heroRef.current;
+      if (!hero || !pendingPointerRef.current) return;
+
+      const rect = heroRectRef.current ?? hero.getBoundingClientRect();
+      heroRectRef.current = rect;
+
+      const x = pendingPointerRef.current.x - rect.left;
+      const y = pendingPointerRef.current.y - rect.top;
+
+      mouseX.set(x);
+      mouseY.set(y);
+
+      const originX = rect.width;
+      const originY = rect.height;
+      const deltaX = x - originX;
+      const deltaY = y - originY;
+      const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+      spotlightAngle.set(angle + 200);
+    });
+  }, [mouseX, mouseY, spotlightAngle]);
 
   useEffect(() => {
     // Check if desktop (no touch, wider than mobile)
@@ -57,9 +82,37 @@ export default function Home() {
     if (!isDesktop) return;
     const hero = heroRef.current;
     if (!hero) return;
-    hero.addEventListener('mousemove', handleMouseMove);
-    return () => hero.removeEventListener('mousemove', handleMouseMove);
-  }, [isDesktop, handleMouseMove]);
+
+    const updateRect = () => {
+      heroRectRef.current = hero.getBoundingClientRect();
+    };
+
+    const handlePointerEnter = () => {
+      updateRect();
+      setCursorActive(true);
+    };
+
+    const handlePointerLeave = () => {
+      setCursorActive(false);
+    };
+
+    updateRect();
+    window.addEventListener('resize', updateRect, { passive: true });
+    hero.addEventListener('pointerenter', handlePointerEnter, { passive: true });
+    hero.addEventListener('pointerleave', handlePointerLeave, { passive: true });
+    hero.addEventListener('pointermove', handlePointerMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('resize', updateRect);
+      hero.removeEventListener('pointerenter', handlePointerEnter);
+      hero.removeEventListener('pointerleave', handlePointerLeave);
+      hero.removeEventListener('pointermove', handlePointerMove);
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+  }, [isDesktop, handlePointerMove]);
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -126,14 +179,12 @@ export default function Home() {
               height: '200%',
               background: 'conic-gradient(from 200deg at 100% 100%, transparent 0deg, rgba(201, 169, 98, 0.04) 12deg, rgba(255, 250, 240, 0.08) 22deg, rgba(201, 169, 98, 0.04) 32deg, transparent 45deg)',
               transformOrigin: 'bottom right',
+              willChange: 'transform',
+              rotate: isDesktop && cursorActive ? spotlightAngleSpring : undefined,
             }}
-            animate={{
-              rotate: isDesktop && mousePosition.x > 0
-                ? spotlightAngle
-                : [0, -15, -5, -38, -35, -38, -35, -20, -8, 0],
-            }}
-            transition={isDesktop && mousePosition.x > 0
-              ? { type: 'spring', damping: 30, stiffness: 80, mass: 0.5 }
+            animate={isDesktop && cursorActive ? undefined : { rotate: [0, -15, -5, -38, -35, -38, -35, -20, -8, 0] }}
+            transition={isDesktop && cursorActive
+              ? undefined
               : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity }
             }
           />
@@ -148,20 +199,18 @@ export default function Home() {
               height: '180%',
               background: 'conic-gradient(from 205deg at 95% 100%, transparent 0deg, rgba(201, 169, 98, 0.02) 15deg, rgba(255, 250, 240, 0.04) 25deg, rgba(201, 169, 98, 0.02) 35deg, transparent 50deg)',
               transformOrigin: 'bottom right',
+              willChange: 'transform',
+              rotate: isDesktop && cursorActive ? spotlightAngleSpringOffset : undefined,
             }}
-            animate={{
-              rotate: isDesktop && mousePosition.x > 0
-                ? spotlightAngle - 5
-                : [0, -12, -3, -32, -30, -33, -30, -18, -6, 0],
-            }}
-            transition={isDesktop && mousePosition.x > 0
-              ? { type: 'spring', damping: 35, stiffness: 70, mass: 0.6 }
+            animate={isDesktop && cursorActive ? undefined : { rotate: [0, -12, -3, -32, -30, -33, -30, -18, -6, 0] }}
+            transition={isDesktop && cursorActive
+              ? undefined
               : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity, delay: 0.3 }
             }
           />
 
           {/* Glow at cursor position - desktop only */}
-          {isDesktop && mousePosition.x > 0 && (
+          {isDesktop && cursorActive && (
             <motion.div
               className="absolute pointer-events-none"
               style={{
@@ -170,12 +219,10 @@ export default function Home() {
                 borderRadius: '50%',
                 background: 'radial-gradient(circle, rgba(201, 169, 98, 0.15) 0%, rgba(255, 250, 240, 0.05) 40%, transparent 70%)',
                 filter: 'blur(40px)',
+                willChange: 'transform',
+                x: glowX,
+                y: glowY,
               }}
-              animate={{
-                x: mousePosition.x - 150,
-                y: mousePosition.y - 150,
-              }}
-              transition={{ type: 'spring', damping: 25, stiffness: 120, mass: 0.3 }}
             />
           )}
 
@@ -190,11 +237,11 @@ export default function Home() {
               background: 'radial-gradient(ellipse 100% 100% at 30% 50%, rgba(201, 169, 98, 0.12) 0%, rgba(255, 250, 240, 0.04) 40%, transparent 70%)',
               filter: 'blur(60px)',
             }}
-            animate={isDesktop && mousePosition.x > 0
+            animate={isDesktop && cursorActive
               ? { opacity: 0.5, scale: 1 }
               : { opacity: [0.1, 0.15, 0.1, 0.6, 0.8, 0.65, 0.8, 0.4, 0.15, 0.1], scale: [0.8, 0.85, 0.8, 1.1, 1, 1.05, 1, 0.9, 0.82, 0.8] }
             }
-            transition={isDesktop && mousePosition.x > 0
+            transition={isDesktop && cursorActive
               ? { duration: 0.5 }
               : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity }
             }
@@ -207,11 +254,11 @@ export default function Home() {
               background: 'radial-gradient(circle at 100% 100%, rgba(201, 169, 98, 0.15) 0%, rgba(201, 169, 98, 0.05) 30%, transparent 60%)',
               filter: 'blur(40px)',
             }}
-            animate={isDesktop && mousePosition.x > 0
+            animate={isDesktop && cursorActive
               ? { scale: 1.1, opacity: 0.6 }
               : { scale: [1, 1.1, 1, 1.25, 1.15, 1.2, 1.15, 1.08, 1.02, 1], opacity: [0.4, 0.5, 0.4, 0.9, 0.7, 0.8, 0.7, 0.5, 0.42, 0.4] }
             }
-            transition={isDesktop && mousePosition.x > 0
+            transition={isDesktop && cursorActive
               ? { duration: 0.5 }
               : { duration: 16, times: [0, 0.12, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 0.92, 1], ease: 'easeInOut', repeat: Infinity }
             }
