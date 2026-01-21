@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build && node scripts/verify-theme-colors.mjs",
+    "build": "vite build && node scripts/verify-theme-colors.mjs && node scripts/verify-dist-no-localhost.mjs",
     "preview": "vite preview --host",
     "start:api": "node server.js",
     "check": "tsc --noEmit",

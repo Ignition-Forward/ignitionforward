@@ -153,7 +153,8 @@ export default function Contact() {
   };
 
   const submitToApi = async () => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const rawApiUrl = import.meta.env.VITE_API_URL as string | undefined;
+    const apiUrl = rawApiUrl ? rawApiUrl.replace(/\/+$/, '') : '';
     const response = await fetch(`${apiUrl}/api/contact`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -171,8 +172,14 @@ export default function Contact() {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to submit');
+      let message = `Failed to submit (${response.status})`;
+      try {
+        const error = await response.clone().json();
+        message = error?.error || message;
+      } catch {
+        // Ignore non-JSON error bodies
+      }
+      throw new Error(message);
     }
 
     return response.json();
