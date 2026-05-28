@@ -65,6 +65,29 @@ const structuredData = {
   structuredData={structuredData}
 >
   <div class="overflow-hidden pb-mobile-cta">
+    <div
+      id="careers-sticky-header"
+      class="fixed top-0 left-0 right-0 z-[1001] bg-black border-b border-white/10"
+      style="transform: translateY(-100%); opacity: 0; transition: transform 200ms ease-out, opacity 200ms ease-out;"
+    >
+      <div class="container py-3">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="px-2 py-1 bg-gold text-black text-[10px] font-bold tracking-wider uppercase">New Role</span>
+            <span class="text-white font-display font-semibold text-sm md:text-base">
+              AI-Native <span class="text-gold">Growth Lead</span>
+            </span>
+            <span class="text-white/50 text-xs md:text-sm">@ Ignition Consultants</span>
+            <span class="text-white/30 text-xs hidden lg:inline">(Big 4 Pedigree with Startup Agility)</span>
+          </div>
+          <div class="text-xs">
+            <span class="text-gold font-medium">Location:</span>
+            <span class="ml-1 text-white/80">Texas or Massachusetts (Remote-first)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <section class="relative bg-charcoal pt-32 pb-20 overflow-hidden">
       <div class="container relative z-10">
         <div class="max-w-4xl animate-fade-in-up">
@@ -248,4 +271,18 @@ const structuredData = {
       </div>
     </section>
   </div>
+
+  <script is:inline>
+    (() => {
+      const sticky = document.getElementById('careers-sticky-header');
+      if (!sticky) return;
+      const update = () => {
+        const visible = window.scrollY > 400;
+        sticky.style.transform = visible ? 'translateY(0)' : 'translateY(-100%)';
+        sticky.style.opacity = visible ? '1' : '0';
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+  </script>
 </BaseLayout>
