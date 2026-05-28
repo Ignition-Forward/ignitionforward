@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MaguirePageIsland from '../components/MaguirePageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: 'Maguire: AI That Actually Works',
+      description: '26 months. 232 refinements. 85% close rate. This is what AI did for one consulting firm.',
+      url: 'https://ignitionforward.com/maguire',
+      author: { '@type': 'Organization', name: 'Ignition Forward' },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Ignition Forward',
+        logo: { '@type': 'ImageObject', url: 'https://ignitionforward.com/images/logo.png' },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Our Proof', item: 'https://ignitionforward.com/maguire' },
+      ],
+    },
+  ],
+};
+---
+<BaseLayout
+  title="Maguire: AI That Actually Works"
+  description="26 months. 232 refinements. 85% close rate. This is what AI did for one consulting firm. See the proof."
+  canonical="/maguire"
+  structuredData={structuredData}
+>
+  <MaguirePageIsland client:load />
+</BaseLayout>
