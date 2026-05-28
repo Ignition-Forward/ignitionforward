@@ -2,6 +2,10 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   site: 'https://ignitionforward.com',
@@ -18,5 +22,12 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     server: { host: true },
+    // Match the React app's @ alias (vite.config.ts) so island components
+    // that import @/lib/motion, @/components/*, etc. resolve to client/src.
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'client', 'src'),
+      },
+    },
   },
 });
