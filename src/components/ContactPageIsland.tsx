@@ -147,6 +147,13 @@ export default function Contact() {
   };
 
   const submitToApi = async () => {
+    // Map raw select values (e.g. "forward-deployed") to the visible labels
+    // (e.g. "Custom AI System") so the FormSpree email matches what the user saw.
+    const labelOf = (
+      options: { value: string; label: string }[],
+      value: string,
+    ) => options.find((o) => o.value === value)?.label ?? value;
+
     const response = await fetch('https://formspree.io/f/mkoeyzyb', {
       method: 'POST',
       headers: {
@@ -154,15 +161,16 @@ export default function Contact() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: formData.firstName || 'Not provided',
+        _subject: `New contact form submission${formData.firstName ? ` from ${formData.firstName}` : ''}`,
+        Name: formData.firstName || 'Not provided',
         email: formData.email,
-        company: formData.companyName || 'Not provided',
-        companyStage: formData.companySize || 'Not provided',
-        pathInterest: formData.interest || 'Not provided',
-        timeline: formData.timeline || 'Not provided',
-        aiExpertise: formData.aiExpertise || 'Not provided',
-        referralSource: formData.referralSource || 'Not provided',
-        message: formData.question || '',
+        Company: formData.companyName || 'Not provided',
+        'Company size': labelOf(companySizeOptions, formData.companySize) || 'Not provided',
+        'What brings you here?': labelOf(interestOptions, formData.interest) || 'Not provided',
+        Timeline: labelOf(timelineOptions, formData.timeline) || 'Not provided',
+        'AI expertise (1-5)': labelOf(expertiseOptions, formData.aiExpertise) || 'Not provided',
+        'How did you hear about us?': labelOf(referralOptions, formData.referralSource) || 'Not provided',
+        Message: formData.question || '',
       }),
     });
 
