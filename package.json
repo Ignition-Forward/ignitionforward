@@ -9,9 +9,15 @@
     "preview": "vite preview --host",
     "start:api": "node server.js",
     "check": "tsc --noEmit",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "astro:dev": "astro dev",
+    "astro:build": "astro build",
+    "astro:preview": "astro preview",
+    "astro:check": "astro check"
   },
   "dependencies": {
+    "@astrojs/react": "^5.0.6",
+    "@astrojs/sitemap": "^3.7.3",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -40,6 +46,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/supabase-js": "^2.47.10",
+    "astro": "^6.4.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -68,6 +75,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "@tailwindcss/typography": "^0.5.15",
     "@tailwindcss/vite": "^4.1.3",
     "@types/node": "^24.7.0",
@@ -83,5 +91,11 @@
     "typescript": "5.6.3",
     "vite": "^7.1.7"
   },
-  "packageManager": "pnpm@10.4.1"
+  "packageManager": "pnpm@10.4.1",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  }
 }
