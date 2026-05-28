@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FundManagersPageIsland from '../components/FundManagersPageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: 'AI Enablement for Fund Managers',
+      description: 'AI systems for GPs: deal sourcing, diligence compression, and portfolio leverage.',
+      provider: { '@type': 'Organization', name: 'Ignition Forward' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Who We Work With', item: 'https://ignitionforward.com/segments' },
+        { '@type': 'ListItem', position: 3, name: 'Fund Managers', item: 'https://ignitionforward.com/fund-managers' },
+      ],
+    },
+  ],
+};
+---
+<BaseLayout
+  title="AI for Fund Managers (GPs)"
+  description="Systematic deal sourcing, diligence compression, and portfolio leverage. AI enablement for GPs who want measurable edge — not AI theater."
+  canonical="/fund-managers"
+  structuredData={structuredData}
+>
+  <FundManagersPageIsland client:load />
+</BaseLayout>

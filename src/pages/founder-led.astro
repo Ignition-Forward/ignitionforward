@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FounderLedPageIsland from '../components/FounderLedPageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: 'AI Enablement for Founder-Led & Expert Practices',
+      description: 'AI systems that scale founder and expert practitioner expertise without scaling hours.',
+      provider: { '@type': 'Organization', name: 'Ignition Forward' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Who We Work With', item: 'https://ignitionforward.com/segments' },
+        { '@type': 'ListItem', position: 3, name: 'Founder-Led Businesses', item: 'https://ignitionforward.com/founder-led' },
+      ],
+    },
+  ],
+};
+---
+<BaseLayout
+  title="AI for Founder-Led & Expert Practices"
+  description="Scale your expertise without scaling your calendar. AI enablement for founders and expert practitioners who want measurable ROI, not AI theater."
+  canonical="/founder-led"
+  structuredData={structuredData}
+>
+  <FounderLedPageIsland client:load />
+</BaseLayout>

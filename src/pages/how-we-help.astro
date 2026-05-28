@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HowWeHelpPageIsland from '../components/HowWeHelpPageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ItemList',
+      name: 'Ignition Forward Services',
+      description: 'Three ways to work with Ignition Forward for AI enablement',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Forward Deployed', description: 'Custom AI implementation teams that build systems tailored to your business', url: 'https://ignitionforward.com/how-we-help#forward-deployed' },
+        { '@type': 'ListItem', position: 2, name: 'Fractional AI Officer', description: 'Executive AI leadership without the full-time commitment', url: 'https://ignitionforward.com/how-we-help#fractional-ai' },
+        { '@type': 'ListItem', position: 3, name: 'Edge', description: 'Personal AI fluency training for individual leaders', url: 'https://ignitionforward.com/edge' },
+      ],
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+        { '@type': 'ListItem', position: 2, name: 'How We Help', item: 'https://ignitionforward.com/how-we-help' },
+      ],
+    },
+  ],
+};
+---
+<BaseLayout
+  title="How We Help - AI Services"
+  description="Three ways to build AI capability: Edge training for executives, Forward Deployed implementation teams, and Fractional AI Officer leadership."
+  canonical="/how-we-help"
+  structuredData={structuredData}
+>
+  <HowWeHelpPageIsland client:load />
+</BaseLayout>
