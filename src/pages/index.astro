@@ -1,17 +1,46 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomePageIsland from '../components/HomePageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Ignition Forward',
+      url: 'https://ignitionforward.com',
+      logo: 'https://ignitionforward.com/images/logo.png',
+      description: 'AI enablement partner for expert-led businesses. We build AI systems that amplify expertise.',
+      foundingDate: '2024',
+      sameAs: [
+        'https://linkedin.com/company/ignitionforward',
+        'https://twitter.com/ignitionforward',
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        url: 'https://ignitionforward.com/contact',
+      },
+      areaServed: 'US',
+      serviceType: ['AI Consulting', 'AI Implementation', 'Fractional AI Leadership'],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Ignition Forward',
+      url: 'https://ignitionforward.com',
+      description: 'AI enablement partner for expert-led businesses',
+      publisher: { '@type': 'Organization', name: 'Ignition Forward' },
+    },
+  ],
+};
 ---
 <BaseLayout
   title="Home"
-  description="We build AI systems for expert-led businesses using our proven 80/20 model — 80% battle-tested core plus 20% custom to you. Transform your expertise with AI."
+  description="We build AI systems for expert-led businesses — where judgment and relationships are the product. AI enablement for professional services, founder-led companies, and PE portfolio companies."
+  canonical="/"
+  structuredData={structuredData}
 >
-  <section class="min-h-screen bg-navy text-off-white flex items-center justify-center py-section">
-    <div class="container text-center">
-      <p class="section-label mx-auto mb-6">Phase 2 placeholder</p>
-      <h1 class="font-display text-4xl md:text-6xl">Astro chrome is live.</h1>
-      <p class="font-body text-grey-body mt-6 max-w-2xl mx-auto">
-        BaseLayout, Header (NavigationIsland), and Footer are in place. The real Home page ports in Phase 8.
-      </p>
-    </div>
-  </section>
+  <HomePageIsland client:load />
 </BaseLayout>
