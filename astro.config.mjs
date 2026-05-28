@@ -9,6 +9,11 @@ export default defineConfig({
   // Single-source the public assets with the legacy React app during migration.
   // Phase 9 will move these to ./public at the repo root.
   publicDir: './client/public',
+  // Mirror the wouter Redirect from App.tsx (line 132) so /our-team -> /about
+  // continues to work post-migration.
+  redirects: {
+    '/our-team': '/about',
+  },
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

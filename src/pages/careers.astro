@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const stats = [
+  { value: '250+', label: 'Clients served' },
+  { value: '$3B+', label: 'Capital raised for founders' },
+  { value: '4x', label: 'Growth since 2021' },
+  { value: '$0', label: 'Outside capital taken' },
+];
+
+const responsibilities = [
+  { title: 'Pipeline & Demand Generation', description: "Own the systems that generate qualified opportunities — not dependent on founders' calendars" },
+  { title: 'Larger Relationships', description: 'Investor groups, family offices, PE portfolios — one conversation that opens many doors' },
+  { title: 'Vendor & Partner Leverage', description: 'Turn relationships into growth partners, not just service providers' },
+  { title: 'Experimentation & Learning', description: 'Test channels, messaging, approaches — with clear thesis and measurable outcomes' },
+  { title: 'AI-Native Operations', description: 'Use Cursor, Claude Code, and our internal AI platform to operate like a team of 5' },
+];
+
+const fitCriteria = [
+  'Have 7-15+ years in growth, GTM, or revenue leadership',
+  'Have investor, operator, or CFO experience — you understand finance from the inside',
+  'Have scaled a growth function or stepped into mess and made progress',
+  'Are inventive AND rigorous — experimentation with clear thesis',
+  'Use AI daily to increase speed and leverage',
+  'Want visible impact on a small team',
+  "Can articulate how you'd approach this — not wait to be told",
+];
+
+const notFitCriteria = [
+  'Need big teams or big budgets to perform',
+  'Want predictability and defined playbooks',
+  'See AI as optional or intimidating',
+  'Prefer to advise rather than execute',
+  'Need someone else to tell you what to try',
+];
+
+const cultureValues = [
+  { title: 'Win/Win/Win', description: 'Every deal, every engagement — sustainable value for all parties. Not extraction. Alignment.' },
+  { title: 'Systems over heroics', description: 'Build things that work without you. No single points of failure.' },
+  { title: 'Profit as proof', description: "If it doesn't show up in outcomes, it's theater. Ideas are cheap. Results matter." },
+  { title: 'Clear over impressive', description: 'Transparency beats polish. Say what you mean.' },
+];
+
+const applicationItems = [
+  'Your resume and LinkedIn',
+  'A simple sketch explaining how you would hit the ground effectively in the first 30 to 90 days',
+  'Explain the reasons you expect Ignition growth should be easy — and why might it be hard',
+  'Give one example of how you similarly were able to scale or improve growth elsewhere',
+  'List of the AI tools you use daily — a quick walk through your stack',
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Careers', item: 'https://ignitionforward.com/careers' },
+  ],
+};
+---
+<BaseLayout
+  title="AI-Native Growth Lead - Join Us"
+  description="Build the growth engine for Ignition Consultants. $140K-$180K + Performance + Equity. Remote-first in Texas or Massachusetts."
+  canonical="/careers"
+  structuredData={structuredData}
+>
+  <div class="overflow-hidden pb-mobile-cta">
+    <section class="relative bg-charcoal pt-32 pb-20 overflow-hidden">
+      <div class="container relative z-10">
+        <div class="max-w-4xl animate-fade-in-up">
+          <span class="inline-block px-4 py-2 bg-gold text-navy text-xs font-bold tracking-wider uppercase">New Role</span>
+
+          <h1 class="mt-8 font-display text-4xl md:text-5xl lg:text-6xl text-off-white leading-[1.1] font-semibold">
+            AI-Native <span class="text-gold italic">Growth Lead</span>
+          </h1>
+
+          <p class="mt-8 text-off-white/80 text-lg md:text-xl max-w-3xl leading-relaxed font-body">
+            Build the growth engine for a firm that already has product-market fit, happy clients, and zero outside capital. First dedicated growth hire. Real impact. Real outcomes.
+          </p>
+
+          <div class="mt-10">
+            <span class="text-gold text-sm font-medium">Location:</span>
+            <span class="ml-2 text-off-white text-sm">Texas or Massachusetts (Remote-first)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-24 bg-off-white">
+      <div class="container">
+        <div class="max-w-4xl mx-auto animate-fade-in-up">
+          <span class="text-xs tracking-[0.2em] uppercase text-gold font-medium">The Opportunity — At Ignition Consultants (CFOs)</span>
+
+          <h2 class="mt-6 font-display text-3xl md:text-4xl font-semibold text-navy leading-tight">
+            We've grown 4x on relationships alone. Now we're adding the engine.
+          </h2>
+
+          <div class="mt-8 space-y-6 text-grey-body leading-relaxed">
+            <p>
+              <a href="https://www.ignitionconsultants.com" target="_blank" rel="noopener noreferrer" class="text-gold hover:underline underline-offset-2">Ignition Consultants</a> provides fractional CFO services to growth-stage companies. We've helped 250+ clients raise over $3B in capital. Our growth has been organic — word of mouth, referrals, founders talking to founders.
+            </p>
+            <p>
+              That flywheel works. But we are prepared for more scale. Come build a repeatable growth engine that multiplies what's already working — without losing what makes us different.
+            </p>
+          </div>
+
+          <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 stagger-children">
+            {stats.map((stat) => (
+              <div class="bg-white border border-navy/10 rounded-lg p-6">
+                <div class="text-3xl md:text-4xl font-display text-navy font-semibold">{stat.value}</div>
+                <div class="mt-2 text-sm text-grey-body">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-24 bg-off-white border-t border-navy/10">
+      <div class="container">
+        <div class="max-w-4xl mx-auto animate-fade-in-up">
+          <span class="text-xs tracking-[0.2em] uppercase text-gold font-medium">What You'll Own</span>
+
+          <h2 class="mt-6 font-display text-3xl md:text-4xl font-semibold text-navy leading-tight">
+            Build the engine. Don't just run plays.
+          </h2>
+
+          <div class="mt-10 space-y-0 stagger-children">
+            {responsibilities.map((item) => (
+              <div class="flex gap-4 py-6 border-b border-navy/10 last:border-b-0">
+                <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-display font-semibold text-navy text-lg">{item.title}</h3>
+                  <p class="mt-1 text-grey-body">{item.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-24 bg-off-white border-t border-navy/10">
+      <div class="container">
+        <div class="max-w-4xl mx-auto animate-fade-in-up">
+          <span class="text-xs tracking-[0.2em] uppercase text-gold font-medium">Who You Are</span>
+
+          <h2 class="mt-6 font-display text-3xl md:text-4xl font-semibold text-navy leading-tight">
+            This role is for builders, not advisors.
+          </h2>
+
+          <div class="mt-10 grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="font-display font-semibold text-navy text-lg mb-6">You're a fit if you:</h3>
+              <ul class="space-y-4">
+                {fitCriteria.map((item) => (
+                  <li class="flex gap-3">
+                    <span class="text-gold mt-1">—</span>
+                    <span class="text-grey-body">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="bg-charcoal rounded-lg p-8">
+              <h3 class="font-display font-semibold text-off-white text-lg mb-6">This won't work if you:</h3>
+              <ul class="space-y-4">
+                {notFitCriteria.map((item) => (
+                  <li class="flex gap-3">
+                    <span class="text-gold mt-1">—</span>
+                    <span class="text-off-white/80">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-24 bg-off-white border-t border-navy/10">
+      <div class="container">
+        <div class="max-w-4xl mx-auto animate-fade-in-up">
+          <span class="text-xs tracking-[0.2em] uppercase text-gold font-medium">Our Culture</span>
+
+          <h2 class="mt-6 font-display text-3xl md:text-4xl font-semibold text-navy leading-tight">
+            Built by operators, not advisors.
+          </h2>
+
+          <div class="mt-10 space-y-0 stagger-children">
+            {cultureValues.map((item) => (
+              <div class="flex gap-4 py-6 border-b border-navy/10 last:border-b-0">
+                <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-display font-semibold text-navy text-lg">{item.title}</h3>
+                  <p class="mt-1 text-grey-body">{item.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 md:py-32 bg-charcoal relative overflow-hidden">
+      <div class="absolute inset-0 opacity-5">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gold rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gold rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="container relative z-10">
+        <div class="max-w-4xl mx-auto text-center animate-fade-in-up">
+          <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-off-white leading-tight">
+            Ready to build something <span class="text-gold italic">that matters?</span>
+          </h2>
+          <p class="mt-6 text-off-white/70 text-lg md:text-xl max-w-2xl mx-auto">
+            The future of finance is platform augmented and delivered right-sized to each business. Help growth-minded operators with us.
+          </p>
+
+          <p class="mt-10 text-off-white/60 text-sm uppercase tracking-wider">Please send an email to:</p>
+          <a
+            href="mailto:tyler@ignitionconsultants.com"
+            class="inline-block mt-3 px-10 py-5 bg-gold hover:bg-gold-hover text-navy text-lg font-bold rounded-lg transition-all hover:scale-105 shadow-lg shadow-gold/20"
+          >
+            tyler@ignitionconsultants.com
+          </a>
+
+          <div class="mt-16 bg-black/30 border border-white/10 rounded-xl p-8 md:p-10 text-left max-w-2xl mx-auto">
+            <h3 class="font-display font-semibold text-gold text-xl mb-6">Include:</h3>
+            <ol class="space-y-4">
+              {applicationItems.map((item, index) => (
+                <li class="flex gap-4">
+                  <span class="flex-shrink-0 w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center text-gold font-bold text-sm">{index + 1}</span>
+                  <span class="text-off-white/80 pt-1">{item}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
