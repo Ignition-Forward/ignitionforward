@@ -147,11 +147,12 @@ export default function Contact() {
   };
 
   const submitToApi = async () => {
-    const rawApiUrl = import.meta.env.VITE_API_URL as string | undefined;
-    const apiUrl = rawApiUrl ? rawApiUrl.replace(/\/+$/, '') : '';
-    const response = await fetch(`${apiUrl}/api/contact`, {
+    const response = await fetch('https://formspree.io/f/mkoeyzyb', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         name: formData.firstName || 'Not provided',
         email: formData.email,

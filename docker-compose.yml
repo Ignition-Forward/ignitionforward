@@ -7,35 +7,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-    depends_on:
-      api:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    container_name: ignition-forward-api
-    restart: unless-stopped
-    ports:
-      - "3001:3001"
-    env_file:
-      - .env
-    environment:
-      - NODE_ENV=production
-      - LOG_LEVEL=error
-      - RESEND_API_KEY=${RESEND_API_KEY}
-      - CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL:-hello@ignitionforward.com}
-      - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
       interval: 30s
       timeout: 10s
       retries: 3
