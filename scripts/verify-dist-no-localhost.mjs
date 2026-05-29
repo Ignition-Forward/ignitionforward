@@ -6,9 +6,9 @@ if (process.env.VITE_API_URL) {
   process.exit(0);
 }
 
-const distDir = path.join(process.cwd(), 'dist', 'assets');
+const distDir = path.join(process.cwd(), 'dist', '_astro');
 if (!fs.existsSync(distDir)) {
-  console.warn('[verify-dist-no-localhost] Skipped (dist/assets not found).');
+  console.warn('[verify-dist-no-localhost] Skipped (dist/_astro not found).');
   process.exit(0);
 }
 

@@ -18,7 +18,14 @@ export default defineConfig({
   redirects: {
     '/our-team': '/about',
   },
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    // Keep noindex/unlisted routes out of the sitemap so we don't tell Google
+    // to crawl a page we've explicitly marked noindex (/strategic-diagnostic).
+    sitemap({
+      filter: (page) => !page.includes('/strategic-diagnostic'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
     server: { host: true },
