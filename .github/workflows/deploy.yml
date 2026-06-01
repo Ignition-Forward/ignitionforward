@@ -55,12 +55,13 @@ jobs:
       - name: Get source hash for cache busting
         id: source-hash
         run: |
-          echo "hash=$(find client/src -type f -name '*.tsx' -o -name '*.ts' -o -name '*.css' | sort | xargs cat | sha256sum | cut -d' ' -f1 | head -c 16)" >> $GITHUB_OUTPUT
+          echo "hash=$(find src client/src -type f \( -name '*.astro' -o -name '*.tsx' -o -name '*.ts' -o -name '*.css' \) | sort | xargs cat | sha256sum | cut -d' ' -f1 | head -c 16)" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: Dockerfile.frontend
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

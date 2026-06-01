@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PEPortfolioPageIsland from '../components/PEPortfolioPageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: 'AI Enablement for PE Portfolio Companies',
+      description: 'AI systems aligned to value creation: margin improvement, operational leverage, and exit readiness.',
+      provider: { '@type': 'Organization', name: 'Ignition Forward' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Who We Work With', item: 'https://ignitionforward.com/segments' },
+        { '@type': 'ListItem', position: 3, name: 'PE Portfolio Companies', item: 'https://ignitionforward.com/pe-portfolio' },
+      ],
+    },
+  ],
+};
+---
+<BaseLayout
+  title="AI for PE Portfolio Companies"
+  description="AI enablement aligned to value creation. Quick wins in 90 days, operational leverage, and exit-ready governance. For portfolio companies with a mandate to move."
+  canonical="/pe-portfolio"
+  structuredData={structuredData}
+>
+  <PEPortfolioPageIsland client:load />
+</BaseLayout>

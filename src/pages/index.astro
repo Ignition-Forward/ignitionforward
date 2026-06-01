@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomePageIsland from '../components/HomePageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Ignition Forward',
+      url: 'https://ignitionforward.com',
+      logo: 'https://ignitionforward.com/images/logo.png',
+      description: 'AI enablement partner for expert-led businesses. We build AI systems that amplify expertise.',
+      foundingDate: '2024',
+      sameAs: [
+        'https://linkedin.com/company/ignitionforward',
+        'https://twitter.com/ignitionforward',
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        url: 'https://ignitionforward.com/contact',
+      },
+      areaServed: 'US',
+      serviceType: ['AI Consulting', 'AI Implementation', 'Fractional AI Leadership'],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Ignition Forward',
+      url: 'https://ignitionforward.com',
+      description: 'AI enablement partner for expert-led businesses',
+      publisher: { '@type': 'Organization', name: 'Ignition Forward' },
+    },
+  ],
+};
+---
+<BaseLayout
+  title="Home"
+  description="We build AI systems for expert-led businesses — where judgment and relationships are the product. AI enablement for professional services, founder-led companies, and PE portfolio companies."
+  canonical="/"
+  structuredData={structuredData}
+>
+  <HomePageIsland client:load />
+</BaseLayout>

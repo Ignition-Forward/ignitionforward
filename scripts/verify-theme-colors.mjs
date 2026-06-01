@@ -6,9 +6,9 @@ function fail(message) {
   process.exit(1);
 }
 
-const distAssetsDir = path.resolve("dist", "assets");
+const distAssetsDir = path.resolve("dist", "_astro");
 if (!fs.existsSync(distAssetsDir)) {
-  fail(`Missing ${distAssetsDir}. Did 'vite build' run successfully?`);
+  fail(`Missing ${distAssetsDir}. Did 'astro build' run successfully?`);
 }
 
 const cssFiles = fs
@@ -20,12 +20,12 @@ if (cssFiles.length === 0) {
   fail(`No .css files found in ${distAssetsDir}.`);
 }
 
-// Use the largest CSS asset (Vite typically emits a single main css file).
+// Astro splits CSS per-page/component, so the token may live in any one of them.
+// Concatenate every CSS asset and check the combined output.
+const css = cssFiles.map((p) => fs.readFileSync(p, "utf8")).join("\n").toLowerCase();
 const cssFile = cssFiles
   .map((p) => ({ p, size: fs.statSync(p).size }))
   .sort((a, b) => b.size - a.size)[0].p;
-
-const css = fs.readFileSync(cssFile, "utf8").toLowerCase();
 
 // Guardrail:
 // We previously had Tailwind theme colors defined using OKLCH values that compiled

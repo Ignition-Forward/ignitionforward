@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SegmentsPageIsland from '../components/SegmentsPageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Who We Work With', item: 'https://ignitionforward.com/segments' },
+  ],
+};
+---
+<BaseLayout
+  title="Who We Work With"
+  description="Ignition Forward partners with professional services firms, founder-led businesses, fund managers, and PE portfolio operations. AI enablement for expert-led businesses."
+  canonical="/segments"
+  structuredData={structuredData}
+>
+  <SegmentsPageIsland client:load />
+</BaseLayout>

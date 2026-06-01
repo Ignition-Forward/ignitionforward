@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfessionalServicesPageIsland from '../components/ProfessionalServicesPageIsland.tsx';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: 'AI Enablement for Professional Services',
+      description: 'AI enablement for consultancies, accounting practices, and professional services firms. Governance-led approach that protects trust while creating leverage.',
+      provider: { '@type': 'Organization', name: 'Ignition Forward' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ignitionforward.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Who We Work With', item: 'https://ignitionforward.com/segments' },
+        { '@type': 'ListItem', position: 3, name: 'Professional Services', item: 'https://ignitionforward.com/professional-services' },
+      ],
+    },
+  ],
+};
+---
+<BaseLayout
+  title="AI for Professional Services - Law, Accounting, Consulting"
+  description="AI enablement for high-trust advisory firms—accounting, consulting, diligence, executive search. Scale judgment and delivery without compromising confidentiality or quality."
+  canonical="/professional-services"
+  structuredData={structuredData}
+>
+  <ProfessionalServicesPageIsland client:load />
+</BaseLayout>
