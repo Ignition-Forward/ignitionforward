@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Briefcase, Building2, LineChart, Users, TrendingUp, Zap } from 'lucide-react';
+import { ArrowRight, Briefcase, Building2, ClipboardList, LineChart, Users, TrendingUp, Zap } from 'lucide-react';
 import ScrollReveal, { StaggerContainer, StaggerItem } from '@/components/ScrollReveal';
 import CometCTA from './CometCTAIsland';
 
@@ -25,6 +25,13 @@ const segments = [
     description: 'Scale your expertise without scaling your calendar. AI systems that multiply your impact.',
     href: '/founder-led',
     stats: '3X revenue potential',
+  },
+  {
+    icon: ClipboardList,
+    title: 'EOS Implementers',
+    description: 'Scale your practice without scaling your calendar, while keeping the methodology and facilitation yours.',
+    href: '/eos-implementers',
+    stats: '25-30 client capacity',
   },
   {
     icon: LineChart,

@@ -482,19 +482,20 @@ export default function Home() {
           </ScrollReveal>
 
           {/* Audience segments */}
-          <div className="mt-12 grid grid-cols-2 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
             {[
               { title: 'Professional Services', href: '/professional-services' },
               { title: 'Founder-Led Practices', href: '/founder-led' },
               { title: 'GPs & Fund Managers', href: '/fund-managers' },
+              { title: 'EOS Implementers', href: '/eos-implementers' },
               { title: 'PE Portfolio Ops', href: '/pe-portfolio' },
               { title: 'Individual Leaders', href: '/edge', featured: true },
             ].map((segment) => (
               <ScrollReveal key={segment.title}>
-                <Link href={segment.href}>
-                  <div className={`group text-center p-4 rounded-xl transition-all duration-200 ${
+                <Link href={segment.href} className="block h-full">
+                  <div className={`group text-center p-4 min-h-[9.25rem] h-full rounded-xl transition-all duration-200 flex flex-col items-center justify-center ${
                     segment.featured
-                      ? 'bg-navy text-off-white hover:bg-navy/90 col-span-2 lg:col-span-1'
+                      ? 'bg-navy text-off-white hover:bg-navy/90'
                       : 'border border-navy/10 hover:border-navy/25 hover:bg-white'
                   }`}>
                     <span className={`font-display text-base md:text-lg ${segment.featured ? 'text-gold' : 'text-navy'}`}>

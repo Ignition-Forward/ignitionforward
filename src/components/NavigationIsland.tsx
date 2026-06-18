@@ -24,6 +24,7 @@ const howWeHelpLinks = [
 const forYourBusinessLinks = [
   { href: "/professional-services", label: "Professional Services", description: "High-trust advisory firms scaling judgment without diluting trust." },
   { href: "/founder-led", label: "Founder-Led & Expert Practices", description: "Scale your expertise without scaling your calendar." },
+  { href: "/eos-implementers", label: "EOS Implementers", description: "Scale your practice without touching the methodology or facilitation." },
   { href: "/fund-managers", label: "GPs & Fund Managers", description: "AI-augmented diligence, deal flow, and LP relationships." },
   { href: "/pe-portfolio", label: "PE Portfolio", description: "Value creation aligned AI with quick wins that compound." },
 ];
