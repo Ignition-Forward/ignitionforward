@@ -1,11 +1,11 @@
 # Robots.txt for Ignition Forward
-# https://ignitionforward.com
+# https://www.ignitionforward.com
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://ignitionforward.com/sitemap.xml
+Sitemap: https://www.ignitionforward.com/sitemap-index.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1

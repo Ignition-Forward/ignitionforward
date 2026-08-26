@@ -11,7 +11,7 @@ interface SEOProps {
   noindex?: boolean;
 }
 
-const BASE_URL = 'https://ignitionforward.com';
+const BASE_URL = 'https://www.ignitionforward.com';
 const DEFAULT_IMAGE = '/images/og-default.jpg';
 const SITE_NAME = 'Ignition Forward';
 const TWITTER_HANDLE = '@ignitionforward';

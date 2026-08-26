@@ -64,8 +64,8 @@ const opportunities = [
 
 export default function Segments() {
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Home', url: 'https://ignitionforward.com' },
-    { name: 'Who We Work With', url: 'https://ignitionforward.com/segments' },
+    { name: 'Home', url: 'https://www.ignitionforward.com' },
+    { name: 'Who We Work With', url: 'https://www.ignitionforward.com/segments' },
   ]);
 
   return (
