@@ -4,6 +4,8 @@ import { ChevronDown, ArrowRight, Check, HelpCircle, Users, User, Building2, Roc
 import { toast, Toaster } from "sonner";
 import CometCTA from "./CometCTAIsland";
 
+const CALENDAR_URL = "https://cal.com/zachburkes/15min";
+
 /*
  * CONTACT PAGE - Smart Form Design
  *
@@ -195,6 +197,7 @@ export default function Contact() {
       await submitToApi();
       setIsSubmitted(true);
       toast.success("Got it! We'll be in touch within 48 hours.");
+      window.location.assign(CALENDAR_URL);
     } catch (error) {
       console.error('Contact form error:', error);
       toast.error("Something went wrong. Please try again or email us directly.");
