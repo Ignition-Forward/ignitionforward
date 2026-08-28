@@ -8,7 +8,6 @@ import CometCTA from "./CometCTAIsland";
 import TwinkleField from "@/components/TwinkleField";
 import ScrollIndicator from "@/components/ScrollIndicator";
 import FAQAccordion from "@/components/FAQAccordion";
-import { getIntakeMonth } from "@/lib/utils";
 
 /*
  * EDGE - STANDALONE SERVICE PAGE
@@ -126,17 +125,13 @@ export default function Edge() {
 
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Combined Badge */}
+            {/* Program Badge */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.36 }}
               className="inline-flex items-center gap-3 mb-8"
             >
-              <div className="flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-gold text-sm font-medium">3 spots available for {getIntakeMonth()}</span>
-              </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gold/15 border border-gold/30">
                 <Zap className="w-4 h-4 text-gold" />
                 <span className="text-gold text-xs font-semibold tracking-wider uppercase">Edge Program</span>
