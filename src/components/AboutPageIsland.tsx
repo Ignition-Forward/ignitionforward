@@ -599,7 +599,7 @@ export default function About() {
                 </div>
               </motion.div>
 
-              {/* Michael Lui */}
+              {/* Michael Liu */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -611,7 +611,7 @@ export default function About() {
                   ML
                 </div>
                 <div>
-                  <h3 className="text-lg font-display font-semibold text-navy">Michael Lui</h3>
+                  <h3 className="text-lg font-display font-semibold text-navy">Michael Liu</h3>
                   <p className="text-sm text-gold mt-1">Systems Architect</p>
                   <p className="mt-3 text-grey-body text-sm leading-relaxed">
                     Michael designs the infrastructure that makes AI sustainable at scale—not demos, but production systems that run reliably without constant oversight.
