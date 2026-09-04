@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ArrowRight, Check, HelpCircle, Users, User, Building2, Rocket, Zap, Target, Sparkles, MessageSquare, Lock, Clock } from "lucide-react";
 import { toast, Toaster } from "sonner";
@@ -193,6 +194,13 @@ export default function Contact() {
 
     try {
       await submitToApi();
+      // Record only non-personal form context after the lead endpoint confirms
+      // success. Names, email addresses, and free-text responses are excluded.
+      track("contact_form_submitted", {
+        form: "contact_page",
+        interest: formData.interest || "not_provided",
+        company_size: formData.companySize || "not_provided",
+      });
       setIsSubmitted(true);
       toast.success("Got it! We'll be in touch within 48 hours.");
     } catch (error) {
