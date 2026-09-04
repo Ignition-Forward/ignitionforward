@@ -1,0 +1,30 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/legal/privacy-policy",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/legal/terms-of-service",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/legal/cookies-settings",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/who-we-serve",
+      "destination": "/segments",
+      "permanent": true
+    },
+    {
+      "source": "/go-forward",
+      "destination": "/contact",
+      "permanent": true
+    }
+  ]
+}
